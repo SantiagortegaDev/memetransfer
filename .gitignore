@@ -1,0 +1,4 @@
+scripts/dupe_report.json
+__pycache__/
+*.pyc
+.DS_Store
