@@ -1,5 +1,17 @@
 # Meme Transfer — Diseño v1
 
+> **Revisión v2 (post-pruebas en celular real):** las secciones de
+> Protocolo, Sincronización y pHash de más abajo fueron actualizadas tras
+> probar en hardware real. Con una cámara de celular apuntando a otra
+> pantalla, el borde/bisel *siempre* entra en cuadro y el enfoque a veces
+> falla. Eso hacía que el receptor nunca llegara a confirmar ni el primer
+> símbolo (timeout constante). Los cambios: (1) el receptor recorta al 80%
+> central del frame antes de analizarlo, ignorando el borde; (2) el
+> byte `LEN` se reemplaza por marcadores de inicio/fin explícitos (flash
+> blanco/negro, detectados por brillo promedio, no por pHash — mucho más
+> robusto a desenfoque); (3) `MATCH_THRESHOLD` subió de 14 a 32 bits tras
+> medir que el resampleo de cámara solo (sin distorsión) ya cuesta ~4 bits.
+
 ## Objetivo
 
 Página web estática (sin backend) que transfiere mensajes cortos de texto/URL
@@ -36,38 +48,54 @@ README.md             instrucciones de uso
 ## Diccionario y protocolo de datos
 
 - 256 memes = alfabeto completo de 1 byte (índice 0-255 == valor del byte).
-- No se reservan imágenes especiales de inicio/fin (se evita desperdiciar
-  símbolos): la sincronización se logra con tiempos, no con imágenes dedicadas
-  (ver "Sincronización" abajo).
-- Estructura del mensaje transmitido (todo en bytes, cada byte = 1 meme):
+- Estructura del mensaje transmitido (todo en bytes, cada byte = 1 meme),
+  encerrada entre marcadores de inicio/fin que NO son memes (ver
+  "Sincronización" abajo):
 
   ```
-  [LEN] [payload bytes... (LEN bytes, texto en UTF-8)] [CRC-8]
+  START  [payload bytes... (texto en UTF-8)] [CRC-8]  END
   ```
 
-  - `LEN`: 1 byte, cantidad de bytes del payload (máx 255).
-  - `CRC-8`: checksum estándar (poly 0x07, init 0x00) sobre `LEN + payload`.
-- El receptor válida el CRC-8 al terminar. Si no coincide, muestra error y
-  pide reintentar; el emisor tiene un botón "Reenviar" que repite la secuencia
-  completa sin tener que re-teclear el mensaje.
+  - `CRC-8`: checksum estándar (poly 0x07, init 0x00) sobre el payload.
+  - No hay byte de longitud: el receptor cuenta bytes entre START y END, así
+    un byte mal leído no descuadra el resto de la trama (con LEN, un solo
+    error en el primer byte rompía el largo esperado de todo el mensaje).
+- El receptor válida el CRC-8 al llegar el marcador END. Si no coincide,
+  muestra error y pide reintentar; el emisor tiene un botón "Reenviar" que
+  repite la secuencia completa sin tener que re-teclear el mensaje.
 
-## Sincronización (sin imágenes dedicadas de start/end)
+## Sincronización (marcadores explícitos de inicio/fin)
 
-- Emisor: al tocar "Enviar" hace cuenta regresiva de 3s, luego muestra una
-  pausa gris/neutra "larga" (~800ms) como señal de "atención, arranca ya" y
-  después la secuencia: `meme(LEN)` → pausa gris corta (~150ms) →
-  `meme(byte1)` → pausa → ... → `meme(CRC-8)` → pausa gris final. Al terminar
+- Emisor: al tocar "Enviar" hace cuenta regresiva de 3s, luego muestra un
+  **flash blanco pantalla completa** (~500ms, marcador START) → pausa gris
+  corta (~150ms) → `meme(byte1)` → pausa → ... → `meme(CRC-8)` → pausa →
+  **flash negro pantalla completa** (~500ms, marcador END). Al terminar
   muestra un aviso "Enviado" + botón "Reenviar".
-- Receptor: arranca en estado `IDLE` (cámara activa pero sin acumular datos).
-  Solo empieza a decodificar cuando detecta un meme estable inmediatamente
-  después de una pausa gris **larga** (> ~500ms) — eso es lo que distingue
-  "inicio real de transmisión" de ruido ambiental. A partir de ahí, cada
-  símbolo estable seguido de una pausa gris corta es el siguiente byte, hasta
-  completar `1 + LEN + 1` bytes (LEN + payload + CRC).
-- Si en cualquier momento aparece un frame que no matchea ningún meme del
-  diccionario con confianza suficiente donde se esperaba uno, o pasa demasiado
-  tiempo sin resolución, el receptor cancela, vuelve a `IDLE` y muestra
-  "No se pudo leer, reintentá" (usuario pide reenvío al emisor).
+- Receptor: recorta cada frame de cámara al 80% central antes de analizarlo
+  (`CAPTURE_CROP_FRACTION`, coincide con el recuadro guía en la UI), ignorando
+  el borde/bisel de pantalla que siempre aparece alrededor en una captura
+  real. Cada frame recortado se clasifica por brillo/uniformidad promedio
+  (`js/classify.js`), NO por pHash:
+  - Uniforme y muy claro (media ≥210, desvío <20) → **START**.
+  - Uniforme y muy oscuro (media ≤45, desvío <20) → **END**.
+  - Uniforme a mitad de rango → pausa gris (gap, ignorar).
+  - Con textura/variación → candidato a meme, recién ahí se calcula el pHash
+    y se busca el mejor match contra el diccionario.
+  - Esta clasificación por brillo es mucho más robusta a desenfoque que
+    intentar reconocer 256 memes: un flash blanco/negro sigue siendo blanco/negro
+    aunque la cámara este desenfocada.
+  - Ambos marcadores, igual que los bytes, requieren N frames consecutivos
+    estables antes de confirmarse (mismo mecanismo de debounce en
+    `js/matcher.js`), evitando falsos positivos de un solo frame con ruido.
+  - Al confirmarse START, el receptor arranca a acumular bytes desde cero
+    (incluso si ya estaba a mitad de una recepción anterior: un reenvío
+    siempre "gana" sobre una transmisión previa que quedó colgada). Al
+    confirmarse END, se decodifica lo acumulado y se valida el CRC-8.
+- Si en cualquier momento pasan más de `PER_SYMBOL_TIMEOUT_MS` (5s) sin un
+  símbolo nuevo confirmado tras haber arrancado, el receptor cancela y
+  muestra "No se pudo leer, reintentá" (timeout por símbolo, no por mensaje
+  completo — así escala solo con mensajes largos en vez de cortarlos a
+  mitad de camino).
 
 ## Reconocimiento de imagen (pHash)
 
@@ -88,15 +116,22 @@ README.md             instrucciones de uso
   Se eligió `hash_size=10` (100 bits) como balance entre margen de separación
   (28 bits mínimos entre cualquier par de memes) y costo de cómputo por frame
   en JS (~40x40 DCT, corre cómodo a 8-10 fps en un celular de gama media).
-- Umbral de aceptación inicial: distancia de Hamming ≤ 14 bits (la mitad del
-  mínimo separación real) — valor de partida, ajustable en código
-  (`MATCH_THRESHOLD` en `app.js`) durante las pruebas manuales.
-- Confirmación por estabilidad: un candidato se acepta como símbolo válido
-  recién tras N frames consecutivos (~3, a la tasa de muestreo elegida) con
-  el mismo mejor-match y distancia bajo el umbral. Esto, sumado a la
-  exigencia de la pausa gris entre símbolos, evita: (a) que un objeto
-  cualquiera del entorno dispare una detección falsa, y (b) que un mismo
-  meme mostrado por error se cuente dos veces.
+- Umbral de aceptación (`MATCH_THRESHOLD` en `js/receiver.js`): **32 bits**,
+  no 14 como se había estimado inicialmente. Medido en el navegador: incluso
+  con encuadre perfecto, pasar la imagen por un canvas intermedio (como hace
+  una captura de cámara real) ya cuesta ~4 bits de distancia; un mal encuadre
+  del ~5% sube eso a 18-30 bits según el meme. `bestMatch` siguió eligiendo
+  el meme correcto en todas las pruebas hasta ~35 bits de distancia, y un
+  decode erróneo lo atrapa igual el CRC-8 final — así que de nuevo se
+  prioriza tolerancia a condiciones reales de cámara por sobre margen de
+  seguridad entre memes parecidos (separación mínima real: 28 bits). Sigue
+  siendo el primer valor a recalibrar con más pruebas de hardware.
+- Confirmación por estabilidad: un candidato (meme o marcador START/END) se
+  acepta recién tras N frames consecutivos (~3, a la tasa de muestreo
+  elegida) con el mismo resultado. Esto, sumado a la exigencia de una pausa
+  gris entre símbolos, evita: (a) que un objeto cualquiera del entorno
+  dispare una detección falsa, y (b) que un mismo símbolo mostrado por error
+  se cuente dos veces.
 
 ## UI / Interacción
 
@@ -127,8 +162,10 @@ README.md             instrucciones de uso
   Sincronización).
 - Cámara no disponible / permiso denegado → mensaje claro pidiendo permisos.
 - Mensaje de emisor > límite de bytes → aviso en la UI antes de poder enviar.
-- Timeout de recepción (empezó a decodificar pero no llegó a completar en
-  tiempo razonable, ej. 20s) → vuelve a `IDLE` con mensaje de error.
+- Timeout por símbolo (pasaron >5s sin un byte/marcador nuevo tras haber
+  arrancado a recibir) → vuelve a `IDLE` con mensaje de error. Es por
+  símbolo, no por mensaje completo, para no cortar mensajes largos a mitad
+  de camino.
 
 ## Testing
 

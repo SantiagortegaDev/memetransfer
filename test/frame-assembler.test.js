@@ -2,9 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createAssemblyState, advanceAssembly } from "../js/frame-assembler.js";
 import { encodeMessage } from "../js/protocol.js";
+import { START, END } from "../js/classify.js";
 
 function eventsForFrame(frame) {
-  return Array.from(frame).map((index, i) => ({ index, afterLongGap: i === 0 }));
+  return [{ value: START }, ...Array.from(frame).map((value) => ({ value })), { value: END }];
 }
 
 test("assembles a full valid frame into the decoded text", () => {
@@ -18,25 +19,33 @@ test("assembles a full valid frame into the decoded text", () => {
   assert.deepEqual(state, createAssemblyState());
 });
 
-test("ignores symbols observed before the real transmission start", () => {
+test("ignores data bytes observed before the START marker", () => {
   let state = createAssemblyState();
-  // ruido de fondo: simbolos sin pausa larga previa, no deberian arrancar nada
-  ({ state } = advanceAssembly(state, { index: 55, afterLongGap: false }));
-  ({ state } = advanceAssembly(state, { index: 3, afterLongGap: false }));
+  ({ state } = advanceAssembly(state, { value: 55 }));
+  ({ state } = advanceAssembly(state, { value: 3 }));
   assert.deepEqual(state, createAssemblyState());
 });
 
-test("starts accumulating once the long-gap start marker arrives", () => {
+test("ignores an END marker observed before any START", () => {
   let state = createAssemblyState();
-  const result = advanceAssembly(state, { index: 2, afterLongGap: true });
-  assert.deepEqual(result.state, { receiving: true, buffer: [2] });
-  assert.equal(result.done, null);
+  const { state: next, done } = advanceAssembly(state, { value: END });
+  assert.deepEqual(next, createAssemblyState());
+  assert.equal(done, null);
+});
+
+test("START resets accumulation even mid-transmission (a resend always wins)", () => {
+  let state = createAssemblyState();
+  ({ state } = advanceAssembly(state, { value: START }));
+  ({ state } = advanceAssembly(state, { value: 1 }));
+  ({ state } = advanceAssembly(state, { value: 2 }));
+  ({ state } = advanceAssembly(state, { value: START })); // arranca de nuevo
+  assert.deepEqual(state, { receiving: true, buffer: [] });
 });
 
 test("reports a checksum-mismatch error for a corrupted frame and resets state", () => {
   const frame = encodeMessage("Hi");
   const corrupted = Uint8Array.from(frame);
-  corrupted[1] ^= 0xff; // corrompe el primer byte del payload
+  corrupted[0] ^= 0xff;
   let state = createAssemblyState();
   let done = null;
   for (const event of eventsForFrame(corrupted)) {

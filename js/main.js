@@ -6,7 +6,6 @@ import { Receiver } from "./receiver.js";
 
 const ERROR_MESSAGES = {
   "checksum-mismatch": "Error de transmisión (los datos no coinciden). Pedí que se reenvíe.",
-  "length-mismatch": "Error de transmisión (largo inesperado). Pedí que se reenvíe.",
   "frame-too-short": "Error de transmisión. Pedí que se reenvíe.",
   timeout: "Se agotó el tiempo esperando la transmisión completa. Intentá de nuevo.",
 };
@@ -118,9 +117,21 @@ function setupSendPanel(dictionary) {
 
   function showBlank() {
     memeScreen.replaceChildren();
+    memeScreen.style.background = "";
+  }
+
+  function showStart() {
+    memeScreen.replaceChildren();
+    memeScreen.style.background = "#fff";
+  }
+
+  function showEnd() {
+    memeScreen.replaceChildren();
+    memeScreen.style.background = "#000";
   }
 
   function showMeme(image) {
+    memeScreen.style.background = "";
     memeScreen.replaceChildren(image.cloneNode());
   }
 
@@ -144,6 +155,8 @@ function setupSendPanel(dictionary) {
       dictionary,
       frame,
       showBlank,
+      showStart,
+      showEnd,
       showMeme,
       onProgress: (shown, total) => {
         sendProgress.value = shown;

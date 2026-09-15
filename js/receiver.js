@@ -1,31 +1,24 @@
-import { phash, HASH_SIZE, hammingDistance } from "./phash.js";
+import { phash, HASH_SIZE, hammingDistance, rgbaToGrayscale } from "./phash.js";
+import { classifyFrame, START, END, TEXTURED } from "./classify.js";
 import { SymbolStream } from "./matcher.js";
 import { createAssemblyState, advanceAssembly } from "./frame-assembler.js";
 
-// Distancia Hamming maxima para aceptar un match (sobre hashes de 99 bits).
-// Medido en el navegador (ver docs/superpowers/specs): incluso con encuadre
-// perfecto, pasar la imagen por un canvas intermedio (como hace una captura
-// de camara real) ya cuesta ~4 bits de distancia contra el hash precalculado
-// del diccionario; un 5% de borde/mal encuadre alrededor del meme sube eso a
-// 18-30 bits segun el meme, aunque el meme correcto siguio siendo, en todas
-// las pruebas, el mas cercano del diccionario (bestMatch nunca fallo por
-// debajo de ~35 bits de distancia). La separacion minima real entre dos
-// memes del diccionario es 28 bits (hash_size=10): un umbral por encima de
-// eso ya no rechaza objetos random del entorno con tanta certeza, pero un
-// decode erroneo lo atrapa igual el CRC-8 final (ver protocol.js) y el
-// usuario simplemente reintenta. MATCH_THRESHOLD=32 prioriza tolerar el mal
-// encuadre de una camara real; es el primer valor a recalibrar durante las
-// pruebas manuales con hardware real (ver README).
+// Distancia Hamming maxima para aceptar un match de meme (sobre hashes de 99
+// bits). Ver docs/superpowers/specs para como se midio. Los marcadores de
+// inicio/fin YA NO dependen de este umbral: se detectan por brillo
+// (js/classify.js), mucho mas robusto a desenfoque y mal encuadre.
 export const MATCH_THRESHOLD = 32;
 export const TICK_MS = 120;
 export const STABLE_TICKS_REQUIRED = 3;
-export const LONG_GAP_TICKS_REQUIRED = 5;
+
 // Tiempo maximo SIN un simbolo nuevo confirmado antes de cancelar (no el
-// tiempo total del mensaje: un mensaje largo tarda mucho mas que esto en
-// llegar completo, pero cada simbolo individual deberia llegar mucho antes).
-// Se reinicia con cada byte recibido, asi escala solo con mensajes largos en
-// vez de cortar una transmision real a mitad de camino.
+// tiempo total del mensaje). Se reinicia con cada byte/marcador recibido.
 export const PER_SYMBOL_TIMEOUT_MS = 5000;
+
+// Que fraccion central del frame de camara se analiza, ignorando el borde
+// (bisel de pantalla, fondo) que siempre aparece alrededor del meme en una
+// captura real. Debe coincidir con el inset de .camera-guide en style.css.
+export const CAPTURE_CROP_FRACTION = 0.8;
 
 const SAMPLE_SIZE = HASH_SIZE * 4;
 
@@ -44,9 +37,10 @@ export function bestMatch(hash, dictionary) {
 }
 
 /**
- * Orquesta la recepcion: samplea la camara a intervalos regulares, resuelve
- * cada frame a un simbolo (o gap) via bestMatch + SymbolStream, y ensambla
- * los simbolos confirmados en un mensaje via frame-assembler.
+ * Orquesta la recepcion: samplea el centro de la camara a intervalos
+ * regulares, clasifica cada frame (marcador START/END, pausa, o candidato a
+ * meme), resuelve los candidatos a meme via bestMatch, y ensambla los
+ * simbolos confirmados en un mensaje via frame-assembler.
  */
 export class Receiver {
   constructor({
@@ -54,6 +48,7 @@ export class Receiver {
     videoEl,
     matchThreshold = MATCH_THRESHOLD,
     tickMs = TICK_MS,
+    cropFraction = CAPTURE_CROP_FRACTION,
     onProgress,
     onError,
     onSuccess,
@@ -62,14 +57,12 @@ export class Receiver {
     this.videoEl = videoEl;
     this.matchThreshold = matchThreshold;
     this.tickMs = tickMs;
+    this.cropFraction = cropFraction;
     this.onProgress = onProgress;
     this.onError = onError;
     this.onSuccess = onSuccess;
 
-    this.symbolStream = new SymbolStream({
-      stableTicksRequired: STABLE_TICKS_REQUIRED,
-      longGapTicksRequired: LONG_GAP_TICKS_REQUIRED,
-    });
+    this.symbolStream = new SymbolStream({ stableTicksRequired: STABLE_TICKS_REQUIRED });
     this.assemblyState = createAssemblyState();
 
     this.canvas = document.createElement("canvas");
@@ -112,18 +105,33 @@ export class Receiver {
     }, PER_SYMBOL_TIMEOUT_MS);
   }
 
-  _sampleHash() {
-    this.ctx.drawImage(this.videoEl, 0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
-    const { data } = this.ctx.getImageData(0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
-    return phash(data, SAMPLE_SIZE, SAMPLE_SIZE, HASH_SIZE);
+  /** Dibuja solo la porcion central del frame (ignora el borde de encuadre real). */
+  _drawCroppedSample() {
+    const vw = this.videoEl.videoWidth || this.videoEl.width;
+    const vh = this.videoEl.videoHeight || this.videoEl.height;
+    const cropW = vw * this.cropFraction;
+    const cropH = vh * this.cropFraction;
+    const sx = (vw - cropW) / 2;
+    const sy = (vh - cropH) / 2;
+    this.ctx.drawImage(this.videoEl, sx, sy, cropW, cropH, 0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
+    return this.ctx.getImageData(0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
   }
 
   _tick() {
-    const hash = this._sampleHash();
-    const { entry, distance } = bestMatch(hash, this.dictionary);
-    const observedIndex = entry && distance <= this.matchThreshold ? entry.index : null;
+    const { data } = this._drawCroppedSample();
+    const gray = rgbaToGrayscale(data);
+    const category = classifyFrame(gray);
 
-    const event = this.symbolStream.tick(observedIndex);
+    let observedValue = null;
+    if (category === START || category === END) {
+      observedValue = category;
+    } else if (category === TEXTURED) {
+      const hash = phash(data, SAMPLE_SIZE, SAMPLE_SIZE, HASH_SIZE);
+      const { entry, distance } = bestMatch(hash, this.dictionary);
+      observedValue = entry && distance <= this.matchThreshold ? entry.index : null;
+    }
+
+    const event = this.symbolStream.tick(observedValue);
     if (!event) return;
 
     const { state, done } = advanceAssembly(this.assemblyState, event);

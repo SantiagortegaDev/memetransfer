@@ -1,8 +1,9 @@
-import { decodeFrame, totalFrameLength } from "./protocol.js";
+import { decodeFrame } from "./protocol.js";
+import { START, END } from "./classify.js";
 
 /**
- * Estado inicial del ensamblador: todavia no vio el arranque de una
- * transmision (el primer simbolo que sigue a una pausa gris larga).
+ * Estado inicial del ensamblador: todavia no vio el marcador de inicio
+ * (flash blanco).
  */
 export function createAssemblyState() {
   return { receiving: false, buffer: [] };
@@ -10,29 +11,30 @@ export function createAssemblyState() {
 
 /**
  * Avanza el ensamblador con un evento de simbolo confirmado (ver
- * js/matcher.js). Ignora eventos que llegan antes del arranque real de una
- * transmision (ruido de fondo sin la pausa larga previa). Cuando el buffer
- * alcanza el largo esperado segun el primer byte (LEN), decodifica y
- * devuelve el resultado, reseteando el estado para la proxima transmision.
+ * js/matcher.js). El marcador START (re)arranca la acumulacion desde cero
+ * -incluso si ya estaba recibiendo, asi una transmision repetida siempre
+ * puede "ganar" sobre una anterior que quedo a mitad de camino-. Los bytes
+ * de datos se ignoran si todavia no se vio el START. El marcador END cierra
+ * la trama y la decodifica.
  * @param {{receiving: boolean, buffer: number[]}} state
- * @param {{index: number, afterLongGap: boolean}} event
+ * @param {{value: number|string}} event
  * @returns {{state: object, done: null | {ok: true, text: string} | {ok: false, error: string}}}
  */
 export function advanceAssembly(state, event) {
+  const { value } = event;
+
+  if (value === START) {
+    return { state: { receiving: true, buffer: [] }, done: null };
+  }
+
   if (!state.receiving) {
-    if (!event.afterLongGap) {
-      return { state, done: null };
-    }
-    return { state: { receiving: true, buffer: [event.index] }, done: null };
+    return { state, done: null };
   }
 
-  const buffer = [...state.buffer, event.index];
-  const expectedTotal = totalFrameLength(buffer[0]);
-
-  if (buffer.length < expectedTotal) {
-    return { state: { receiving: true, buffer }, done: null };
+  if (value === END) {
+    const result = decodeFrame(state.buffer);
+    return { state: createAssemblyState(), done: result };
   }
 
-  const result = decodeFrame(buffer);
-  return { state: createAssemblyState(), done: result };
+  return { state: { receiving: true, buffer: [...state.buffer, value] }, done: null };
 }

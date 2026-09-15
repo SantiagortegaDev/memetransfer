@@ -1,10 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { encodeMessage, decodeFrame, totalFrameLength, MAX_PAYLOAD_BYTES } from "../js/protocol.js";
+import { encodeMessage, decodeFrame, MAX_PAYLOAD_BYTES } from "../js/protocol.js";
 
-test("encodeMessage produces LEN + payload + CRC for a known message", () => {
+test("encodeMessage produces payload + CRC for a known message", () => {
   const frame = encodeMessage("Hola mundo");
-  assert.deepEqual(Array.from(frame), [10, 72, 111, 108, 97, 32, 109, 117, 110, 100, 111, 0x77]);
+  assert.deepEqual(Array.from(frame), [72, 111, 108, 97, 32, 109, 117, 110, 100, 111, 0xb1]);
 });
 
 test("encodeMessage throws RangeError when the payload exceeds MAX_PAYLOAD_BYTES", () => {
@@ -24,10 +24,9 @@ test("decodeFrame round-trips text with accented/multibyte UTF-8 characters", ()
   assert.deepEqual(result, { ok: true, text: "¡Hola, ñoño! 🎉" });
 });
 
-test("decodeFrame rejects a frame whose length does not match LEN", () => {
-  const frame = encodeMessage("Hola mundo");
-  const truncated = frame.slice(0, frame.length - 2); // falta el ultimo byte de payload y el CRC
-  assert.deepEqual(decodeFrame(truncated), { ok: false, error: "length-mismatch" });
+test("decodeFrame round-trips a single-byte message", () => {
+  const frame = encodeMessage("a");
+  assert.deepEqual(decodeFrame(frame), { ok: true, text: "a" });
 });
 
 test("decodeFrame rejects a frame with a corrupted payload byte", () => {
@@ -37,12 +36,6 @@ test("decodeFrame rejects a frame with a corrupted payload byte", () => {
   assert.deepEqual(decodeFrame(corrupted), { ok: false, error: "checksum-mismatch" });
 });
 
-test("decodeFrame rejects input shorter than the minimum frame size", () => {
-  assert.deepEqual(decodeFrame([5]), { ok: false, error: "frame-too-short" });
-});
-
-test("totalFrameLength accounts for LEN and CRC bytes", () => {
-  assert.equal(totalFrameLength(0), 2);
-  assert.equal(totalFrameLength(10), 12);
-  assert.equal(totalFrameLength(255), 257);
+test("decodeFrame rejects an empty frame", () => {
+  assert.deepEqual(decodeFrame([]), { ok: false, error: "frame-too-short" });
 });
