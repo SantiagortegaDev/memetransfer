@@ -51,6 +51,15 @@
         <div class="camera-guide" aria-hidden="true"></div>
       </div>
       <p class="hint">Encuadrá el meme completo dentro del recuadro, sin bordes alrededor. Podés activar la cámara antes de que el emisor toque "Enviar" — queda escuchando todo el tiempo.</p>
+
+      <div id="debug-panel" class="debug-panel hidden">
+        <canvas id="debug-thumb" width="40" height="40"></canvas>
+        <div class="debug-info">
+          <p id="debug-category">—</p>
+          <p id="debug-detail"></p>
+        </div>
+      </div>
+
       <progress id="receive-progress" max="1" value="0" class="hidden"></progress>
       <p id="receive-status"></p>
 

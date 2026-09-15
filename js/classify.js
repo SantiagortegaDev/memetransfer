@@ -20,9 +20,9 @@ export const TEXTURED = "TEXTURED";
 
 /**
  * @param {ArrayLike<number>} gray valores de luminancia 0-255
- * @returns {typeof START | typeof END | typeof GAP | typeof TEXTURED}
+ * @returns {{mean: number, stdev: number}}
  */
-export function classifyFrame(gray) {
+export function analyzeBrightness(gray) {
   let sum = 0;
   for (let i = 0; i < gray.length; i++) sum += gray[i];
   const mean = sum / gray.length;
@@ -35,10 +35,22 @@ export function classifyFrame(gray) {
   variance /= gray.length;
   const stdev = Math.sqrt(variance);
 
+  return { mean, stdev };
+}
+
+/**
+ * @param {ArrayLike<number>} gray valores de luminancia 0-255
+ * @returns {{category: typeof START | typeof END | typeof GAP | typeof TEXTURED, mean: number, stdev: number}}
+ */
+export function classifyFrame(gray) {
+  const { mean, stdev } = analyzeBrightness(gray);
+
+  let category = TEXTURED;
   if (stdev < FLAT_STDEV_THRESHOLD) {
-    if (mean >= WHITE_MEAN_THRESHOLD) return START;
-    if (mean <= BLACK_MEAN_THRESHOLD) return END;
-    return GAP;
+    if (mean >= WHITE_MEAN_THRESHOLD) category = START;
+    else if (mean <= BLACK_MEAN_THRESHOLD) category = END;
+    else category = GAP;
   }
-  return TEXTURED;
+
+  return { category, mean, stdev };
 }

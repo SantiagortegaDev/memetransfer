@@ -85,6 +85,7 @@ export class Receiver {
     onProgress,
     onError,
     onSuccess,
+    onDebug,
   }) {
     this.dictionary = dictionary;
     this.videoEl = videoEl;
@@ -94,6 +95,7 @@ export class Receiver {
     this.onProgress = onProgress;
     this.onError = onError;
     this.onSuccess = onSuccess;
+    this.onDebug = onDebug;
 
     this.symbolStream = new SymbolStream({ stableTicksRequired: STABLE_TICKS_REQUIRED });
     this.assemblyState = createAssemblyState();
@@ -186,17 +188,31 @@ export class Receiver {
   _tick() {
     const { data } = this._drawCroppedSample();
     const gray = rgbaToGrayscale(data);
-    const category = classifyFrame(gray);
+    const { category, mean, stdev } = classifyFrame(gray);
 
     let observedValue = null;
+    let bestEntry = null;
+    let bestDistance = null;
     if (category === START || category === END) {
       observedValue = category;
     } else if (category === TEXTURED) {
       const hash = phash(data, SAMPLE_SIZE, SAMPLE_SIZE, HASH_SIZE);
       const dHashValue = dhash(data, SAMPLE_SIZE, SAMPLE_SIZE);
-      const { entry, distance } = bestMatch(hash, dHashValue, this.dictionary);
-      observedValue = entry && distance <= this.matchThreshold ? entry.index : null;
+      const match = bestMatch(hash, dHashValue, this.dictionary);
+      bestEntry = match.entry;
+      bestDistance = match.distance;
+      observedValue = bestEntry && bestDistance <= this.matchThreshold ? bestEntry.index : null;
     }
+
+    this.onDebug?.({
+      category,
+      mean,
+      stdev,
+      bestFilename: bestEntry?.filename ?? null,
+      bestDistance,
+      matched: observedValue !== null,
+      canvas: this.canvas,
+    });
 
     const event = this.symbolStream.tick(observedValue);
     if (!event) return;

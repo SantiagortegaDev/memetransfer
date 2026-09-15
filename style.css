@@ -160,6 +160,41 @@ video#camera-preview {
   gap: 0.5rem;
 }
 
+.debug-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  padding: 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+#debug-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  image-rendering: pixelated;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.debug-info {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.debug-info p {
+  margin: 0;
+}
+
+#debug-category {
+  font-weight: 700;
+  color: var(--text);
+}
+
 .meme-screen {
   width: 100%;
   aspect-ratio: 1 / 1;

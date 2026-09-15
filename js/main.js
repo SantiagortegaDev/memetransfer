@@ -186,6 +186,31 @@ function setupReceivePanel(dictionary) {
   const errorBox = $("receive-error");
   const errorText = $("receive-error-text");
   const btnRetry = $("btn-retry");
+  const debugPanel = $("debug-panel");
+  const debugThumb = $("debug-thumb");
+  const debugThumbCtx = debugThumb.getContext("2d");
+  const debugCategory = $("debug-category");
+  const debugDetail = $("debug-detail");
+
+  const CATEGORY_LABELS = {
+    START: "🟡 Flash de inicio",
+    END: "⚫ Flash de fin",
+    TEXTURED_MATCH: "✅ Meme reconocido",
+    TEXTURED_NOMATCH: "❓ Algo con textura, no coincide con ningún meme",
+    GAP: "⏸️ Pausa / fondo",
+  };
+
+  function showDebug({ category, mean, stdev, bestDistance, matched, canvas }) {
+    debugPanel.classList.remove("hidden");
+    debugThumbCtx.drawImage(canvas, 0, 0, debugThumb.width, debugThumb.height);
+
+    const key = category === "TEXTURED" ? (matched ? "TEXTURED_MATCH" : "TEXTURED_NOMATCH") : category ?? "GAP";
+    debugCategory.textContent = CATEGORY_LABELS[key] ?? "—";
+
+    const parts = [`brillo ${mean.toFixed(0)}/255`, `variación ${stdev.toFixed(0)}`];
+    if (bestDistance !== null) parts.push(`distancia al meme más cercano: ${bestDistance} (máx. 32)`);
+    debugDetail.textContent = parts.join(" · ");
+  }
 
   let stream = null;
   let receiver = null;
@@ -222,6 +247,7 @@ function setupReceivePanel(dictionary) {
         errorBox.classList.remove("hidden");
         errorText.textContent = ERROR_MESSAGES[error] ?? "No se pudo leer la transmisión.";
       },
+      onDebug: showDebug,
     });
     resetResultUi();
     receiver.start();
@@ -243,6 +269,7 @@ function setupReceivePanel(dictionary) {
       progress.classList.add("hidden");
       resultBox.classList.add("hidden");
       errorBox.classList.add("hidden");
+      debugPanel.classList.add("hidden");
       status.textContent = "";
       return;
     }
