@@ -22,10 +22,12 @@ DESIGN_SIZE = 320
 # Deben coincidir con js/marker.js
 CORNER_SIZE = 0.09
 CORNER_MARGIN = 0.02
-BIT_COUNT = 8
+BIT_COUNT = 8  # bits de datos (el byte 0-255)
+SYNC_BITS = [1, 0, 1, 0]  # firma fija, identica en los 256 marcadores
+TOTAL_MODULES = BIT_COUNT + len(SYNC_BITS)
 BIT_STRIP_X_START = CORNER_MARGIN + CORNER_SIZE + 0.02
 BIT_STRIP_X_END = 1 - CORNER_MARGIN - CORNER_SIZE - 0.02
-BIT_MODULE_WIDTH = (BIT_STRIP_X_END - BIT_STRIP_X_START) / BIT_COUNT
+BIT_MODULE_WIDTH = (BIT_STRIP_X_END - BIT_STRIP_X_START) / TOTAL_MODULES
 BIT_STRIP_Y_CENTER = 1 - CORNER_MARGIN - CORNER_SIZE / 2
 BIT_MODULE_HEIGHT = CORNER_SIZE * 0.7
 
@@ -69,12 +71,13 @@ def draw_corner_squares(draw):
 
 
 def draw_bit_strip(draw, byte_value):
-    bits = [(byte_value >> (BIT_COUNT - 1 - i)) & 1 for i in range(BIT_COUNT)]
+    data_bits = [(byte_value >> (BIT_COUNT - 1 - i)) & 1 for i in range(BIT_COUNT)]
+    modules = data_bits + SYNC_BITS
     half_h = BIT_MODULE_HEIGHT / 2
-    for i, bit in enumerate(bits):
+    half_w = (BIT_MODULE_WIDTH * 0.85) / 2  # deja un pequeno espacio visible entre modulos
+    for i, bit in enumerate(modules):
         cx = BIT_STRIP_X_START + BIT_MODULE_WIDTH * (i + 0.5)
         cy = BIT_STRIP_Y_CENTER
-        half_w = (CORNER_SIZE * 0.7) / 2
         x0, y0 = px(cx - half_w, cy - half_h)
         x1, y1 = px(cx + half_w, cy + half_h)
         draw.rectangle([x0, y0, x1, y1], fill="white" if bit else "black")

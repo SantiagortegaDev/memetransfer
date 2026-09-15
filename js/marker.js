@@ -14,13 +14,22 @@ export const CORNER_CENTERS = {
   bottomRight: [1 - CORNER_MARGIN - CORNER_SIZE / 2, 1 - CORNER_MARGIN - CORNER_SIZE / 2],
 };
 
-export const BIT_COUNT = 8;
+export const BIT_COUNT = 8; // bits de datos (el byte 0-255)
+// Patron fijo de sincronizacion: SIEMPRE vale esto, en todos los 256
+// marcadores. No es dato - es una firma que un objeto/luz real tiene que
+// acertar por pura casualidad (1 en 16) para que una lectura espuria pase
+// como valida. Los 8 bits de datos siguen pudiendo ser cualquier valor
+// 0-255 (incluido todo-blanco/todo-negro) sin restriccion: la firma es un
+// modulo aparte, no una regla sobre el byte en si.
+export const SYNC_BITS = [1, 0, 1, 0];
+const TOTAL_MODULES = BIT_COUNT + SYNC_BITS.length;
+
 const BIT_STRIP_X_START = CORNER_MARGIN + CORNER_SIZE + 0.02;
 const BIT_STRIP_X_END = 1 - CORNER_MARGIN - CORNER_SIZE - 0.02;
 const BIT_STRIP_Y_CENTER = 1 - CORNER_MARGIN - CORNER_SIZE / 2;
-const BIT_MODULE_WIDTH = (BIT_STRIP_X_END - BIT_STRIP_X_START) / BIT_COUNT;
+const BIT_MODULE_WIDTH = (BIT_STRIP_X_END - BIT_STRIP_X_START) / TOTAL_MODULES;
 
-/** Centro normalizado (0..1) del modulo de bit `index` (0 = mas significativo). */
+/** Centro normalizado (0..1) del modulo `index` (0..7 = datos MSB primero, 8..11 = firma fija). */
 export function bitModuleCenter(index) {
   return [BIT_STRIP_X_START + BIT_MODULE_WIDTH * (index + 0.5), BIT_STRIP_Y_CENTER];
 }
@@ -342,13 +351,24 @@ export function readMarkerBits(gray, width, height, corners) {
   if (centerStats.stdev < 12) return null;
 
   const midThreshold = (whiteRef + blackRef) / 2;
-  const bits = new Array(BIT_COUNT);
-  for (let i = 0; i < BIT_COUNT; i++) {
+  const moduleSampleSize = BIT_MODULE_WIDTH * pixelsPerCanonicalUnit * 0.7;
+  const modules = new Array(TOTAL_MODULES);
+  for (let i = 0; i < TOTAL_MODULES; i++) {
     const [cx, cy] = bitModuleCenter(i);
-    const value = sampleAtCanonical(gray, width, height, h, cx, cy, cornerSize * 0.6);
-    bits[i] = value >= midThreshold ? 1 : 0;
+    const value = sampleAtCanonical(gray, width, height, h, cx, cy, moduleSampleSize);
+    modules[i] = value >= midThreshold ? 1 : 0;
   }
-  return decodeBitsToByte(bits);
+
+  // los ultimos modulos son la firma fija: si no coinciden exacto, se
+  // descarta la lectura entera sin importar que darian los bits de datos.
+  // Un fondo/luz real que por casualidad forme un cuadrilatero plausible
+  // con borde oscuro y centro texturado todavia tiene que acertar esta
+  // firma (1 en 2^SYNC_BITS.length) para colarse.
+  const syncBits = modules.slice(BIT_COUNT);
+  const syncMatches = syncBits.every((bit, i) => bit === SYNC_BITS[i]);
+  if (!syncMatches) return null;
+
+  return decodeBitsToByte(modules.slice(0, BIT_COUNT));
 }
 
 /** Muestrea el brillo promedio de un cuadrado (en coords canonicas 0..1) proyectado al frame real via la homografia inversa. */

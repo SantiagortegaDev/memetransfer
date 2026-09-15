@@ -1,7 +1,7 @@
 // Cache-first para que, tras la primera visita, la pagina y los 256 memes
 // carguen al instante incluso con conexion mala. Sube CACHE_VERSION si
 // cambian los assets estaticos para invalidar el cache viejo.
-const CACHE_VERSION = "v6";
+const CACHE_VERSION = "v7";
 const CACHE_NAME = `memetransfer-${CACHE_VERSION}`;
 
 const CORE_ASSETS = [

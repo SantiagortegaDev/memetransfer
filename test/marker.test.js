@@ -9,7 +9,11 @@ import {
   CORNER_SIZE,
   CORNER_MARGIN,
   BIT_COUNT,
+  SYNC_BITS,
 } from "../js/marker.js";
+
+const MODULE_PITCH = bitModuleCenter(1)[0] - bitModuleCenter(0)[0];
+const MODULE_DRAW_SIZE = MODULE_PITCH * 0.85;
 import { computeHomography, applyHomography, invertHomography } from "../js/homography.js";
 
 test("encodeByteToBits/decodeBitsToByte round-trip for various bytes", () => {
@@ -68,10 +72,11 @@ function renderSyntheticMarker(byte, realCorners, width, height, { background = 
         if (inSquare(ccx, ccy, CORNER_SIZE, cx, cy)) value = 235;
       }
 
-      for (let i = 0; i < BIT_COUNT; i++) {
+      const modules = [...bits, ...SYNC_BITS];
+      for (let i = 0; i < modules.length; i++) {
         const [bcx, bcy] = bitModuleCenter(i);
-        if (inSquare(bcx, bcy, CORNER_SIZE * 0.7, cx, cy)) {
-          value = bits[i] ? 235 : 20;
+        if (inSquare(bcx, bcy, MODULE_DRAW_SIZE, cx, cy)) {
+          value = modules[i] ? 235 : 20;
         }
       }
 
@@ -218,14 +223,48 @@ test("readMarkerBits rejects a marker whose center has no texture (flat/backgrou
       for (const [ccx, ccy] of corners) {
         if (inSquare(ccx, ccy, CORNER_SIZE, cx, cy)) value = 235;
       }
-      for (let i = 0; i < BIT_COUNT; i++) {
+      const modules = [...bits, ...SYNC_BITS];
+      for (let i = 0; i < modules.length; i++) {
         const [bcx, bcy] = bitModuleCenter(i);
-        if (inSquare(bcx, bcy, CORNER_SIZE * 0.7, cx, cy)) value = bits[i] ? 235 : 20;
+        if (inSquare(bcx, bcy, MODULE_DRAW_SIZE, cx, cy)) value = modules[i] ? 235 : 20;
       }
       gray[y * width + x] = value;
     }
   }
   const found = findCornerMarkers(gray, width, height);
   assert.ok(found, "las esquinas si deberian encontrarse (son identicas al caso valido)");
+  assert.equal(readMarkerBits(gray, width, height, found), null);
+});
+
+test("readMarkerBits rejects a frame whose sync signature doesn't match, even with perfect corners/border/texture", () => {
+  const width = 200;
+  const height = 200;
+  const margin = 10;
+  const realCorners = [
+    [margin, margin],
+    [width - margin, margin],
+    [width - margin, height - margin],
+    [margin, height - margin],
+  ];
+  const gray = renderSyntheticMarker(99, realCorners, width, height);
+
+  // corrompe justo el primer modulo de la firma (el resto del marcador -
+  // esquinas, borde, textura del centro, bits de datos - queda intacto)
+  const canonicalCorners = [
+    [0, 0],
+    [1, 0],
+    [1, 1],
+    [0, 1],
+  ];
+  const h = computeHomography(canonicalCorners, realCorners);
+  const [sx, sy] = applyHomography(h, ...bitModuleCenter(BIT_COUNT));
+  for (let y = Math.round(sy - 6); y <= sy + 6; y++) {
+    for (let x = Math.round(sx - 6); x <= sx + 6; x++) {
+      gray[y * width + x] = SYNC_BITS[0] ? 20 : 235; // invierte ese modulo
+    }
+  }
+
+  const found = findCornerMarkers(gray, width, height);
+  assert.ok(found);
   assert.equal(readMarkerBits(gray, width, height, found), null);
 });
