@@ -57,6 +57,17 @@ export function decodeBitsToByte(bits) {
  * @param {number} height
  */
 function sampleSquareMean(gray, width, height, cx, cy, size) {
+  return sampleSquareStats(gray, width, height, cx, cy, size).mean;
+}
+
+/**
+ * Media y desvio estandar de brillo dentro de un cuadrado centrado en
+ * (cx,cy) (coords de pixeles reales), de lado `size` (en pixeles).
+ * @param {Float64Array} gray
+ * @param {number} width
+ * @param {number} height
+ */
+function sampleSquareStats(gray, width, height, cx, cy, size) {
   const half = size / 2;
   const x0 = Math.max(0, Math.round(cx - half));
   const x1 = Math.min(width - 1, Math.round(cx + half));
@@ -70,7 +81,52 @@ function sampleSquareMean(gray, width, height, cx, cy, size) {
       count++;
     }
   }
-  return count > 0 ? sum / count : 0;
+  if (count === 0) return { mean: 0, stdev: 0 };
+  const mean = sum / count;
+  let variance = 0;
+  for (let y = y0; y <= y1; y++) {
+    for (let x = x0; x <= x1; x++) {
+      const d = gray[y * width + x] - mean;
+      variance += d * d;
+    }
+  }
+  return { mean, stdev: Math.sqrt(variance / count) };
+}
+
+function distance(a, b) {
+  return Math.hypot(a[0] - b[0], a[1] - b[1]);
+}
+
+function cross(o, a, b) {
+  return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+}
+
+/**
+ * Verifica que las 4 esquinas encontradas formen un cuadrilatero
+ * geometricamente plausible para ser el marcador visto en perspectiva: (1)
+ * convexo -si no, no puede ser una foto en perspectiva de un cuadrado real-,
+ * (2) de tamano no degenerado, y (3) con lados razonablemente parecidos
+ * entre si -una perspectiva realista distorsiona el cuadrado, pero no lo
+ * vuelve un cuadrilatero arbitrariamente flaco-. Esto rechaza el caso de
+ * "encontre 4 blobs brillantes sueltos que no tienen nada que ver entre
+ * si" (texto, luces, fondo), que es distinto de "encontre las 4 esquinas
+ * reales, solo que en angulo".
+ * @param {{topLeft:[number,number], topRight:[number,number], bottomLeft:[number,number], bottomRight:[number,number]}} corners
+ */
+export function isPlausibleQuad(corners) {
+  const pts = [corners.topLeft, corners.topRight, corners.bottomRight, corners.bottomLeft];
+
+  const crosses = pts.map((_, i) => cross(pts[i], pts[(i + 1) % 4], pts[(i + 2) % 4]));
+  const allSameSign = crosses.every((c) => c > 0) || crosses.every((c) => c < 0);
+  if (!allSameSign) return false;
+
+  const sides = [distance(pts[0], pts[1]), distance(pts[1], pts[2]), distance(pts[2], pts[3]), distance(pts[3], pts[0])];
+  const minSide = Math.min(...sides);
+  const maxSide = Math.max(...sides);
+  if (minSide < 8) return false; // demasiado chico, probablemente ruido
+  if (maxSide / minSide > 2.5) return false; // demasiado deforme para ser una perspectiva realista
+
+  return true;
 }
 
 /**
@@ -148,11 +204,13 @@ function findBrightCentroid(gray, width, height, winX0, winY0, winX1, winY1, exp
       if (squareness < 0.4) continue; // forma demasiado alargada para ser un marcador
 
       const sizeRatio = count / expectedArea;
+      if (sizeRatio < 0.15 || sizeRatio > 6) continue; // demasiado chico o grande para ser el marcador, sea cual sea la forma
+
       const sizeScore = -Math.abs(Math.log(sizeRatio)); // 0 = tamano ideal, mas negativo cuanto mas se aleja
       const score = sizeScore + squareness;
       if (score > bestScore) {
         bestScore = score;
-        bestCentroid = [sumX / count, sumY / count];
+        bestCentroid = { point: [sumX / count, sumY / count], size: count };
       }
     }
   }
@@ -197,7 +255,24 @@ export function findCornerMarkers(gray, width, height, searchFraction = 0.45) {
   );
 
   if (!topLeft || !topRight || !bottomLeft || !bottomRight) return null;
-  return { topLeft, topRight, bottomLeft, bottomRight };
+
+  // Los 4 blobs encontrados deben tener un tamano parecido entre si: si
+  // uno es varias veces mas grande/chico que los demas, lo mas probable es
+  // que sea ruido de fondo (texto, luz) y no la misma esquina real vista
+  // en perspectiva. Corners genuinos en perspectiva difieren en tamano,
+  // pero no dramaticamente.
+  const sizes = [topLeft.size, topRight.size, bottomLeft.size, bottomRight.size];
+  if (Math.max(...sizes) / Math.min(...sizes) > 4) return null;
+
+  const corners = {
+    topLeft: topLeft.point,
+    topRight: topRight.point,
+    bottomLeft: bottomLeft.point,
+    bottomRight: bottomRight.point,
+  };
+  if (!isPlausibleQuad(corners)) return null;
+
+  return corners;
 }
 
 /**
@@ -237,10 +312,34 @@ export function readMarkerBits(gray, width, height, corners) {
     (sampleAtCanonical(gray, width, height, h, ...CORNER_CENTERS.topLeft, cornerSize) +
       sampleAtCanonical(gray, width, height, h, ...CORNER_CENTERS.bottomRight, cornerSize)) /
     2;
+  // se promedian 3 puntos del borde (arriba, izquierda, derecha - el de
+  // abajo se pisaria con la tira de bits) en vez de uno solo: si el
+  // "marcador" encontrado es en realidad un objeto cualquiera, es dificil
+  // que ademas tenga sus 3 bordes oscuros de casualidad.
   const midTopEdge = [0.5, CORNER_MARGIN + CORNER_SIZE / 2];
-  const blackRef = sampleAtCanonical(gray, width, height, h, ...midTopEdge, cornerSize);
+  const midLeftEdge = [CORNER_MARGIN + CORNER_SIZE / 2, 0.5];
+  const midRightEdge = [1 - CORNER_MARGIN - CORNER_SIZE / 2, 0.5];
+  const borderSamples = [
+    sampleAtCanonical(gray, width, height, h, ...midTopEdge, cornerSize),
+    sampleAtCanonical(gray, width, height, h, ...midLeftEdge, cornerSize),
+    sampleAtCanonical(gray, width, height, h, ...midRightEdge, cornerSize),
+  ];
+  const blackRef = borderSamples.reduce((a, b) => a + b, 0) / borderSamples.length;
 
   if (whiteRef - blackRef < 25) return null; // sin contraste suficiente, no confiar en la lectura
+  // cada punto del borde por separado debe ser razonablemente oscuro, no
+  // solo el promedio: evita aceptar un "marcador" donde solo una parte del
+  // borde es oscura por casualidad y el resto es contenido random.
+  const darkCeiling = (whiteRef + blackRef) / 2;
+  if (borderSamples.some((v) => v > darkCeiling)) return null;
+
+  // el centro del marcador deberia ser la foto del meme: tiene que tener
+  // textura real (desvio de brillo alto), no ser una zona lisa/pareja. Un
+  // objeto cualquiera del entorno que por casualidad tenga 4 esquinas
+  // brillantes muy dificilmente tambien tenga una zona con esta textura
+  // exactamente en el medio.
+  const centerStats = sampleStatsAtCanonical(gray, width, height, h, 0.5, 0.5, cornerSize * 3);
+  if (centerStats.stdev < 12) return null;
 
   const midThreshold = (whiteRef + blackRef) / 2;
   const bits = new Array(BIT_COUNT);
@@ -256,4 +355,10 @@ export function readMarkerBits(gray, width, height, corners) {
 function sampleAtCanonical(gray, width, height, h, cx, cy, sizeInSrcPixels) {
   const [x, y] = applyHomography(h, cx, cy);
   return sampleSquareMean(gray, width, height, x, y, sizeInSrcPixels);
+}
+
+/** Como sampleAtCanonical, pero devuelve {mean, stdev} en vez de solo el promedio. */
+function sampleStatsAtCanonical(gray, width, height, h, cx, cy, sizeInSrcPixels) {
+  const [x, y] = applyHomography(h, cx, cy);
+  return sampleSquareStats(gray, width, height, x, y, sizeInSrcPixels);
 }

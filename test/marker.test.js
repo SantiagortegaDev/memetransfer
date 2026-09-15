@@ -51,6 +51,13 @@ function renderSyntheticMarker(byte, realCorners, width, height, { background = 
 
       let value = 20; // borde negro por defecto
 
+      // area del "meme": textura con contenido de frecuencia amplio (igual
+      // criterio que test/phash.test.js), para que pase el chequeo de
+      // textura del centro que exige js/marker.js
+      if (cx > 0.13 && cx < 0.87 && cy > 0.13 && cy < 0.87) {
+        value = (Math.abs(Math.sin(cx * 912.9898 + cy * 478.233) * 43758.5453) % 1) * 255;
+      }
+
       const corners = [
         [CORNER_MARGIN + CORNER_SIZE / 2, CORNER_MARGIN + CORNER_SIZE / 2],
         [1 - CORNER_MARGIN - CORNER_SIZE / 2, CORNER_MARGIN + CORNER_SIZE / 2],
@@ -131,4 +138,94 @@ test("readMarkerBits decodes correctly through a realistic perspective distortio
 test("findCornerMarkers returns null when there is no marker (flat frame)", () => {
   const gray = new Float64Array(100 * 100).fill(128);
   assert.equal(findCornerMarkers(gray, 100, 100), null);
+});
+
+test("findCornerMarkers rejects 4 unrelated bright blobs that don't form a plausible quad", () => {
+  // caso real observado en hardware: 4 cosas brillantes sueltas (texto,
+  // luz, fondo) en posiciones arbitrarias, no relacionadas entre si como
+  // las esquinas de un mismo objeto fisico
+  const width = 200;
+  const height = 200;
+  const gray = new Float64Array(width * height).fill(60);
+  function paintBlob(cx, cy, size) {
+    for (let y = Math.round(cy - size / 2); y <= cy + size / 2; y++) {
+      for (let x = Math.round(cx - size / 2); x <= cx + size / 2; x++) {
+        if (x >= 0 && x < width && y >= 0 && y < height) gray[y * width + x] = 230;
+      }
+    }
+  }
+  // un cuadrilatero muy deforme/no convexo, nada que ver con una foto real
+  paintBlob(15, 15, 14);
+  paintBlob(180, 20, 14);
+  paintBlob(100, 100, 14); // "esquina" inferior izquierda metida en el medio: no convexo
+  paintBlob(170, 175, 14);
+  assert.equal(findCornerMarkers(gray, width, height), null);
+});
+
+test("findCornerMarkers rejects corners with wildly inconsistent sizes", () => {
+  const width = 200;
+  const height = 200;
+  const gray = new Float64Array(width * height).fill(60);
+  function paintBlob(cx, cy, size) {
+    for (let y = Math.round(cy - size / 2); y <= cy + size / 2; y++) {
+      for (let x = Math.round(cx - size / 2); x <= cx + size / 2; x++) {
+        if (x >= 0 && x < width && y >= 0 && y < height) gray[y * width + x] = 230;
+      }
+    }
+  }
+  paintBlob(20, 20, 14);
+  paintBlob(180, 20, 14);
+  paintBlob(20, 180, 14);
+  paintBlob(180, 180, 70); // una "esquina" mucho mas grande que las otras 3
+  assert.equal(findCornerMarkers(gray, width, height), null);
+});
+
+test("readMarkerBits rejects a marker whose center has no texture (flat/background, not a real photo)", () => {
+  const width = 200;
+  const height = 200;
+  const margin = 10;
+  const realCorners = [
+    [margin, margin],
+    [width - margin, margin],
+    [width - margin, height - margin],
+    [margin, height - margin],
+  ];
+  // renderiza el marcador pero con el centro liso en vez de texturado
+  const canonicalCorners = [
+    [0, 0],
+    [1, 0],
+    [1, 1],
+    [0, 1],
+  ];
+  const h = computeHomography(canonicalCorners, realCorners);
+  const hInv = invertHomography(h);
+  const bits = encodeByteToBits(42);
+  const gray = new Float64Array(width * height).fill(60);
+  function inSquare(cx, cy, size, px, py) {
+    return Math.abs(px - cx) <= size / 2 && Math.abs(py - cy) <= size / 2;
+  }
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const [cx, cy] = applyHomography(hInv, x, y);
+      if (cx < 0 || cx > 1 || cy < 0 || cy > 1) continue;
+      let value = 20; // sin textura en el centro, a diferencia de renderSyntheticMarker
+      const corners = [
+        [CORNER_MARGIN + CORNER_SIZE / 2, CORNER_MARGIN + CORNER_SIZE / 2],
+        [1 - CORNER_MARGIN - CORNER_SIZE / 2, CORNER_MARGIN + CORNER_SIZE / 2],
+        [CORNER_MARGIN + CORNER_SIZE / 2, 1 - CORNER_MARGIN - CORNER_SIZE / 2],
+        [1 - CORNER_MARGIN - CORNER_SIZE / 2, 1 - CORNER_MARGIN - CORNER_SIZE / 2],
+      ];
+      for (const [ccx, ccy] of corners) {
+        if (inSquare(ccx, ccy, CORNER_SIZE, cx, cy)) value = 235;
+      }
+      for (let i = 0; i < BIT_COUNT; i++) {
+        const [bcx, bcy] = bitModuleCenter(i);
+        if (inSquare(bcx, bcy, CORNER_SIZE * 0.7, cx, cy)) value = bits[i] ? 235 : 20;
+      }
+      gray[y * width + x] = value;
+    }
+  }
+  const found = findCornerMarkers(gray, width, height);
+  assert.ok(found, "las esquinas si deberian encontrarse (son identicas al caso valido)");
+  assert.equal(readMarkerBits(gray, width, height, found), null);
 });
