@@ -1,4 +1,5 @@
 import { phash, HASH_SIZE } from "./phash.js";
+import { dhash } from "./dhash.js";
 
 const SAMPLE_SIZE = HASH_SIZE * 4; // 40: mismo tamano usado al samplear la camara
 
@@ -13,11 +14,11 @@ function loadImage(src) {
 
 /**
  * Carga los 256 memes listados en memes/manifest.json, precalcula su pHash
- * (dibujandolos en un canvas de 40x40, la misma resolucion que se usa para
- * samplear la camara) y devuelve un array donde la posicion == el indice ==
- * el valor de byte que representa cada meme.
+ * y dHash (dibujandolos en un canvas de 40x40, la misma resolucion que se
+ * usa para samplear la camara) y devuelve un array donde la posicion == el
+ * indice == el valor de byte que representa cada meme.
  * @param {{onProgress?: (loaded: number, total: number) => void}} options
- * @returns {Promise<{index: number, filename: string, image: HTMLImageElement, hash: bigint}[]>}
+ * @returns {Promise<{index: number, filename: string, image: HTMLImageElement, hash: bigint, dhash: bigint}[]>}
  */
 export async function loadDictionary({ onProgress } = {}) {
   const response = await fetch("memes/manifest.json");
@@ -39,7 +40,8 @@ export async function loadDictionary({ onProgress } = {}) {
     ctx.drawImage(image, 0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
     const { data } = ctx.getImageData(0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
     const hash = phash(data, SAMPLE_SIZE, SAMPLE_SIZE, HASH_SIZE);
-    entries[index] = { index, filename, image, hash };
+    const dHashValue = dhash(data, SAMPLE_SIZE, SAMPLE_SIZE);
+    entries[index] = { index, filename, image, hash, dhash: dHashValue };
     onProgress?.(index + 1, filenames.length);
   }
 

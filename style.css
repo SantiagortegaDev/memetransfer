@@ -149,7 +149,7 @@ video#camera-preview {
   pointer-events: none;
 }
 
-.camera-hint {
+.hint {
   color: var(--muted);
   font-size: 0.85rem;
   margin: 0.4rem 0 0;
@@ -176,11 +176,4 @@ video#camera-preview {
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-
-.countdown {
-  text-align: center;
-  font-size: 4rem;
-  font-weight: 700;
-  margin: 1rem 0;
 }

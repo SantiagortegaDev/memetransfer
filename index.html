@@ -25,6 +25,7 @@
     </nav>
 
     <section id="panel-send" class="panel">
+      <p class="hint">Activá primero la cámara en "Recibir" del otro dispositivo — el receptor queda escuchando todo el tiempo, así que podés enviar cuando quieras.</p>
       <label for="message-input">Mensaje (texto o URL)</label>
       <textarea id="message-input" maxlength="100" rows="3" placeholder="Escribí acá..."></textarea>
       <p><span id="char-count">0</span>/100 caracteres</p>
@@ -33,7 +34,6 @@
       <div id="send-error" class="error hidden"></div>
 
       <div id="send-stage" class="hidden">
-        <div id="countdown" class="countdown hidden"></div>
         <div id="meme-screen" class="meme-screen"></div>
         <progress id="send-progress" max="1" value="0"></progress>
         <p id="send-status"></p>
@@ -50,7 +50,7 @@
         <video id="camera-preview" playsinline muted></video>
         <div class="camera-guide" aria-hidden="true"></div>
       </div>
-      <p class="camera-hint">Encuadrá el meme completo dentro del recuadro, sin bordes alrededor.</p>
+      <p class="hint">Encuadrá el meme completo dentro del recuadro, sin bordes alrededor. Podés activar la cámara antes de que el emisor toque "Enviar" — queda escuchando todo el tiempo.</p>
       <progress id="receive-progress" max="1" value="0" class="hidden"></progress>
       <p id="receive-status"></p>
 

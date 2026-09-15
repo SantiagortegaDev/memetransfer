@@ -10,10 +10,6 @@ const ERROR_MESSAGES = {
   timeout: "Se agotó el tiempo esperando la transmisión completa. Intentá de nuevo.",
 };
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 function $(id) {
   return document.getElementById(id);
 }
@@ -103,7 +99,6 @@ function setupSendPanel(dictionary) {
   const btnSend = $("btn-send");
   const sendError = $("send-error");
   const sendStage = $("send-stage");
-  const countdownEl = $("countdown");
   const memeScreen = $("meme-screen");
   const sendProgress = $("send-progress");
   const sendStatus = $("send-status");
@@ -141,15 +136,6 @@ function setupSendPanel(dictionary) {
     sendStage.classList.remove("hidden");
     sendProgress.max = frame.length;
     sendProgress.value = 0;
-    sendStatus.textContent = "Preparate para escanear con el otro dispositivo...";
-
-    countdownEl.classList.remove("hidden");
-    for (const n of [3, 2, 1]) {
-      countdownEl.textContent = String(n);
-      await sleep(1000);
-    }
-    countdownEl.classList.add("hidden");
-
     sendStatus.textContent = "Enviando...";
     await playFrame({
       dictionary,

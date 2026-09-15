@@ -2,9 +2,16 @@
 // pasar por pHash: los flashes de inicio/fin y la pausa gris se distinguen
 // por brillo/uniformidad promedio, mucho mas robusto a desenfoque y a un
 // borde parcial en el encuadre que intentar reconocer 256 memes en esos casos.
-export const WHITE_MEAN_THRESHOLD = 210;
-export const BLACK_MEAN_THRESHOLD = 45;
-export const FLAT_STDEV_THRESHOLD = 20;
+//
+// Umbrales recalibrados tras pruebas en celular real: el auto-exposure de
+// una camara real nunca deja que un blanco/negro solidos lleguen a los
+// extremos (255/0) que asumia la primera version (210/45) - el algoritmo
+// de exposicion ajusta para no "quemar" ni "tapar" la imagen. Se aflojan a
+// un rango con margen amplio respecto al gris de pausa (~128) pero
+// alcanzable por una camara real con auto-exposure.
+export const WHITE_MEAN_THRESHOLD = 180;
+export const BLACK_MEAN_THRESHOLD = 65;
+export const FLAT_STDEV_THRESHOLD = 28;
 
 export const START = "START";
 export const END = "END";
