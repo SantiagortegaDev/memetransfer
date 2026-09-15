@@ -1,13 +1,23 @@
 import { phash, HASH_SIZE, hammingDistance, rgbaToGrayscale } from "./phash.js";
 import { dhash } from "./dhash.js";
-import { classifyFrame, START, END, TEXTURED } from "./classify.js";
+import { classifyFrame, analyzeBrightness, START, END, TEXTURED } from "./classify.js";
 import { SymbolStream } from "./matcher.js";
 import { createAssemblyState, advanceAssembly } from "./frame-assembler.js";
 
 // Distancia Hamming maxima para aceptar un match de meme (sobre hashes de 99
 // bits). Ver docs/superpowers/specs para como se midio. Los marcadores de
 // inicio/fin YA NO dependen de este umbral: se detectan por brillo
-// (js/classify.js), mucho mas robusto a desenfoque y mal encuadre.
+// (js/classify.js), mucho mas robusto a desenfoque y mal encuadre - pero
+// OJO, este umbral tambien decide si una pausa gris/fondo plano puede
+// "colarse" como match de meme por error: medido, una pantalla plana
+// (blanco/negro/gris) esta a >=34 bits de CUALQUIERA de los 256 memes con
+// el pipeline de resize actual (un solo resize directo, ver dictionary.js).
+// Se probo un pipeline de resize "simetrico" con la camara para intentar
+// arreglar unos memes de bajo contraste que necesitaban un umbral mayor,
+// pero eso bajaba ese margen de 49 a 34 - con MATCH_THRESHOLD=40 la pausa
+// gris terminaba matcheando como meme por error. Revertido: se prioriza
+// nunca confundir un fondo plano con un meme por sobre reconocer el
+// puñado de memes de bajo contraste que quedan afuera (ver spec).
 export const MATCH_THRESHOLD = 32;
 export const TICK_MS = 120;
 export const STABLE_TICKS_REQUIRED = 3;
@@ -187,21 +197,31 @@ export class Receiver {
 
   _tick() {
     const { data } = this._drawCroppedSample();
-    const gray = rgbaToGrayscale(data);
-    const { category, mean, stdev } = classifyFrame(gray);
 
-    let observedValue = null;
-    let bestEntry = null;
-    let bestDistance = null;
-    if (category === START || category === END) {
-      observedValue = category;
-    } else if (category === TEXTURED) {
-      const hash = phash(data, SAMPLE_SIZE, SAMPLE_SIZE, HASH_SIZE);
-      const dHashValue = dhash(data, SAMPLE_SIZE, SAMPLE_SIZE);
-      const match = bestMatch(hash, dHashValue, this.dictionary);
-      bestEntry = match.entry;
-      bestDistance = match.distance;
-      observedValue = bestEntry && bestDistance <= this.matchThreshold ? bestEntry.index : null;
+    // El match contra el diccionario se intenta SIEMPRE primero, sin
+    // importar el brillo del frame: algunos memes reales son casi blancos o
+    // casi negros (bajo contraste), y un flash sintetico de inicio/fin esta
+    // a distancia ~49 de CUALQUIERA de los 256 memes (medido, muy por
+    // encima de MATCH_THRESHOLD) - asi que nunca hay riesgo de confundir un
+    // flash real con un meme. Si se chequeara el brillo primero, esos memes
+    // de bajo contraste nunca llegarian a compararse contra el diccionario.
+    const hash = phash(data, SAMPLE_SIZE, SAMPLE_SIZE, HASH_SIZE);
+    const dHashValue = dhash(data, SAMPLE_SIZE, SAMPLE_SIZE);
+    const { entry: bestEntry, distance: bestDistance } = bestMatch(hash, dHashValue, this.dictionary);
+    const memeMatched = bestEntry && bestDistance <= this.matchThreshold;
+
+    let category;
+    let mean;
+    let stdev;
+    let observedValue;
+    if (memeMatched) {
+      category = TEXTURED;
+      observedValue = bestEntry.index;
+      ({ mean, stdev } = analyzeBrightness(rgbaToGrayscale(data)));
+    } else {
+      const gray = rgbaToGrayscale(data);
+      ({ category, mean, stdev } = classifyFrame(gray));
+      observedValue = category === START || category === END ? category : null;
     }
 
     this.onDebug?.({

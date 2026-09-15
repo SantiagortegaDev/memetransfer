@@ -134,6 +134,7 @@ function setupSendPanel(dictionary) {
     btnSend.disabled = true;
     btnResend.disabled = true;
     sendStage.classList.remove("hidden");
+    memeScreen.classList.remove("hidden");
     sendProgress.max = frame.length;
     sendProgress.value = 0;
     sendStatus.textContent = "Enviando...";
@@ -150,7 +151,9 @@ function setupSendPanel(dictionary) {
       },
     });
 
-    showBlank();
+    // Se oculta el recuadro (en vez de dejarlo en gris) para no dejar un
+    // fondo plano innecesario en pantalla una vez terminado el envio.
+    memeScreen.classList.add("hidden");
     sendStatus.textContent = "Enviado ✔";
     btnSend.disabled = false;
     btnResend.disabled = false;
