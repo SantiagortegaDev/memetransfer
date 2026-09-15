@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meme Transfer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Meme Transfer</h1>
+    <p class="subtitle">Mandá texto o URLs entre dispositivos mostrando memes a la cámara.</p>
+  </header>
+
+  <section id="loading-screen" class="panel">
+    <p>Cargando diccionario de memes…</p>
+    <progress id="loading-progress" max="256" value="0"></progress>
+    <p id="loading-count">0 / 256</p>
+  </section>
+
+  <div id="app" class="app hidden">
+    <nav class="mode-tabs">
+      <button id="tab-send" class="mode-tab active" type="button">Enviar</button>
+      <button id="tab-receive" class="mode-tab" type="button">Recibir</button>
+    </nav>
+
+    <section id="panel-send" class="panel">
+      <label for="message-input">Mensaje (texto o URL)</label>
+      <textarea id="message-input" maxlength="100" rows="3" placeholder="Escribí acá..."></textarea>
+      <p><span id="char-count">0</span>/100 caracteres</p>
+      <button id="btn-send" type="button">Enviar</button>
+
+      <div id="send-error" class="error hidden"></div>
+
+      <div id="send-stage" class="hidden">
+        <div id="countdown" class="countdown hidden"></div>
+        <div id="meme-screen" class="meme-screen"></div>
+        <progress id="send-progress" max="1" value="0"></progress>
+        <p id="send-status"></p>
+        <button id="btn-resend" class="hidden" type="button">Reenviar</button>
+      </div>
+    </section>
+
+    <section id="panel-receive" class="panel hidden">
+      <div class="camera-controls">
+        <button id="btn-camera-toggle" type="button">Activar cámara</button>
+        <button id="btn-camera-switch" class="hidden" type="button">Cambiar cámara</button>
+      </div>
+      <div class="camera-frame">
+        <video id="camera-preview" playsinline muted></video>
+        <div class="camera-guide" aria-hidden="true"></div>
+      </div>
+      <p class="camera-hint">Encuadrá el meme completo dentro del recuadro, sin bordes alrededor.</p>
+      <progress id="receive-progress" max="1" value="0" class="hidden"></progress>
+      <p id="receive-status"></p>
+
+      <div id="receive-result" class="result hidden">
+        <p id="receive-text"></p>
+        <button id="btn-copy" type="button">Copiar</button>
+      </div>
+      <div id="receive-error" class="error hidden">
+        <p id="receive-error-text"></p>
+        <button id="btn-retry" type="button">Reintentar</button>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

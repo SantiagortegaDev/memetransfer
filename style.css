@@ -1,0 +1,186 @@
+:root {
+  color-scheme: light dark;
+  --bg: #111318;
+  --panel-bg: #1b1e26;
+  --text: #f2f2f4;
+  --muted: #9a9ea8;
+  --accent: #ffcf4d;
+  --accent-text: #111318;
+  --error: #ff6b6b;
+  --success: #4dd68a;
+  --border: #2c303a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.app-header {
+  padding: 1.5rem 1rem 0.5rem;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+}
+
+.panel {
+  max-width: 480px;
+  margin: 1rem auto;
+  padding: 1rem;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.mode-tabs {
+  max-width: 480px;
+  margin: 1rem auto 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--panel-bg);
+  color: var(--text);
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.mode-tab.active {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+textarea {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+progress {
+  width: 100%;
+  height: 10px;
+  margin: 0.6rem 0;
+}
+
+.error {
+  color: var(--error);
+  margin-top: 0.6rem;
+}
+
+.result {
+  margin-top: 0.6rem;
+  padding: 0.6rem;
+  background: var(--bg);
+  border-radius: 8px;
+  word-break: break-word;
+}
+
+.result a {
+  color: var(--accent);
+}
+
+.camera-frame {
+  position: relative;
+  margin-top: 0.6rem;
+}
+
+video#camera-preview {
+  width: 100%;
+  border-radius: 8px;
+  background: #000;
+  display: block;
+}
+
+.camera-guide {
+  position: absolute;
+  inset: 10% 10%;
+  border: 3px dashed var(--accent);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.camera-hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0.4rem 0 0;
+}
+
+.camera-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.meme-screen {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #808080;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0.6rem 0;
+}
+
+.meme-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.countdown {
+  text-align: center;
+  font-size: 4rem;
+  font-weight: 700;
+  margin: 1rem 0;
+}

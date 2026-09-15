@@ -1,0 +1,11 @@
+{
+  "name": "memetransfer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Transferencia de datos entre dispositivos usando la camara y una secuencia de memes.",
+  "scripts": {
+    "test": "node --test",
+    "generate-manifest": "node scripts/generate-manifest.js"
+  }
+}
