@@ -1,7 +1,7 @@
 // Cache-first para que, tras la primera visita, la pagina y los 256 memes
 // carguen al instante incluso con conexion mala. Sube CACHE_VERSION si
 // cambian los assets estaticos para invalidar el cache viejo.
-const CACHE_VERSION = "v5";
+const CACHE_VERSION = "v6";
 const CACHE_NAME = `memetransfer-${CACHE_VERSION}`;
 
 const CORE_ASSETS = [
@@ -18,9 +18,9 @@ const CORE_ASSETS = [
   "js/frame-assembler.js",
   "js/protocol.js",
   "js/crc8.js",
-  "js/phash.js",
-  "js/dhash.js",
-  "memes/manifest.json",
+  "js/grayscale.js",
+  "js/homography.js",
+  "js/marker.js",
 ];
 
 self.addEventListener("install", (event) => {

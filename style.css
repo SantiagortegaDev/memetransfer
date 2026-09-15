@@ -195,6 +195,53 @@ video#camera-preview {
   color: var(--text);
 }
 
+.debug-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.debug-log-panel {
+  margin-top: 0.6rem;
+}
+
+.debug-log-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.3rem;
+}
+
+.debug-log-controls button {
+  margin-top: 0;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+#debug-log-count {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-right: auto;
+}
+
+#debug-log {
+  width: 100%;
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+}
+
 .meme-screen {
   width: 100%;
   aspect-ratio: 1 / 1;

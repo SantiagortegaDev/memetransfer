@@ -46,11 +46,15 @@
         <button id="btn-camera-toggle" type="button">Activar cámara</button>
         <button id="btn-camera-switch" class="hidden" type="button">Cambiar cámara</button>
       </div>
+      <label class="debug-toggle">
+        <input id="chk-debug-mode" type="checkbox" />
+        Modo debug (guardar log detallado de cada frame)
+      </label>
       <div class="camera-frame">
         <video id="camera-preview" playsinline muted></video>
         <div class="camera-guide" aria-hidden="true"></div>
       </div>
-      <p class="hint">Encuadrá el meme completo dentro del recuadro, sin bordes alrededor. Podés activar la cámara antes de que el emisor toque "Enviar" — queda escuchando todo el tiempo.</p>
+      <p class="hint">Apuntá al meme completo (con su marco negro y las esquinas blancas) — no hace falta que quede perfecto, el sistema busca las esquinas solo. Podés activar la cámara antes de que el emisor toque "Enviar" — queda escuchando todo el tiempo.</p>
 
       <div id="debug-panel" class="debug-panel hidden">
         <canvas id="debug-thumb" width="40" height="40"></canvas>
@@ -58,6 +62,16 @@
           <p id="debug-category">—</p>
           <p id="debug-detail"></p>
         </div>
+      </div>
+
+      <div id="debug-log-panel" class="debug-log-panel hidden">
+        <div class="debug-log-controls">
+          <span id="debug-log-count">0 líneas</span>
+          <button id="btn-log-copy" type="button">Copiar log</button>
+          <button id="btn-log-download" type="button">Descargar log</button>
+          <button id="btn-log-clear" type="button">Limpiar</button>
+        </div>
+        <textarea id="debug-log" readonly rows="10" placeholder="El log de cada frame analizado va a aparecer acá..."></textarea>
       </div>
 
       <progress id="receive-progress" max="1" value="0" class="hidden"></progress>

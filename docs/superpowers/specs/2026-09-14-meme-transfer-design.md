@@ -12,6 +12,24 @@
 > robusto a desenfoque); (3) `MATCH_THRESHOLD` subió de 14 a 32 bits tras
 > medir que el resampleo de cámara solo (sin distorsión) ya cuesta ~4 bits.
 
+> **Revisión v3 (rediseño completo del reconocimiento):** tras seguir
+> fallando en hardware real (falsos positivos con memes de bajo contraste,
+> el fondo gris a veces confundido con un meme), se abandonó el
+> reconocimiento por parecido de imagen (pHash/dHash, y también se probó y
+> descartó con datos un enfoque de embeddings de MobileNet — ver commits)
+> a favor de un marcador propio inspirado en QR: cada uno de los 256 memes
+> lleva 4 marcadores blancos sólidos en las esquinas + una tira de 8 bits
+> en el borde inferior que codifica directamente su índice (0-255). El
+> receptor ya NO compara contra ningún diccionario de hashes: ubica las 4
+> esquinas (por brillo, con selección por forma/tamaño esperado — ver
+> `js/marker.js`), calcula la homografía que corrige la perspectiva de la
+> cámara, y lee los 8 bits directamente. Las secciones "Diccionario y
+> protocolo de datos" y "Reconocimiento de imagen (pHash)" de más abajo
+> quedan obsoletas para la parte de identificación de memes (el protocolo
+> de framing con marcadores START/END por brillo y CRC-8 se mantiene
+> igual). Ver `js/homography.js`, `js/marker.js`,
+> `scripts/generate_markers.py`.
+
 ## Objetivo
 
 Página web estática (sin backend) que transfiere mensajes cortos de texto/URL

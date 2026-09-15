@@ -63,7 +63,7 @@ async function main() {
 
   setupModeTabs();
   setupSendPanel(dictionary);
-  setupReceivePanel(dictionary);
+  setupReceivePanel();
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").catch(() => {
@@ -177,7 +177,7 @@ function setupSendPanel(dictionary) {
   });
 }
 
-function setupReceivePanel(dictionary) {
+function setupReceivePanel() {
   const btnToggle = $("btn-camera-toggle");
   const btnSwitch = $("btn-camera-switch");
   const video = $("camera-preview");
@@ -194,25 +194,86 @@ function setupReceivePanel(dictionary) {
   const debugThumbCtx = debugThumb.getContext("2d");
   const debugCategory = $("debug-category");
   const debugDetail = $("debug-detail");
+  const chkDebugMode = $("chk-debug-mode");
+  const debugLogPanel = $("debug-log-panel");
+  const debugLogTextarea = $("debug-log");
+  const debugLogCount = $("debug-log-count");
+  const btnLogCopy = $("btn-log-copy");
+  const btnLogDownload = $("btn-log-download");
+  const btnLogClear = $("btn-log-clear");
+
+  let logLines = [];
+  const sessionStart = { t: 0 };
+
+  function appendLogLine(info) {
+    const elapsed = ((performance.now() - sessionStart.t) / 1000).toFixed(2);
+    const bits =
+      info.decodedByte !== null
+        ? `byte=${info.decodedByte}`
+        : info.cornersFound
+          ? "esquinas=si bits=? "
+          : "esquinas=no";
+    const brightness = info.mean !== null ? `brillo=${info.mean.toFixed(0)} var=${info.stdev.toFixed(0)}` : "";
+    logLines.push(`[${elapsed}s] categ=${info.category ?? "GAP"} ${bits} ${brightness}`.trim());
+    if (logLines.length > 5000) logLines.shift();
+    debugLogTextarea.value = logLines.join("\n");
+    debugLogTextarea.scrollTop = debugLogTextarea.scrollHeight;
+    debugLogCount.textContent = `${logLines.length} líneas`;
+  }
+
+  btnLogCopy.addEventListener("click", () => navigator.clipboard.writeText(logLines.join("\n")));
+  btnLogDownload.addEventListener("click", () => {
+    const blob = new Blob([logLines.join("\n")], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `memetransfer-log-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+  btnLogClear.addEventListener("click", () => {
+    logLines = [];
+    debugLogTextarea.value = "";
+    debugLogCount.textContent = "0 líneas";
+  });
+
+  chkDebugMode.addEventListener("change", () => {
+    debugLogPanel.classList.toggle("hidden", !chkDebugMode.checked);
+    if (chkDebugMode.checked) {
+      sessionStart.t = performance.now();
+      logLines = [];
+      debugLogTextarea.value = "";
+      debugLogCount.textContent = "0 líneas";
+    }
+  });
 
   const CATEGORY_LABELS = {
     START: "🟡 Flash de inicio",
     END: "⚫ Flash de fin",
-    TEXTURED_MATCH: "✅ Meme reconocido",
-    TEXTURED_NOMATCH: "❓ Algo con textura, no coincide con ningún meme",
-    GAP: "⏸️ Pausa / fondo",
+    MARKER: "✅ Marcador leído",
+    GAP: "⏸️ Pausa / fondo (sin marcador)",
   };
 
-  function showDebug({ category, mean, stdev, bestDistance, matched, canvas }) {
+  function showDebug(info) {
+    const { category, mean, stdev, decodedByte, cornersFound, canvas } = info;
     debugPanel.classList.remove("hidden");
     debugThumbCtx.drawImage(canvas, 0, 0, debugThumb.width, debugThumb.height);
 
-    const key = category === "TEXTURED" ? (matched ? "TEXTURED_MATCH" : "TEXTURED_NOMATCH") : category ?? "GAP";
-    debugCategory.textContent = CATEGORY_LABELS[key] ?? "—";
+    debugCategory.textContent = CATEGORY_LABELS[category] ?? CATEGORY_LABELS.GAP;
 
-    const parts = [`brillo ${mean.toFixed(0)}/255`, `variación ${stdev.toFixed(0)}`];
-    if (bestDistance !== null) parts.push(`distancia al meme más cercano: ${bestDistance} (máx. 32)`);
+    const parts = [];
+    if (decodedByte !== null) {
+      parts.push(`byte leído: ${decodedByte}`);
+    } else if (cornersFound) {
+      parts.push("esquinas encontradas, pero los bits no se leyeron con confianza");
+    } else if (mean !== null) {
+      parts.push(`brillo ${mean.toFixed(0)}/255`, `variación ${stdev.toFixed(0)}`);
+    } else {
+      parts.push("sin marcador ni flash detectado");
+    }
     debugDetail.textContent = parts.join(" · ");
+
+    if (chkDebugMode.checked) appendLogLine(info);
   }
 
   let stream = null;
@@ -230,7 +291,6 @@ function setupReceivePanel(dictionary) {
 
   function startReceiving() {
     receiver = new Receiver({
-      dictionary,
       videoEl: video,
       onProgress: (shown, total) => {
         progress.max = total ?? Math.max(progress.max, shown);
