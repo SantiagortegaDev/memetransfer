@@ -112,21 +112,9 @@ function setupSendPanel(dictionary) {
 
   function showBlank() {
     memeScreen.replaceChildren();
-    memeScreen.style.background = "";
-  }
-
-  function showStart() {
-    memeScreen.replaceChildren();
-    memeScreen.style.background = "#fff";
-  }
-
-  function showEnd() {
-    memeScreen.replaceChildren();
-    memeScreen.style.background = "#000";
   }
 
   function showMeme(image) {
-    memeScreen.style.background = "";
     memeScreen.replaceChildren(image.cloneNode());
   }
 
@@ -139,11 +127,11 @@ function setupSendPanel(dictionary) {
     sendProgress.value = 0;
     sendStatus.textContent = "Enviando...";
     await playFrame({
-      dictionary,
+      startImage: dictionary.startImage,
+      endImage: dictionary.endImage,
+      dictionary: dictionary.memes,
       frame,
       showBlank,
-      showStart,
-      showEnd,
       showMeme,
       onProgress: (shown, total) => {
         sendProgress.value = shown;
@@ -213,8 +201,7 @@ function setupReceivePanel() {
         : info.cornersFound
           ? "esquinas=si bits=? "
           : "esquinas=no";
-    const brightness = info.mean !== null ? `brillo=${info.mean.toFixed(0)} var=${info.stdev.toFixed(0)}` : "";
-    logLines.push(`[${elapsed}s] categ=${info.category ?? "GAP"} ${bits} ${brightness}`.trim());
+    logLines.push(`[${elapsed}s] categ=${info.category ?? "GAP"} ${bits}`.trim());
     if (logLines.length > 5000) logLines.shift();
     debugLogTextarea.value = logLines.join("\n");
     debugLogTextarea.scrollTop = debugLogTextarea.scrollHeight;
@@ -248,14 +235,15 @@ function setupReceivePanel() {
   });
 
   const CATEGORY_LABELS = {
-    START: "🟡 Flash de inicio",
-    END: "⚫ Flash de fin",
+    START: "🟢 Marcador de inicio",
+    END: "⚫ Marcador de fin",
     MARKER: "✅ Marcador leído",
+    UNREADABLE: "❓ Esquinas encontradas, sin lectura confiable",
     GAP: "⏸️ Pausa / fondo (sin marcador)",
   };
 
   function showDebug(info) {
-    const { category, mean, stdev, decodedByte, cornersFound, canvas } = info;
+    const { category, decodedByte, cornersFound, canvas } = info;
     debugPanel.classList.remove("hidden");
     debugThumbCtx.drawImage(canvas, 0, 0, debugThumb.width, debugThumb.height);
 
@@ -266,10 +254,8 @@ function setupReceivePanel() {
       parts.push(`byte leído: ${decodedByte}`);
     } else if (cornersFound) {
       parts.push("esquinas encontradas, pero los bits no se leyeron con confianza");
-    } else if (mean !== null) {
-      parts.push(`brillo ${mean.toFixed(0)}/255`, `variación ${stdev.toFixed(0)}`);
     } else {
-      parts.push("sin marcador ni flash detectado");
+      parts.push("sin marcador detectado");
     }
     debugDetail.textContent = parts.join(" · ");
 

@@ -1,6 +1,5 @@
 import { rgbaToGrayscale } from "./grayscale.js";
-import { classifyFrame, START, END } from "./classify.js";
-import { findCornerMarkers, readMarkerBits } from "./marker.js";
+import { findCornerMarkers, readMarkerBits, readControlMarker } from "./marker.js";
 import { SymbolStream } from "./matcher.js";
 import { createAssemblyState, advanceAssembly } from "./frame-assembler.js";
 
@@ -19,10 +18,10 @@ export const WORKING_SIZE = 240;
 
 /**
  * Orquesta la recepcion: reduce cada frame de camara a una resolucion de
- * trabajo, busca el marcador (4 esquinas), y si lo encuentra lee el byte
- * codificado directamente (sin comparar contra ningun diccionario de
- * fotos). Si no hay marcador, cae al clasificador de brillo para detectar
- * los flashes de inicio/fin.
+ * trabajo, busca el marcador (4 esquinas), y si lo encuentra intenta leerlo
+ * primero como byte de datos y, si eso falla, como marcador de control
+ * (inicio/fin de transmision) - ambos usan exactamente el mismo mecanismo
+ * de esquinas+firma, solo cambia que firma se exige.
  */
 export class Receiver {
   constructor({ videoEl, tickMs = TICK_MS, onProgress, onError, onSuccess, onDebug }) {
@@ -114,27 +113,23 @@ export class Receiver {
     const gray = rgbaToGrayscale(data);
 
     const corners = findCornerMarkers(gray, WORKING_SIZE, WORKING_SIZE);
-    const decodedByte = corners ? readMarkerBits(gray, WORKING_SIZE, WORKING_SIZE, corners) : null;
-
-    let observedValue = decodedByte;
-    let category = decodedByte !== null ? "MARKER" : null;
-    let mean = null;
-    let stdev = null;
-
-    if (observedValue === null) {
-      // no se encontro/leyo un marcador confiable: puede ser un flash de
-      // inicio/fin (pantalla completa blanca/negra) o simplemente fondo.
-      const cls = classifyFrame(gray);
-      category = cls.category;
-      mean = cls.mean;
-      stdev = cls.stdev;
-      observedValue = category === START || category === END ? category : null;
+    let decodedByte = null;
+    let controlMarker = null;
+    if (corners) {
+      decodedByte = readMarkerBits(gray, WORKING_SIZE, WORKING_SIZE, corners);
+      if (decodedByte === null) {
+        controlMarker = readControlMarker(gray, WORKING_SIZE, WORKING_SIZE, corners);
+      }
     }
+
+    const observedValue = decodedByte !== null ? decodedByte : controlMarker;
+    // "UNREADABLE": se encontraron esquinas (algo con la forma de un
+    // marcador) pero ni los datos ni la firma de control coincidieron - util
+    // para diagnosticar en el log de debug, distinto de "no hay nada".
+    const category = decodedByte !== null ? "MARKER" : controlMarker ? controlMarker : corners ? "UNREADABLE" : null;
 
     this.onDebug?.({
       category,
-      mean,
-      stdev,
       decodedByte,
       cornersFound: !!corners,
       matched: observedValue !== null,

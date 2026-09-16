@@ -22,6 +22,18 @@ export const BIT_COUNT = 8; // bits de datos (el byte 0-255)
 // 0-255 (incluido todo-blanco/todo-negro) sin restriccion: la firma es un
 // modulo aparte, no una regla sobre el byte en si.
 export const SYNC_BITS = [1, 0, 1, 0];
+// Firma de los marcadores de CONTROL (inicio/fin de transmision): el
+// complemento exacto de SYNC_BITS, asi un marcador de datos y uno de
+// control jamas se confunden entre si (ademas de no confundirse con ruido).
+// Reemplaza al viejo flash blanco/negro de pantalla completa (fragil:
+// dependia de que el auto-exposure de la camara real llegara a un umbral
+// de brillo global) por el mismo mecanismo robusto de esquinas+firma que ya
+// usan los bytes de datos.
+export const CONTROL_SYNC_BITS = [0, 1, 0, 1];
+export const START_BYTE = 0xaa; // 170 - valor fijo arbitrario, solo distingue inicio de fin
+export const END_BYTE = 0x55; // 85
+export const START = "START";
+export const END = "END";
 const TOTAL_MODULES = BIT_COUNT + SYNC_BITS.length;
 
 const BIT_STRIP_X_START = CORNER_MARGIN + CORNER_SIZE + 0.02;
@@ -298,6 +310,53 @@ export function findCornerMarkers(gray, width, height, searchFraction = 0.45) {
  * @returns {number|null} byte 0-255, o null si los bits no son lo bastante claros
  */
 export function readMarkerBits(gray, width, height, corners) {
+  const modules = readModules(gray, width, height, corners);
+  if (!modules) return null;
+
+  // los ultimos modulos son la firma fija: si no coinciden exacto, se
+  // descarta la lectura entera sin importar que darian los bits de datos.
+  // Un fondo/luz real que por casualidad forme un cuadrilatero plausible
+  // con borde oscuro y centro texturado todavia tiene que acertar esta
+  // firma (1 en 2^SYNC_BITS.length) para colarse.
+  const syncBits = modules.slice(BIT_COUNT);
+  const syncMatches = syncBits.every((bit, i) => bit === SYNC_BITS[i]);
+  if (!syncMatches) return null;
+
+  return decodeBitsToByte(modules.slice(0, BIT_COUNT));
+}
+
+/**
+ * Igual que readMarkerBits, pero para los marcadores de CONTROL (inicio/fin
+ * de transmision): en vez de exigir la firma SYNC_BITS de datos, exige la
+ * firma CONTROL_SYNC_BITS y traduce el byte fijo resultante a START/END.
+ * Reutiliza exactamente las mismas verificaciones de calidad (contraste,
+ * borde oscuro en 3 puntos, textura de centro) que la lectura de datos, asi
+ * que un marcador de inicio/fin es tan robusto contra falsos positivos como
+ * cualquier byte de datos.
+ * @returns {typeof START | typeof END | null}
+ */
+export function readControlMarker(gray, width, height, corners) {
+  const modules = readModules(gray, width, height, corners);
+  if (!modules) return null;
+
+  const syncBits = modules.slice(BIT_COUNT);
+  const syncMatches = syncBits.every((bit, i) => bit === CONTROL_SYNC_BITS[i]);
+  if (!syncMatches) return null;
+
+  const byte = decodeBitsToByte(modules.slice(0, BIT_COUNT));
+  if (byte === START_BYTE) return START;
+  if (byte === END_BYTE) return END;
+  return null;
+}
+
+/**
+ * Verifica esquinas/borde/textura y muestrea los TOTAL_MODULES bits crudos
+ * de la tira (datos + firma, sin decidir todavia si la firma es de datos o
+ * de control). Devuelve null si el marcador no pasa alguna de las
+ * verificaciones de calidad.
+ * @returns {number[]|null}
+ */
+function readModules(gray, width, height, corners) {
   const canonical = [
     CORNER_CENTERS.topLeft,
     CORNER_CENTERS.topRight,
@@ -359,16 +418,7 @@ export function readMarkerBits(gray, width, height, corners) {
     modules[i] = value >= midThreshold ? 1 : 0;
   }
 
-  // los ultimos modulos son la firma fija: si no coinciden exacto, se
-  // descarta la lectura entera sin importar que darian los bits de datos.
-  // Un fondo/luz real que por casualidad forme un cuadrilatero plausible
-  // con borde oscuro y centro texturado todavia tiene que acertar esta
-  // firma (1 en 2^SYNC_BITS.length) para colarse.
-  const syncBits = modules.slice(BIT_COUNT);
-  const syncMatches = syncBits.every((bit, i) => bit === SYNC_BITS[i]);
-  if (!syncMatches) return null;
-
-  return decodeBitsToByte(modules.slice(0, BIT_COUNT));
+  return modules;
 }
 
 /** Muestrea el brillo promedio de un cuadrado (en coords canonicas 0..1) proyectado al frame real via la homografia inversa. */

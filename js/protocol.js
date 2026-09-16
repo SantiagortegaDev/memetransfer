@@ -1,7 +1,7 @@
 import { crc8 } from "./crc8.js";
 
 // El framing (donde empieza y termina el mensaje) lo dan los marcadores de
-// inicio/fin (ver js/classify.js), no un byte de longitud: asi un byte mal
+// inicio/fin (ver js/marker.js), no un byte de longitud: asi un byte mal
 // leido no descuadra el resto de la trama. MAX_PAYLOAD_BYTES sigue limitando
 // cuanto se puede escribir, simplemente ya no viaja como byte en el aire.
 export const MAX_PAYLOAD_BYTES = 255;

@@ -6,10 +6,16 @@ import {
   bitModuleCenter,
   findCornerMarkers,
   readMarkerBits,
+  readControlMarker,
   CORNER_SIZE,
   CORNER_MARGIN,
   BIT_COUNT,
   SYNC_BITS,
+  CONTROL_SYNC_BITS,
+  START_BYTE,
+  END_BYTE,
+  START,
+  END,
 } from "../js/marker.js";
 
 const MODULE_PITCH = bitModuleCenter(1)[0] - bitModuleCenter(0)[0];
@@ -31,7 +37,7 @@ test("encodeByteToBits produces BIT_COUNT bits, MSB first", () => {
  * un frame de width x height, con las 4 esquinas reales dadas por
  * `realCorners` (topLeft, topRight, bottomRight, bottomLeft, en ese orden),
  * simulando una foto de camara con esa perspectiva. */
-function renderSyntheticMarker(byte, realCorners, width, height, { background = 60 } = {}) {
+function renderSyntheticMarker(byte, realCorners, width, height, { background = 60, syncBits = SYNC_BITS } = {}) {
   const canonicalCorners = [
     [0, 0],
     [1, 0],
@@ -72,7 +78,7 @@ function renderSyntheticMarker(byte, realCorners, width, height, { background = 
         if (inSquare(ccx, ccy, CORNER_SIZE, cx, cy)) value = 235;
       }
 
-      const modules = [...bits, ...SYNC_BITS];
+      const modules = [...bits, ...syncBits];
       for (let i = 0; i < modules.length; i++) {
         const [bcx, bcy] = bitModuleCenter(i);
         if (inSquare(bcx, bcy, MODULE_DRAW_SIZE, cx, cy)) {
@@ -264,6 +270,66 @@ test("readMarkerBits rejects a frame whose sync signature doesn't match, even wi
     }
   }
 
+  const found = findCornerMarkers(gray, width, height);
+  assert.ok(found);
+  assert.equal(readMarkerBits(gray, width, height, found), null);
+});
+
+test("readControlMarker decodes START and END from control-signature markers", () => {
+  const width = 200;
+  const height = 200;
+  const margin = 10;
+  const realCorners = [
+    [margin, margin],
+    [width - margin, margin],
+    [width - margin, height - margin],
+    [margin, height - margin],
+  ];
+
+  const startGray = renderSyntheticMarker(START_BYTE, realCorners, width, height, {
+    syncBits: CONTROL_SYNC_BITS,
+  });
+  const startCorners = findCornerMarkers(startGray, width, height);
+  assert.ok(startCorners);
+  assert.equal(readControlMarker(startGray, width, height, startCorners), START);
+
+  const endGray = renderSyntheticMarker(END_BYTE, realCorners, width, height, {
+    syncBits: CONTROL_SYNC_BITS,
+  });
+  const endCorners = findCornerMarkers(endGray, width, height);
+  assert.ok(endCorners);
+  assert.equal(readControlMarker(endGray, width, height, endCorners), END);
+});
+
+test("readControlMarker returns null for a frame with the DATA signature (not control)", () => {
+  const width = 200;
+  const height = 200;
+  const margin = 10;
+  const realCorners = [
+    [margin, margin],
+    [width - margin, margin],
+    [width - margin, height - margin],
+    [margin, height - margin],
+  ];
+  const gray = renderSyntheticMarker(42, realCorners, width, height); // firma de datos, no de control
+  const found = findCornerMarkers(gray, width, height);
+  assert.ok(found);
+  assert.equal(readControlMarker(gray, width, height, found), null);
+});
+
+test("readMarkerBits returns null for a frame with the CONTROL signature (not data)", () => {
+  const width = 200;
+  const height = 200;
+  const margin = 10;
+  const realCorners = [
+    [margin, margin],
+    [width - margin, margin],
+    [width - margin, height - margin],
+    [margin, height - margin],
+  ];
+  const gray = renderSyntheticMarker(START_BYTE, realCorners, width, height, {
+    syncBits: CONTROL_SYNC_BITS,
+  });
   const found = findCornerMarkers(gray, width, height);
   assert.ok(found);
   assert.equal(readMarkerBits(gray, width, height, found), null);

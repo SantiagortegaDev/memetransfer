@@ -25,29 +25,31 @@ function sleep(ms, signal) {
 
 /**
  * Reproduce una trama de bytes como secuencia de memes en pantalla,
- * encerrada entre un flash blanco (inicio) y uno negro (fin) que el
- * receptor detecta por brillo, sin depender de reconocer ningun meme.
+ * encerrada entre el marcador de inicio y el de fin (las mismas imagenes
+ * con esquinas+firma que un byte de datos, solo que con la firma de
+ * control) para que el receptor los detecte con el mismo mecanismo robusto,
+ * sin depender de un flash de brillo de pantalla completa.
  * @param {object} params
+ * @param {HTMLImageElement} params.startImage
+ * @param {HTMLImageElement} params.endImage
  * @param {{index:number, image:HTMLImageElement}[]} params.dictionary
  * @param {Uint8Array} params.frame
  * @param {() => void} params.showBlank pausa gris entre memes
- * @param {() => void} params.showStart flash blanco de inicio
- * @param {() => void} params.showEnd flash negro de fin
  * @param {(image: HTMLImageElement) => void} params.showMeme
  * @param {(shown: number, total: number) => void} [params.onProgress]
  * @param {AbortSignal} [params.signal]
  */
 export async function playFrame({
+  startImage,
+  endImage,
   dictionary,
   frame,
   showBlank,
-  showStart,
-  showEnd,
   showMeme,
   onProgress,
   signal,
 }) {
-  showStart();
+  showMeme(startImage);
   await sleep(MARKER_MS, signal);
   showBlank();
   await sleep(GAP_MS, signal);
@@ -62,7 +64,7 @@ export async function playFrame({
     await sleep(GAP_MS, signal);
   }
 
-  showEnd();
+  showMeme(endImage);
   await sleep(MARKER_MS, signal);
   showBlank();
 }

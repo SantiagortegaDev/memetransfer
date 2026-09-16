@@ -1,9 +1,8 @@
 import { decodeFrame } from "./protocol.js";
-import { START, END } from "./classify.js";
+import { START, END } from "./marker.js";
 
 /**
- * Estado inicial del ensamblador: todavia no vio el marcador de inicio
- * (flash blanco).
+ * Estado inicial del ensamblador: todavia no vio el marcador de inicio.
  */
 export function createAssemblyState() {
   return { receiving: false, buffer: [] };

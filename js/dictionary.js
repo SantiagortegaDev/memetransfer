@@ -13,17 +13,25 @@ function loadImage(src) {
 }
 
 /**
- * Precarga las 256 imagenes con marcador (memes/marked/0.jpg .. 255.jpg).
+ * Precarga las 256 imagenes de datos con marcador (memes/marked/0.jpg ..
+ * 255.jpg) mas las 2 imagenes de control (start.jpg, end.jpg) que delimitan
+ * la transmision.
  * @param {{onProgress?: (loaded: number, total: number) => void}} options
- * @returns {Promise<{index: number, image: HTMLImageElement}[]>}
+ * @returns {Promise<{memes: {index: number, image: HTMLImageElement}[], startImage: HTMLImageElement, endImage: HTMLImageElement}>}
  */
 export async function loadDictionary({ onProgress } = {}) {
-  const total = 256;
-  const entries = new Array(total);
-  for (let index = 0; index < total; index++) {
+  const memeCount = 256;
+  const total = memeCount + 2;
+  let loaded = 0;
+  const memes = new Array(memeCount);
+  for (let index = 0; index < memeCount; index++) {
     const image = await loadImage(`memes/marked/${index}.jpg`);
-    entries[index] = { index, image };
-    onProgress?.(index + 1, total);
+    memes[index] = { index, image };
+    onProgress?.(++loaded, total);
   }
-  return entries;
+  const startImage = await loadImage("memes/marked/start.jpg");
+  onProgress?.(++loaded, total);
+  const endImage = await loadImage("memes/marked/end.jpg");
+  onProgress?.(++loaded, total);
+  return { memes, startImage, endImage };
 }
