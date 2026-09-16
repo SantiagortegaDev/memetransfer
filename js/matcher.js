@@ -1,7 +1,7 @@
 // Convierte una secuencia cruda de observaciones por tick en una secuencia
 // de eventos confirmados. Una observacion es cualquier valor identificable
 // por igualdad: un indice de byte (0-255), o los sentinelas START/END de
-// js/symbols.js. Reglas:
+// js/marker.js. Reglas:
 //  - Un candidato debe repetirse `stableTicksRequired` ticks seguidos para
 //    confirmarse (evita que ruido/blur de un solo frame dispare una lectura).
 //  - Tras confirmar un valor, no se vuelve a emitir ninguno hasta que se

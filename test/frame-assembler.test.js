@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createAssemblyState, advanceAssembly } from "../js/frame-assembler.js";
 import { encodeMessage } from "../js/protocol.js";
-import { START, END } from "../js/symbols.js";
+import { START, END } from "../js/marker.js";
 
 function eventsForFrame(frame) {
   return [{ value: START }, ...Array.from(frame).map((value) => ({ value })), { value: END }];

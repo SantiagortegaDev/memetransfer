@@ -8,12 +8,6 @@ const ERROR_MESSAGES = {
   "checksum-mismatch": "Error de transmisión (los datos no coinciden). Pedí que se reenvíe.",
   "frame-too-short": "Error de transmisión. Pedí que se reenvíe.",
   timeout: "Se agotó el tiempo esperando la transmisión completa. Intentá de nuevo.",
-  "engine-load-failed": "No se pudo cargar el motor de reconocimiento de imágenes (revisá tu conexión) e intentá de nuevo.",
-};
-
-const ENGINE_LOADING_LABELS = {
-  opencv: "Cargando OpenCV.js...",
-  features: "Cargando referencias de los memes...",
 };
 
 function $(id) {
@@ -201,15 +195,13 @@ function setupReceivePanel() {
 
   function appendLogLine(info) {
     const elapsed = ((performance.now() - sessionStart.t) / 1000).toFixed(2);
-    const details =
-      info.decodedIndex !== null
-        ? `idx=${info.decodedIndex}`
+    const bits =
+      info.decodedByte !== null
+        ? `byte=${info.decodedByte}`
         : info.cornersFound
-          ? "pantalla=si sin-match"
-          : "pantalla=no";
-    logLines.push(
-      `[${elapsed}s] categ=${info.category ?? "GAP"} ${details} inliers=${info.inliers} t=${info.elapsedMs.toFixed(0)}ms`.trim()
-    );
+          ? "esquinas=si bits=? "
+          : "esquinas=no";
+    logLines.push(`[${elapsed}s] categ=${info.category ?? "GAP"} ${bits}`.trim());
     if (logLines.length > 5000) logLines.shift();
     debugLogTextarea.value = logLines.join("\n");
     debugLogTextarea.scrollTop = debugLogTextarea.scrollHeight;
@@ -243,29 +235,28 @@ function setupReceivePanel() {
   });
 
   const CATEGORY_LABELS = {
-    START: "🟢 Inicio detectado",
-    END: "⚫ Fin detectado",
-    MATCH: "✅ Meme identificado",
-    UNMATCHED: "❓ Pantalla detectada, sin identificar",
-    GAP: "⏸️ Pausa / fondo (sin pantalla)",
+    START: "🟢 Marcador de inicio",
+    END: "⚫ Marcador de fin",
+    MARKER: "✅ Marcador leído",
+    UNREADABLE: "❓ Esquinas encontradas, sin lectura confiable",
+    GAP: "⏸️ Pausa / fondo (sin marcador)",
   };
 
   function showDebug(info) {
-    const { category, decodedIndex, cornersFound, inliers, elapsedMs, canvas } = info;
+    const { category, decodedByte, cornersFound, canvas } = info;
     debugPanel.classList.remove("hidden");
     debugThumbCtx.drawImage(canvas, 0, 0, debugThumb.width, debugThumb.height);
 
     debugCategory.textContent = CATEGORY_LABELS[category] ?? CATEGORY_LABELS.GAP;
 
     const parts = [];
-    if (decodedIndex !== null) {
-      parts.push(`índice: ${decodedIndex}`, `inliers: ${inliers}`);
+    if (decodedByte !== null) {
+      parts.push(`byte leído: ${decodedByte}`);
     } else if (cornersFound) {
-      parts.push(`pantalla aislada, sin match confiable (inliers: ${inliers})`);
+      parts.push("esquinas encontradas, pero los bits no se leyeron con confianza");
     } else {
-      parts.push("sin pantalla detectada");
+      parts.push("sin marcador detectado");
     }
-    parts.push(`${elapsedMs.toFixed(0)} ms`);
     debugDetail.textContent = parts.join(" · ");
 
     if (chkDebugMode.checked) appendLogLine(info);
@@ -306,9 +297,6 @@ function setupReceivePanel() {
         errorText.textContent = ERROR_MESSAGES[error] ?? "No se pudo leer la transmisión.";
       },
       onDebug: showDebug,
-      onEngineLoading: (loading, stage) => {
-        if (loading) status.textContent = ENGINE_LOADING_LABELS[stage] ?? "Cargando reconocimiento de imágenes...";
-      },
     });
     resetResultUi();
     receiver.start();

@@ -1,5 +1,5 @@
 import { decodeFrame } from "./protocol.js";
-import { START, END } from "./symbols.js";
+import { START, END } from "./marker.js";
 
 /**
  * Estado inicial del ensamblador: todavia no vio el marcador de inicio.
