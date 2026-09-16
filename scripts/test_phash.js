@@ -58,7 +58,8 @@ const endHash = await hashImageFile("memes/end.jpg");
 
 function hammingDistance(a, b) {
   let count = 0;
-  for (let i = 0; i < 8; i++) {
+  const len = Math.min(a.length, b.length);
+  for (let i = 0; i < len; i++) {
     let x = a[i] ^ b[i];
     while (x) {
       count += x & 1;
@@ -81,8 +82,8 @@ for (let i = 0; i < memeHashes.length; i++) {
 console.log(`1. Duplicados encontrados: ${duplicates} (esperado: 0)`);
 
 // 2. Distancia minima entre cualquier par de memes (deberia ser > 0)
-let minDist = 64;
-let minPair = null;
+let minDist = 256;
+let minPair = [null, null];
 for (let i = 0; i < memeHashes.length; i++) {
   for (let j = i + 1; j < memeHashes.length; j++) {
     const d = hammingDistance(memeHashes[i], memeHashes[j]);
@@ -96,7 +97,7 @@ console.log(`2. Distancia minima entre memes: ${minDist} bits (par: ${minPair[0]
 console.log(`   -> si esto es muy bajo (<4), pHash no distingue bien esos memes`);
 
 // 3. Distancia de start.jpg y end.jpg a todos los memes
-let minStartDist = 64;
+let minStartDist = 256;
 let minStartIdx = -1;
 for (let i = 0; i < memeHashes.length; i++) {
   const d = hammingDistance(startHash, memeHashes[i]);
@@ -107,7 +108,7 @@ for (let i = 0; i < memeHashes.length; i++) {
 }
 console.log(`3a. start.jpg: distancia minima a un meme = ${minStartDist} bits (meme ${minStartIdx})`);
 
-let minEndDist = 64;
+let minEndDist = 256;
 let minEndIdx = -1;
 for (let i = 0; i < memeHashes.length; i++) {
   const d = hammingDistance(endHash, memeHashes[i]);

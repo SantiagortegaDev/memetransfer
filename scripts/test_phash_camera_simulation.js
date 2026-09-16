@@ -105,25 +105,52 @@ function multiScaleBestDistance(camCanvas, originalHash) {
   const W = camCanvas.width;
   const H = camCanvas.height;
   const minDim = Math.min(W, H);
-  const scales = [1.0, 0.9, 0.8, 0.7, 0.6];
-  let bestDist = 64;
-  for (const scale of scales) {
-    const side = Math.round(minDim * scale);
-    if (side < 32) continue;
-    const sx = (W - side) / 2;
-    const sy = (H - side) / 2;
-    hashCtx.drawImage(camCanvas, sx, sy, side, side, 0, 0, PHASH_INPUT_SIZE, PHASH_INPUT_SIZE);
-    const { data } = hashCtx.getImageData(0, 0, PHASH_INPUT_SIZE, PHASH_INPUT_SIZE);
-    const hash = hashFromImageData(data);
-    const dist = hammingDistance(hash, originalHash);
-    if (dist < bestDist) bestDist = dist;
+  // Match exactamente la logica del receptor:
+  // 5 rotaciones x 6 escalas x 3x3 offsets = 270 crops por frame
+  const rotations = [-5, -2.5, 0, 2.5, 5];
+  const scales = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5];
+  const offsets = [-0.08, 0, 0.08];
+  let bestDist = 256;
+
+  const rotCanvas = createCanvas(W, H);
+  const rotCtx = rotCanvas.getContext("2d");
+
+  for (const rotDeg of rotations) {
+    rotCtx.save();
+    rotCtx.fillStyle = "#000000";
+    rotCtx.fillRect(0, 0, W, H);
+    rotCtx.translate(W / 2, H / 2);
+    if (rotDeg !== 0) {
+      rotCtx.rotate((rotDeg * Math.PI) / 180);
+    }
+    rotCtx.drawImage(camCanvas, -W / 2, -H / 2);
+    rotCtx.restore();
+
+    for (const scale of scales) {
+      const side = Math.round(minDim * scale);
+      if (side < 32) continue;
+      const baseX = (W - side) / 2;
+      const baseY = (H - side) / 2;
+      for (const offsetX of offsets) {
+        for (const offsetY of offsets) {
+          const sx = baseX + side * offsetX;
+          const sy = baseY + side * offsetY;
+          hashCtx.drawImage(rotCanvas, sx, sy, side, side, 0, 0, PHASH_INPUT_SIZE, PHASH_INPUT_SIZE);
+          const { data } = hashCtx.getImageData(0, 0, PHASH_INPUT_SIZE, PHASH_INPUT_SIZE);
+          const hash = hashFromImageData(data);
+          const dist = hammingDistance(hash, originalHash);
+          if (dist < bestDist) bestDist = dist;
+        }
+      }
+    }
   }
   return bestDist;
 }
 
 function hammingDistance(a, b) {
   let count = 0;
-  for (let i = 0; i < 8; i++) {
+  const len = Math.min(a.length, b.length);
+  for (let i = 0; i < len; i++) {
     let x = a[i] ^ b[i];
     while (x) {
       count += x & 1;
@@ -146,15 +173,17 @@ async function main() {
     { name: "-25% contrast", opts: { contrast: 0.75 } },
     { name: "rotation 3 grados", opts: { rotation: 3 } },
     { name: "rotation 5 grados", opts: { rotation: 5 } },
+    { name: "rotation 8 grados (extremo)", opts: { rotation: 8 } },
     { name: "blur 1 (leve motion blur)", opts: { blur: 1 } },
     { name: "blur 2 (mas blur)", opts: { blur: 2 } },
     { name: "combinado: -20% bright + 80% size + rot 3deg + blur 1", opts: { brightness: 0.8, scale: 0.8, rotation: 3, blur: 1 } },
     { name: "combinado extremo: +30% bright + 70% size + rot 5deg + blur 2", opts: { brightness: 1.3, scale: 0.7, rotation: 5, blur: 2 } },
+    { name: "combinado brutal: -40% bright + 60% size + rot 8deg + blur 2", opts: { brightness: 0.6, scale: 0.6, rotation: 8, blur: 2 } },
   ];
 
-  console.log("Simulando transformaciones de camara (con multi-escala)...\n");
-  console.log("Threshold actual: 10 bits");
-  console.log("Formato: [meme idx] [transform] -> mejor distancia Hamming (correcto < 10)\n");
+  console.log("Simulando transformaciones de camara (multi-escala + multi-offset + multi-rotacion)...\n");
+  console.log("Threshold actual: 55 bits (de 256 bits)");
+  console.log("Formato: [meme idx] [transform] -> mejor distancia Hamming (correcto < 55)\n");
 
   let totalTests = 0;
   let passedTests = 0;
@@ -166,7 +195,7 @@ async function main() {
     for (const t of transforms) {
       const camCanvas = applyTransform(img, t.opts);
       const bestDist = multiScaleBestDistance(camCanvas, originalHash);
-      const pass = bestDist < 10;
+      const pass = bestDist < 55;
       totalTests++;
       if (pass) passedTests++;
       else failures.push({ idx, transform: t.name, dist: bestDist });
@@ -178,7 +207,7 @@ async function main() {
   console.log(`\n=== RESULTADO ===`);
   console.log(`Pasaron ${passedTests}/${totalTests} (${Math.round(passedTests / totalTests * 100)}%)`);
   if (failures.length > 0) {
-    console.log(`\nFallas (distancia >= 10 bits):`);
+    console.log(`\nFallas (distancia >= 55 bits):`);
     for (const f of failures) {
       console.log(`  meme ${f.idx} ${f.transform}: ${f.dist} bits`);
     }

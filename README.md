@@ -23,14 +23,19 @@ mismo framing de protocolo).
    muestra `memes/start.jpg` y `memes/end.jpg` (patrones visuales
    simples) para delimitar la transmisión.
 
-2. **Receptor**: en cada frame de cámara (cada ~120ms), calcula el
-   pHash del cuadrado central del frame a múltiples escalas (1.0, 0.9,
-   0.8, 0.7, 0.6), lo compara contra los 258 hashes pre-calculados del
-   diccionario (256 memes + start + end), y reporta el mejor match si
-   está a una distancia de Hamming menor a 10 bits. SymbolStream filtra
+2. **Receptor**: en cada frame de cámara (cada ~120ms), busca el mejor
+   match probando **5 rotaciones** × **6 escalas** × **3×3 offsets** = 270
+   combinaciones de recorte del frame. Para cada combinación, calcula el
+   pHash (DCT-II 2D de 256 bits) y lo compara contra los 258 hashes del
+   diccionario (256 memes + start + end). Reporta el mejor match si está
+   a una distancia de Hamming menor a 60 bits (de 256). SymbolStream filtra
    ruido (exige 3 ticks estables para confirmar un símbolo) y
    FrameAssembler arma la trama completa cuando ve START ... bytes ...
    END.
+
+   Esta búsqueda exhaustiva compensa que el meme no esté perfectamente
+   centrado, derecho, ni con un zoom específico — el usuario solo tiene
+   que apuntar la cámara aproximadamente al meme.
 
 3. El resultado es el texto decodificado, o un error si el CRC no
    coincide o se agota el timeout.
@@ -101,6 +106,8 @@ Esto dibuja `memes/start.jpg` (mitad blanca arriba, mitad negra abajo) y
 ### Cambiar el umbral de match
 
 El umbral de distancia de Hamming está en `js/receiver.js`:
-`MATCH_THRESHOLD = 10`. Subirlo si ves falsos negativos en la práctica
+`MATCH_THRESHOLD = 60`. Subirlo si ves falsos negativos en la práctica
 (memeres correctos que no se detectan); bajarlo si ves falsos positivos
-(memes mal identificados).
+(memes mal identificados). La distancia mínima entre dos memes distintos
+del diccionario es ~84 bits, así que el umbral puede llegar hasta ~75
+sin riesgo de falsos positivos.

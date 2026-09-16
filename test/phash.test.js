@@ -12,26 +12,48 @@ import assert from "node:assert/strict";
 const phashModule = await import("../js/phash.js");
 const { hammingDistance } = phashModule;
 
+// Hash actual: 32 bytes (256 bits). Tests con arrays de 32 bytes.
+
 test("hammingDistance: distancia 0 entre hashes identicas", () => {
-  const a = new Uint8Array([0xff, 0x00, 0xaa, 0x55, 0xff, 0x00, 0xaa, 0x55]);
+  const a = new Uint8Array(32);
+  for (let i = 0; i < 32; i++) a[i] = (i * 13) & 0xff; // contenido variado
   assert.equal(hammingDistance(a, a), 0);
 });
 
-test("hammingDistance: distancia 64 entre hashes complementarias", () => {
-  const a = new Uint8Array([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
-  const b = new Uint8Array([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
-  assert.equal(hammingDistance(a, b), 64);
+test("hammingDistance: distancia 256 entre hashes complementarias (todo 0 vs todo 1)", () => {
+  const a = new Uint8Array(32); // todos 0
+  const b = new Uint8Array(32); // todos 0xff
+  b.fill(0xff);
+  assert.equal(hammingDistance(a, b), 256);
 });
 
 test("hammingDistance: distancia correcta para un bit que cambia en cada byte", () => {
-  const a = new Uint8Array([0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000]);
-  const b = new Uint8Array([0b00000001, 0b00000010, 0b00000100, 0b00001000, 0b00010000, 0b00100000, 0b01000000, 0b10000000]);
-  // 1 bit por byte, 8 bytes -> 8 bits de diferencia
+  const a = new Uint8Array(32); // todos 0
+  const b = new Uint8Array(32); // bit i activado en byte i (8 bits en total)
+  for (let i = 0; i < 8; i++) {
+    b[i] = 1 << (7 - i);
+  }
+  // Solo los primeros 8 bytes tienen un bit activado -> 8 bits de diferencia
   assert.equal(hammingDistance(a, b), 8);
 });
 
 test("hammingDistance: es simetrica", () => {
-  const a = new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xf0]);
-  const b = new Uint8Array([0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89]);
+  const a = new Uint8Array(32);
+  const b = new Uint8Array(32);
+  for (let i = 0; i < 32; i++) {
+    a[i] = (i * 17 + 31) & 0xff;
+    b[i] = (i * 23 + 7) & 0xff;
+  }
   assert.equal(hammingDistance(a, b), hammingDistance(b, a));
+});
+
+test("hammingDistance: distancia de 32 bits con patron diagonal en 4 bytes", () => {
+  const a = new Uint8Array(32); // todos 0
+  const b = new Uint8Array(32);
+  // Llena los primeros 4 bytes con 0xff = 32 bits activados
+  b[0] = 0xff;
+  b[1] = 0xff;
+  b[2] = 0xff;
+  b[3] = 0xff;
+  assert.equal(hammingDistance(a, b), 32);
 });
