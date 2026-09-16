@@ -7,5 +7,8 @@
   "scripts": {
     "test": "node --test",
     "generate-manifest": "node scripts/generate-manifest.js"
+  },
+  "devDependencies": {
+    "canvas": "^3.2.3"
   }
 }

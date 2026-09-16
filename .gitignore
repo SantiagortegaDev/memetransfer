@@ -1,5 +1,20 @@
-scripts/dupe_report.json
-__pycache__/
-*.pyc
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
 .DS_Store
-.claude/scheduled_tasks.lock
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+dist/
+build/

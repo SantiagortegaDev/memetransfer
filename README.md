@@ -1,29 +1,54 @@
 # Meme Transfer
 
-Transferí texto o URLs cortas entre dos dispositivos mostrando una secuencia
-de memes en pantalla: un dispositivo emisor los reproduce, el otro los lee
-con la cámara y los decodifica. Sin backend, sin apps nativas — una sola
-página web.
+Transferí texto o URLs cortas entre dos dispositivos mostrando una
+secuencia de memes en pantalla: un dispositivo emisor los reproduce, el
+otro los lee con la cámara y los decodifica. Sin backend, sin apps nativas
+— una sola página web.
 
-Cada meme lleva un marcador propio (inspirado en QR) con 4 esquinas blancas
-y una tira de 8 bits que codifica directamente su byte — el receptor ubica
-las esquinas, corrige la perspectiva de la cámara, y lee los bits. No hay
-reconocimiento por parecido de imagen ni diccionario de hashes.
+Cada meme se muestra **limpio, sin marcadores encima**. El receptor
+identifica cada meme por su contenido visual usando **pHash** (perceptual
+hash basado en DCT-II 2D de 64 bits) en vez de un sistema de marcadores
+visuales (esquinas + tira de bits). Las imágenes de control `start.jpg`
+y `end.jpg` delimitan la transmisión, también identificadas por pHash.
 
-Ver el diseño completo en [docs/superpowers/specs/2026-09-14-meme-transfer-design.md](docs/superpowers/specs/2026-09-14-meme-transfer-design.md).
+Ver el diseño original en [docs/superpowers/specs/2026-09-14-meme-transfer-design.md](docs/superpowers/specs/2026-09-14-meme-transfer-design.md)
+(la versión actual cambia el mecanismo de detección pero mantiene el
+mismo framing de protocolo).
+
+## Cómo funciona
+
+1. **Emisor**: codifica el mensaje en bytes (UTF-8 + CRC-8), muestra una
+   secuencia de memes. Cada byte 0-255 corresponde a un meme del
+   diccionario (256 memes). Antes y después de los bytes de datos,
+   muestra `memes/start.jpg` y `memes/end.jpg` (patrones visuales
+   simples) para delimitar la transmisión.
+
+2. **Receptor**: en cada frame de cámara (cada ~120ms), calcula el
+   pHash del cuadrado central del frame a múltiples escalas (1.0, 0.9,
+   0.8, 0.7, 0.6), lo compara contra los 258 hashes pre-calculados del
+   diccionario (256 memes + start + end), y reporta el mejor match si
+   está a una distancia de Hamming menor a 10 bits. SymbolStream filtra
+   ruido (exige 3 ticks estables para confirmar un símbolo) y
+   FrameAssembler arma la trama completa cuando ve START ... bytes ...
+   END.
+
+3. El resultado es el texto decodificado, o un error si el CRC no
+   coincide o se agota el timeout.
 
 ## Uso
 
 1. Abrí la página en los dos dispositivos (misma URL, ej. GitHub Pages).
 2. En el receptor, pestaña **Recibir**: activá la cámara. Queda escuchando todo el tiempo.
 3. En el emisor, pestaña **Enviar**: escribí el mensaje (hasta 100 caracteres) y tocá "Enviar".
-4. Apuntá la cámara al meme completo (con su marco y esquinas) — no hace falta un encuadre perfecto.
+4. Apuntá la cámara al meme completo. **Tratá de mantener la cámara
+   derecha** (sin rotar más de ~3-4 grados) y que el meme llene
+   aproximadamente la guía cuadrada del centro del frame.
 5. Si da error de checksum, tocá "Reenviar" en el emisor y "Reintentar" en el receptor.
 
-Activando "Modo debug" en el receptor aparece un panel con el log detallado
-de cada frame analizado (categoría, byte leído, brillo), copiable o
-descargable — útil para diagnosticar por qué no detecta algo en un celular
-en particular.
+Activando "Modo debug" en el receptor aparece un panel con el log
+detallado de cada frame analizado (categoría, byte leído, distancia de
+Hamming al mejor candidato), copiable o descargable — útil para
+diagnosticar por qué no detecta algo en un celular en particular.
 
 ## Desarrollo local
 
@@ -35,35 +60,47 @@ Y abrí `http://localhost:8080`.
 
 ### Tests
 
-La lógica de protocolo, CRC, homografía, marcador y detección de símbolos
-tiene tests unitarios en Node (sin dependencias):
+La lógica de protocolo, CRC, pHash y detección de símbolos tiene tests
+unitarios en Node (sin dependencias):
 
 ```bash
 npm test
 ```
 
-### Regenerar los memes con marcador
+### Verificación de pHash (sin cámara)
 
-Si cambiás algo del layout del marcador (`js/marker.js`) o agregás/quitás
-memes de `memes/` (necesita exactamente 256, ver `memes/manifest.json`),
-regenerá las 256 imágenes finales que muestra el emisor:
-
-```bash
-python3 scripts/generate_markers.py
-```
-
-Esto lee `memes/*.jpg` + `memes/manifest.json` y escribe
-`memes/marked/0.jpg` .. `255.jpg` (meme + marco + esquinas + bits). Las
-constantes de layout en `scripts/generate_markers.py` tienen que coincidir
-exactamente con las de `js/marker.js` — si cambiás una, cambiá la otra.
-
-### Chequeo opcional: memes de bajo contraste
-
-Un meme casi todo blanco/negro puede tener un pHash inestable si en algún
-momento se vuelve a usar reconocimiento por imagen. Ya no es necesario para
-el marcador actual, pero el script sigue disponible:
+`scripts/test_phash.js` verifica que los 256 memes tengan hashes
+distintos y calcula la distancia mínima entre pares (debe ser > 10 para
+que el threshold funcione). Requiere `canvas` instalado:
 
 ```bash
-pip install --user Pillow imagehash
-python3 scripts/find_similar_memes.py memes/
+npm install
+node scripts/test_phash.js
 ```
+
+`scripts/test_phash_camera_simulation.js` simula transformaciones de
+cámara (brillo, contraste, escala, rotación, blur) y verifica que el
+pHash del resultado siga matcheando al meme original con multi-escala:
+
+```bash
+node scripts/test_phash_camera_simulation.js
+```
+
+### Regenerar las imágenes de control
+
+Si cambiás algo del layout de las imágenes de control (`memes/start.jpg`
+o `memes/end.jpg`), regenerá las dos imágenes finales:
+
+```bash
+python3 scripts/generate_control_images.py
+```
+
+Esto dibuja `memes/start.jpg` (mitad blanca arriba, mitad negra abajo) y
+`memes/end.jpg` (mitad blanca izquierda, mitad negra derecha).
+
+### Cambiar el umbral de match
+
+El umbral de distancia de Hamming está en `js/receiver.js`:
+`MATCH_THRESHOLD = 10`. Subirlo si ves falsos negativos en la práctica
+(memeres correctos que no se detectan); bajarlo si ves falsos positivos
+(memes mal identificados).

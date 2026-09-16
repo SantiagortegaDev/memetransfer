@@ -63,7 +63,7 @@ async function main() {
 
   setupModeTabs();
   setupSendPanel(dictionary);
-  setupReceivePanel();
+  setupReceivePanel(dictionary);
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").catch(() => {
@@ -139,8 +139,6 @@ function setupSendPanel(dictionary) {
       },
     });
 
-    // Se oculta el recuadro (en vez de dejarlo en gris) para no dejar un
-    // fondo plano innecesario en pantalla una vez terminado el envio.
     memeScreen.classList.add("hidden");
     sendStatus.textContent = "Enviado ✔";
     btnSend.disabled = false;
@@ -165,7 +163,7 @@ function setupSendPanel(dictionary) {
   });
 }
 
-function setupReceivePanel() {
+function setupReceivePanel(dictionary) {
   const btnToggle = $("btn-camera-toggle");
   const btnSwitch = $("btn-camera-switch");
   const video = $("camera-preview");
@@ -197,10 +195,14 @@ function setupReceivePanel() {
     const elapsed = ((performance.now() - sessionStart.t) / 1000).toFixed(2);
     const bits =
       info.decodedByte !== null
-        ? `byte=${info.decodedByte}`
-        : info.cornersFound
-          ? "esquinas=si bits=? "
-          : "esquinas=no";
+        ? `byte=${info.decodedByte} d=${info.distance}`
+        : info.category === "START"
+          ? "START"
+          : info.category === "END"
+            ? "END"
+            : info.matched
+              ? "match?"
+              : `gap (mejor d=${info.distance})`;
     logLines.push(`[${elapsed}s] categ=${info.category ?? "GAP"} ${bits}`.trim());
     if (logLines.length > 5000) logLines.shift();
     debugLogTextarea.value = logLines.join("\n");
@@ -235,15 +237,15 @@ function setupReceivePanel() {
   });
 
   const CATEGORY_LABELS = {
-    START: "🟢 Marcador de inicio",
-    END: "⚫ Marcador de fin",
-    MARKER: "✅ Marcador leído",
-    UNREADABLE: "❓ Esquinas encontradas, sin lectura confiable",
-    GAP: "⏸️ Pausa / fondo (sin marcador)",
+    START: "🟢 Imagen de inicio",
+    END: "⚫ Imagen de fin",
+    MARKER: "✅ Meme reconocido",
+    UNREADABLE: "❓ Parecido a algo pero no confiable",
+    GAP: "⏸️ Sin nada reconocible",
   };
 
   function showDebug(info) {
-    const { category, decodedByte, cornersFound, canvas } = info;
+    const { category, decodedByte, distance, canvas } = info;
     debugPanel.classList.remove("hidden");
     debugThumbCtx.drawImage(canvas, 0, 0, debugThumb.width, debugThumb.height);
 
@@ -251,11 +253,13 @@ function setupReceivePanel() {
 
     const parts = [];
     if (decodedByte !== null) {
-      parts.push(`byte leído: ${decodedByte}`);
-    } else if (cornersFound) {
-      parts.push("esquinas encontradas, pero los bits no se leyeron con confianza");
+      parts.push(`byte: ${decodedByte}`);
+      parts.push(`distancia Hamming: ${distance}`);
+    } else if (category === "START" || category === "END") {
+      parts.push(`distancia Hamming: ${distance}`);
     } else {
-      parts.push("sin marcador detectado");
+      parts.push(`mejor distancia: ${distance} (umbral: ${info.threshold ?? 14})`);
+      parts.push("sin coincidencia confiable");
     }
     debugDetail.textContent = parts.join(" · ");
 
@@ -278,6 +282,9 @@ function setupReceivePanel() {
   function startReceiving() {
     receiver = new Receiver({
       videoEl: video,
+      dictionary: dictionary.memes,
+      startHash: dictionary.startHash,
+      endHash: dictionary.endHash,
       onProgress: (shown, total) => {
         progress.max = total ?? Math.max(progress.max, shown);
         progress.value = shown;
