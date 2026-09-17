@@ -15,6 +15,8 @@ export const CORNER_CENTERS = {
 };
 
 export const BIT_COUNT = 8; // bits de datos (el byte 0-255)
+// Repeat data bits for robustness
+export const REPEAT = 3;
 // Patron fijo de sincronizacion: SIEMPRE vale esto, en todos los 256
 // marcadores. No es dato - es una firma que un objeto/luz real tiene que
 // acertar por pura casualidad (1 en 16) para que una lectura espuria pase
