@@ -26,6 +26,7 @@ DESIGN_SIZE = 320
 CORNER_SIZE = 0.09
 CORNER_MARGIN = 0.02
 BIT_COUNT = 8  # bits de datos (el byte 0-255)
+REPEAT = 3  # repeat each data bit for robustness
 SYNC_BITS = [1, 0, 1, 0]  # firma fija de DATOS, identica en los 256 marcadores
 CONTROL_SYNC_BITS = [0, 1, 0, 1]  # firma fija de CONTROL (inicio/fin), complemento de SYNC_BITS
 START_BYTE = 0xAA  # 170
@@ -78,16 +79,19 @@ def draw_corner_squares(draw):
 
 def draw_bit_strip(draw, byte_value, sync_bits=SYNC_BITS):
     data_bits = [(byte_value >> (BIT_COUNT - 1 - i)) & 1 for i in range(BIT_COUNT)]
-    modules = data_bits + sync_bits
+    # repeat each data bit REPEAT times
+    repeated_data = []
+    for b in data_bits:
+        repeated_data.extend([b] * REPEAT)
+    modules = repeated_data + list(sync_bits)
     half_h = BIT_MODULE_HEIGHT / 2
-    half_w = (BIT_MODULE_WIDTH * 0.85) / 2  # deja un pequeno espacio visible entre modulos
+    half_w = (BIT_MODULE_WIDTH * 0.85) / 2  # deja un pequeño espacio visible entre módulos
     for i, bit in enumerate(modules):
         cx = BIT_STRIP_X_START + BIT_MODULE_WIDTH * (i + 0.5)
         cy = BIT_STRIP_Y_CENTER
         x0, y0 = px(cx - half_w, cy - half_h)
         x1, y1 = px(cx + half_w, cy + half_h)
         draw.rectangle([x0, y0, x1, y1], fill="white" if bit else "black")
-
 
 def render_marker(meme_img, byte_value, sync_bits, out_path):
     meme_img = meme_img.convert("RGB")
