@@ -3,7 +3,7 @@
 // cambian los assets estaticos para invalidar el cache viejo - y actualiza
 // tambien el numero visible en el <h1> de index.html, asi el usuario puede
 // confirmar a simple vista que su telefono ya cargo la version nueva.
-const CACHE_VERSION = "v10";
+const CACHE_VERSION = "v11";
 const CACHE_NAME = `memetransfer-${CACHE_VERSION}`;
 
 const CORE_ASSETS = [
