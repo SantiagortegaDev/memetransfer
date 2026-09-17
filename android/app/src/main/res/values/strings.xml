@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Meme Transfer Receptor</string>
+    <string name="status_waiting">Esperando el inicio de una transmisión…</string>
+    <string name="status_receiving">Recibiendo… %1$d bytes</string>
+    <string name="status_done">Mensaje recibido</string>
+    <string name="btn_copy">Copiar</string>
+    <string name="btn_check_update">Buscar actualización</string>
+    <string name="update_available_title">Nueva versión disponible</string>
+    <string name="update_available_message">%1$s está disponible (versión actual: %2$s). ¿Descargar e instalar?</string>
+    <string name="update_download">Descargar</string>
+    <string name="update_cancel">Ahora no</string>
+    <string name="permission_camera_denied">Se necesita permiso de cámara para recibir.</string>
+</resources>
