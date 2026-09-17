@@ -25,13 +25,13 @@ android {
         versionName = versionNameProp
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 
-    // Beta de un solo ABI real (celulares arm64 modernos): evita duplicar
-    // los .so nativos de OpenCV para arquitecturas que nadie va a probar en
-    // este flujo (no hay emulador x86 en el loop de testing).
-    ndk {
-        abiFilters += "arm64-v8a"
+        // Beta de un solo ABI real (celulares arm64 modernos): evita duplicar
+        // los .so nativos de OpenCV para arquitecturas que nadie va a probar en
+        // este flujo (no hay emulador x86 en el loop de testing).
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
     }
 
     signingConfigs {
