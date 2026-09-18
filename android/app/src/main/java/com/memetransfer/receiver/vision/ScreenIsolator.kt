@@ -64,7 +64,15 @@ object ScreenIsolator {
 
         for (contour in contours) {
             val area = Imgproc.contourArea(contour)
-            if (area < frameArea * 0.08 || area > frameArea * 0.95) continue
+            // El piso subio de 8% a 45%: datos reales (android-v7) mostraron
+            // que sobre memes fotograficos (con mucho detalle interno) casi
+            // cualquier quad chico detectado termina siendo un borde DENTRO
+            // de la foto, no la pantalla real - da inliers=0/similaridad
+            // baja siempre que eso pasa. Los aciertos reales (START/END,
+            // con fondo simple) siempre correspondian a un cuadrilatero que
+            // ocupa la mayor parte del frame, como se espera si el usuario
+            // encuadro bien la pantalla completa.
+            if (area < frameArea * 0.45 || area > frameArea * 0.95) continue
 
             val contour2f = MatOfPoint2f(*contour.toArray())
             val approx2f = MatOfPoint2f()

@@ -139,7 +139,13 @@ class MainActivity : AppCompatActivity() {
                     runOnUiThread {
                         binding.statusText.text = getString(R.string.status_receiving, buffer.size)
                         binding.bytesText.text = getString(R.string.bytes_received_format, buffer.size, buffer.toString())
-                        debugLog.addEvent("byte confirmado: ${buffer.lastOrNull()} (van ${buffer.size})")
+                        // buffer vacio = esto es la confirmacion del START en si (todavia no
+                        // hay ningun byte de datos) - no tiene sentido loguear "byte: null"
+                        if (buffer.isNotEmpty()) {
+                            debugLog.addEvent("byte confirmado: ${buffer.last()} (van ${buffer.size})")
+                        } else {
+                            debugLog.addEvent("inicio de transmisión confirmado")
+                        }
                         refreshDebugText()
                     }
                 },
