@@ -21,6 +21,10 @@ import com.memetransfer.receiver.vision.VisionEngine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.opencv.android.OpenCVLoader
+import java.io.File
+import java.io.PrintWriter
+import java.io.StringWriter
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -37,6 +41,16 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Red de seguridad de ultimo recurso: si algo revienta en CUALQUIER
+        // hilo (OpenCV nativo, TFLite, CameraX) y la app se va a cerrar
+        // igual, al menos guarda el stack trace completo en un archivo
+        // legible - sin esto, un crash en este beta no deja ningun rastro
+        // que se pueda compartir para diagnosticar a distancia.
+        Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
+            runCatching { writeCrashLog(throwable) }
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -44,8 +58,27 @@ class MainActivity : AppCompatActivity() {
         binding.btnCopy.setOnClickListener { copyResultToClipboard() }
         binding.btnCheckUpdate.setOnClickListener { checkForUpdate(showUpToDateMessage = true) }
 
+        showPreviousCrashIfAny()
         ensureCameraPermissionAndStart()
         checkForUpdate(showUpToDateMessage = false)
+    }
+
+    private fun crashLogFile(): File = File(filesDir, "last_crash.txt")
+
+    private fun writeCrashLog(throwable: Throwable) {
+        val sw = StringWriter()
+        throwable.printStackTrace(PrintWriter(sw))
+        crashLogFile().writeText(sw.toString())
+    }
+
+    /** Si la sesion anterior se cerro de un crash, lo muestra arriba de todo apenas se abre la app de nuevo - asi no hace falta adb para ver que paso. */
+    private fun showPreviousCrashIfAny() {
+        val file = crashLogFile()
+        if (!file.exists()) return
+        val trace = file.readText()
+        file.delete()
+        binding.statusText.text = "La app se cerró de un error la última vez. Detalle abajo ⬇️"
+        binding.debugLogText.text = "===== CRASH ANTERIOR =====\n$trace"
     }
 
     override fun onDestroy() {
@@ -63,8 +96,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun startReceiving() {
         binding.statusText.text = getString(R.string.status_waiting)
+
+        // El artefacto de OpenCV en Maven Central NO carga su libreria
+        // nativa sola - hay que inicializarla explicitamente antes de tocar
+        // cualquier clase de org.opencv.*, o la primera llamada (un simple
+        // `Mat()`) revienta con UnsatisfiedLinkError. initLocal() es
+        // sincronico porque el .so ya viene empaquetado en el APK (no hace
+        // falta la app externa "OpenCV Manager" del flujo viejo initAsync).
+        if (!OpenCVLoader.initLocal()) {
+            showInitError("OpenCV (initLocal)", IllegalStateException("OpenCVLoader.initLocal() devolvió false"))
+            return
+        }
+
         lifecycleScope.launch {
-            val engine = withContext(Dispatchers.Default) { VisionEngine(this@MainActivity) }
+            val engine = try {
+                withContext(Dispatchers.Default) { VisionEngine(this@MainActivity) }
+            } catch (t: Throwable) {
+                showInitError("VisionEngine (OpenCV/TFLite/referencias)", t)
+                return@launch
+            }
             visionEngine = engine
 
             val receiver = ReceiverEngine(
@@ -97,13 +147,25 @@ class MainActivity : AppCompatActivity() {
             receiver.start()
             receiverEngine = receiver
 
-            cameraController = CameraController(
-                context = this@MainActivity,
-                lifecycleOwner = this@MainActivity,
-                previewView = binding.cameraPreview,
-                onFrame = { frame -> receiver.onFrame(frame) },
-            ).also { it.start() }
+            try {
+                cameraController = CameraController(
+                    context = this@MainActivity,
+                    lifecycleOwner = this@MainActivity,
+                    previewView = binding.cameraPreview,
+                    onFrame = { frame -> receiver.onFrame(frame) },
+                ).also { it.start() }
+            } catch (t: Throwable) {
+                showInitError("CameraController (CameraX)", t)
+            }
         }
+    }
+
+    /** Muestra el error completo en pantalla (en vez de crashear) para poder diagnosticar sin adb. */
+    private fun showInitError(where: String, t: Throwable) {
+        val sw = StringWriter()
+        t.printStackTrace(PrintWriter(sw))
+        binding.statusText.text = "Error inicializando $where"
+        binding.debugLogText.text = "===== ERROR EN $where =====\n${sw}"
     }
 
     private fun copyResultToClipboard() {
