@@ -11,4 +11,7 @@
     <string name="update_download">Descargar</string>
     <string name="update_cancel">Ahora no</string>
     <string name="permission_camera_denied">Se necesita permiso de cámara para recibir.</string>
+    <string name="btn_export_log">Exportar log</string>
+    <string name="bytes_received_format">Bytes (%1$d): %2$s</string>
+    <string name="bytes_received_empty">Sin bytes todavía</string>
 </resources>

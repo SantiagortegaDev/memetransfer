@@ -2,4 +2,6 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- coincide con el directorio de descarga usado por UpdateChecker/ApkInstaller -->
     <external-files-path name="updates" path="updates/" />
+    <!-- coincide con el directorio donde se escribe el log exportado (ver MainActivity.exportLog) -->
+    <cache-path name="logs" path="logs/" />
 </paths>

@@ -12,10 +12,21 @@ import org.opencv.core.Mat
 
 // Cada tick corre deteccion de pantalla + embedding + ORB - mucho mas caro
 // que comparar contra un marcador propio, asi que el intervalo es mas
-// largo que un tick de camara tipico (~33ms a 30fps). Se ajusta con datos
-// reales del log de debug si hace falta.
-const val TICK_MS = 280L
-const val STABLE_TICKS_REQUIRED = 3
+// largo que un tick de camara tipico (~33ms a 30fps).
+//
+// OJO con la relacion entre TICK_MS/STABLE_TICKS_REQUIRED y cuanto tiempo
+// el emisor deja cada meme en pantalla (FRAME_MS=700ms + GAP_MS=150ms en
+// js/sender.js, ~850ms totales por byte): con STABLE_TICKS_REQUIRED
+// lecturas seguidas hacen falta TICK_MS*STABLE_TICKS_REQUIRED ms de
+// deteccion estable para confirmar un byte. Con los valores viejos
+// (280*3=840ms) eso quedaba practicamente pegado al borde de la ventana
+// de 850ms - si el primer tick tras cambiar de meme no detecta a tiempo
+// (autoenfoque, blur), nunca da tiempo a juntar 3 lecturas seguidas antes
+// de que el emisor pase al siguiente byte, y el mensaje nunca termina de
+// armarse (eventualmente dispara el timeout de PER_SYMBOL_TIMEOUT_MS aunque
+// la deteccion en si funcione bien para memes individuales).
+const val TICK_MS = 150L
+const val STABLE_TICKS_REQUIRED = 2
 const val PER_SYMBOL_TIMEOUT_MS = 5000L
 
 data class DebugEntry(
@@ -35,7 +46,7 @@ data class DebugEntry(
  */
 class ReceiverEngine(
     private val visionEngine: VisionEngine,
-    private val onProgress: (bufferSize: Int) -> Unit,
+    private val onProgress: (buffer: List<Int>) -> Unit,
     private val onSuccess: (text: String) -> Unit,
     private val onError: (error: String) -> Unit,
     private val onDebug: (DebugEntry) -> Unit,
@@ -103,7 +114,7 @@ class ReceiverEngine(
 
         if (assemblyState.receiving) {
             lastSymbolAt = now
-            onProgress(assemblyState.buffer.size)
+            onProgress(assemblyState.buffer)
         }
 
         if (done != null) {

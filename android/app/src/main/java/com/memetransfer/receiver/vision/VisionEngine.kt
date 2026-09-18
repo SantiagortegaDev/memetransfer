@@ -9,7 +9,7 @@ import org.opencv.imgproc.Imgproc
 // Debe coincidir EXACTO con scripts/precompute_android_features.py.
 const val CANONICAL_SIZE = 480
 const val ORB_NFEATURES = 500
-private const val EMBEDDING_TOP_K = 10 // cuantos candidatos pasan de la etapa de embeddings a la de ORB
+private const val EMBEDDING_TOP_K = 16 // cuantos candidatos pasan de la etapa de embeddings a la de ORB - ampliado para dar mas margen a memes dificiles
 
 /**
  * Pipeline completo de reconocimiento, un frame de camara a la vez:
