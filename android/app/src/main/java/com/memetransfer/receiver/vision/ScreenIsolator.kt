@@ -31,8 +31,11 @@ import org.opencv.imgproc.Imgproc
 object ScreenIsolator {
     /** @return el frame de color (CANONICAL_SIZE x CANONICAL_SIZE, mismo tipo/canales que `colorFrame`) enderezado, y si se encontro un cuadrilatero real. */
     fun isolate(colorFrame: Mat, canonicalSize: Int): Pair<Mat, Boolean> {
-        val gray = Mat()
-        Imgproc.cvtColor(colorFrame, gray, colorToGrayCode(colorFrame))
+        val gray = when (colorFrame.channels()) {
+            4 -> Mat().also { Imgproc.cvtColor(colorFrame, it, Imgproc.COLOR_RGBA2GRAY) }
+            3 -> Mat().also { Imgproc.cvtColor(colorFrame, it, Imgproc.COLOR_RGB2GRAY) }
+            else -> colorFrame.clone() // ya es gris (no deberia pasar en la practica - CameraController siempre entrega RGBA)
+        }
         val warped = findAndWarpScreen(colorFrame, gray, canonicalSize)
         gray.release()
         return if (warped != null) {
@@ -40,12 +43,6 @@ object ScreenIsolator {
         } else {
             fitContainSquare(colorFrame, canonicalSize) to false
         }
-    }
-
-    private fun colorToGrayCode(mat: Mat): Int = when (mat.channels()) {
-        4 -> Imgproc.COLOR_RGBA2GRAY
-        3 -> Imgproc.COLOR_RGB2GRAY
-        else -> Imgproc.COLOR_GRAY2GRAY // ya es gris (no deberia pasar en la practica)
     }
 
     private fun findAndWarpScreen(colorFrame: Mat, gray: Mat, canonicalSize: Int): Mat? {

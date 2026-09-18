@@ -86,10 +86,12 @@ class CameraController(
             mat.put(0, 0, bytes)
         } else {
             val rowBytes = ByteArray(rowStride)
+            val rowOut = ByteArray(width * 4)
             for (row in 0 until height) {
                 buffer.position(row * rowStride)
                 buffer.get(rowBytes, 0, rowStride)
-                mat.put(row, 0, rowBytes, 0, width * 4)
+                System.arraycopy(rowBytes, 0, rowOut, 0, width * 4)
+                mat.put(row, 0, rowOut)
             }
         }
         return mat
