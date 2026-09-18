@@ -89,11 +89,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
-    // CameraX
-    implementation("androidx.camera:camera-core:1.6.2")
-    implementation("androidx.camera:camera-camera2:1.6.2")
-    implementation("androidx.camera:camera-lifecycle:1.6.2")
-    implementation("androidx.camera:camera-view:1.6.2")
+    // CameraX. Fijado en 1.4.2 (no 1.6.x): camera-video 1.6.x exige
+    // compileSdk 36+, pero AGP 8.5.2 solo soporta hasta compileSdk 34 -
+    // 1.4.2 es la ultima linea compatible con ese compileSdk.
+    implementation("androidx.camera:camera-core:1.4.2")
+    implementation("androidx.camera:camera-camera2:1.4.2")
+    implementation("androidx.camera:camera-lifecycle:1.4.2")
+    implementation("androidx.camera:camera-view:1.4.2")
 
     // OpenCV (nativo, publicado oficialmente en Maven Central desde 4.9.0)
     implementation("org.opencv:opencv:4.10.0")
