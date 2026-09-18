@@ -15,12 +15,12 @@ val versionCodeProp = (project.findProperty("versionCode") as String?)?.toIntOrN
 
 android {
     namespace = "com.memetransfer.receiver"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.memetransfer.receiver"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = versionCodeProp
         versionName = versionNameProp
 
