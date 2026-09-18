@@ -2,7 +2,7 @@
 """
 Precalcula, para los 256 memes (memes/manifest.json) mas las 2 imagenes de
 control (memes/control-start.jpg, memes/control-end.jpg), (1) su embedding
-visual via MobileNetV3Small (TensorFlow Lite) y (2) sus keypoints+
+visual via MobileNetV3Large (TensorFlow Lite) y (2) sus keypoints+
 descriptores ORB, y los serializa junto con el propio modelo .tflite en
 android/app/src/main/assets/ para que la app Android los cargue sin tener
 que recalcular nada en el dispositivo.
@@ -73,9 +73,13 @@ def extract_orb(orb, canonical_gray):
 
 
 def build_embedder():
-    """Construye MobileNetV3Small (ImageNet, feature vector antes de la
-    cabeza de clasificacion) y lo convierte a TFLite float32."""
-    model = tf.keras.applications.MobileNetV3Small(
+    """Construye MobileNetV3Large (ImageNet, feature vector antes de la
+    cabeza de clasificacion) y lo convierte a TFLite float32. Mas pesado que
+    Small (embeddingDim 960 vs 576, .tflite ~15-20MB vs ~4MB) a cambio de
+    mejor poder discriminativo - EmbeddingModel.kt en Android lee el
+    embeddingDim real del tensor de salida, no un valor fijo, asi que el
+    cambio de dimension no requiere tocar nada mas."""
+    model = tf.keras.applications.MobileNetV3Large(
         include_top=False, pooling="avg", weights="imagenet", input_shape=(EMBED_INPUT_SIZE, EMBED_INPUT_SIZE, 3)
     )
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
@@ -86,8 +90,10 @@ def build_embedder():
 def embed_with_tflite(interpreter, canonical_gray_or_rgb):
     """Corre el modelo TFLite sobre una imagen (se convierte a RGB, se
     redimensiona a 224x224, se preprocesa igual que
-    tf.keras.applications.mobilenet_v3.preprocess_input) y devuelve el
-    vector de embedding (576-d)."""
+    tf.keras.applications.mobilenet_v3.preprocess_input, funcion compartida
+    por toda la familia MobileNetV3 - Small y Large por igual) y devuelve
+    el vector de embedding (dimension segun el modelo elegido en
+    build_embedder())."""
     if canonical_gray_or_rgb.ndim == 2:
         rgb = cv2.cvtColor(canonical_gray_or_rgb, cv2.COLOR_GRAY2RGB)
     else:

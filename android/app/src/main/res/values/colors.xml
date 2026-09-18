@@ -7,4 +7,13 @@
     <color name="md_theme_surfaceVariant">#1E1E1E</color>
     <color name="debug_log_background">#000000B0</color>
     <color name="debug_log_text">#33FF33</color>
+
+    <!-- Colores semanticos explicitos: el tema solo pisa colorPrimary/
+         onPrimary/windowBackground, asi que ?attr/colorError y
+         ?attr/colorOutline caerian al baseline Material (con tinte violeta)
+         que desentona con esta paleta neutra+ambar. -->
+    <color name="md_theme_success">#66BB6A</color>
+    <color name="md_theme_error">#E57373</color>
+    <color name="md_theme_outline">#3DFFFFFF</color>
+    <color name="md_theme_onSurfaceMuted">#A0A0A0</color>
 </resources>

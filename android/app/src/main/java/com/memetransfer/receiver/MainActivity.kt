@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startReceiving() {
         binding.statusText.text = getString(R.string.status_waiting)
+        binding.statusText.setTextColor(ContextCompat.getColor(this, R.color.md_theme_onBackground))
 
         // El artefacto de OpenCV en Maven Central NO carga su libreria
         // nativa sola - hay que inicializarla explicitamente antes de tocar
@@ -137,6 +138,8 @@ class MainActivity : AppCompatActivity() {
                 visionEngine = engine,
                 onProgress = { buffer ->
                     runOnUiThread {
+                        // por si una corrida anterior dejo el texto teñido de rojo/verde
+                        binding.statusText.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.md_theme_onBackground))
                         binding.statusText.text = getString(R.string.status_receiving, buffer.size)
                         binding.bytesText.text = getString(R.string.bytes_received_format, buffer.size, buffer.toString())
                         // buffer vacio = esto es la confirmacion del START en si (todavia no
@@ -152,7 +155,9 @@ class MainActivity : AppCompatActivity() {
                 onSuccess = { text ->
                     runOnUiThread {
                         binding.statusText.text = getString(R.string.status_done)
+                        binding.statusText.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.md_theme_success))
                         binding.resultCard.visibility = android.view.View.VISIBLE
+                        binding.resultCard.strokeColor = ContextCompat.getColor(this@MainActivity, R.color.md_theme_success)
                         binding.resultText.text = text
                         debugLog.addEvent("mensaje completo: \"$text\"")
                         refreshDebugText()
@@ -161,15 +166,20 @@ class MainActivity : AppCompatActivity() {
                 onError = { error ->
                     runOnUiThread {
                         binding.statusText.text = "Error: $error"
+                        binding.statusText.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.md_theme_error))
                         debugLog.addEvent("error: $error (reiniciando escucha)")
                         refreshDebugText()
                         binding.bytesText.text = getString(R.string.bytes_received_empty)
                         // se reinicia solo para poder recibir otro intento sin reactivar la camara a mano
                         receiverEngine?.start()
                         // sin este reset el mensaje de error queda pegado en pantalla aunque el
-                        // receptor ya haya vuelto a escuchar en segundo plano
+                        // receptor ya haya vuelto a escuchar en segundo plano - el color tambien
+                        // hay que resetearlo, si no queda rojo para siempre despues del primer error
                         binding.statusText.postDelayed(
-                            { binding.statusText.text = getString(R.string.status_waiting) },
+                            {
+                                binding.statusText.text = getString(R.string.status_waiting)
+                                binding.statusText.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.md_theme_onBackground))
+                            },
                             2500,
                         )
                     }
