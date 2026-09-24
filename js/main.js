@@ -174,8 +174,10 @@ function startVision({ source, file, video, overlay, statusEl, onObs, fps = 15 }
     const reader = new FrameReader(classifier);
     if (source === "camera") {
       stream = await startCamera(video);
+      // al detener, la camara deja de dar frames: la espera tambien termina con el abort
+      const aborted = new Promise((res) => ctl.signal.addEventListener("abort", res, { once: true }));
       while (!ctl.signal.aborted) {
-        await nextVideoFrame(video);
+        await Promise.race([nextVideoFrame(video), aborted]);
         if (ctl.signal.aborted || !video.videoWidth) continue;
         const work = reader.grab(video, video.videoWidth, video.videoHeight);
         const obs = await reader.process(work, performance.now());
