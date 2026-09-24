@@ -70,10 +70,10 @@ def build_model(arch: str, pretrained: bool = True) -> nn.Module:
 
 
 def _gen_chunk(args):
-    path, lpath, start, count, size, seed, total = args
+    path, lpath, start, count, size, seed, total, focus = args
     X = np.lib.format.open_memmap(path, mode="r+")
     Y = np.lib.format.open_memmap(lpath, mode="r+")
-    s = Synth(size=size, seed=seed)
+    s = Synth(size=size, seed=seed, focus=focus)
     for i in range(start, start + count):
         X[i], Y[i] = s.sample()
     X.flush()
@@ -81,7 +81,7 @@ def _gen_chunk(args):
     return count
 
 
-def generate_pool(path: Path, n: int, size: int, seed: int, workers: int):
+def generate_pool(path: Path, n: int, size: int, seed: int, workers: int, focus=None):
     """Genera (o reutiliza) un pool de n muestras en disco."""
     lpath = path.with_suffix(".labels.npy")
     if path.exists() and lpath.exists():
@@ -93,7 +93,7 @@ def generate_pool(path: Path, n: int, size: int, seed: int, workers: int):
     np.lib.format.open_memmap(path, mode="w+", dtype=np.uint8, shape=(n, size, size, 3))
     np.lib.format.open_memmap(lpath, mode="w+", dtype=np.int16, shape=(n,))
     chunk = 500
-    jobs = [(str(path), str(lpath), s, min(chunk, n - s), size, seed * 100003 + s, n) for s in range(0, n, chunk)]
+    jobs = [(str(path), str(lpath), s, min(chunk, n - s), size, seed * 100003 + s, n, focus) for s in range(0, n, chunk)]
     t = time.time()
     done = 0
     with mp.Pool(workers) as pool:
@@ -141,13 +141,13 @@ class RealCrops(torch.utils.data.Dataset):
 
 
 class OnlineDataset(torch.utils.data.IterableDataset):
-    def __init__(self, size: int, n: int, seed: int, real: RealCrops | None = None, p_real: float = 0.0):
-        self.size, self.n, self.seed, self.real, self.p_real = size, n, seed, real, p_real
+    def __init__(self, size: int, n: int, seed: int, real: RealCrops | None = None, p_real: float = 0.0, focus=None):
+        self.size, self.n, self.seed, self.real, self.p_real, self.focus = size, n, seed, real, p_real, focus
 
     def __iter__(self):
         info = torch.utils.data.get_worker_info()
         wid, nw = (info.id, info.num_workers) if info else (0, 1)
-        s = Synth(size=self.size, seed=self.seed * 7919 + wid + int(time.time() * 1000) % 100000)
+        s = Synth(size=self.size, seed=self.seed * 7919 + wid + int(time.time() * 1000) % 100000, focus=self.focus)
         for _ in range(self.n // nw):
             if self.real is not None and len(self.real.items) and s.rng.random() < self.p_real:
                 yield self.real[int(s.rng.integers(len(self.real.items)))]
@@ -237,6 +237,7 @@ def main():
     ap.add_argument("--out", default=str(C.ROOT / "training" / "runs" / "latest"))
     ap.add_argument("--init", help="checkpoint para continuar (fine-tuning)")
     ap.add_argument("--real", help="carpeta con recortes reales etiquetados (eval_video.py --export-crops)")
+    ap.add_argument("--focus", default="", help="clases a sobremuestrear, separadas por coma (bytes, START=256, END=257)")
     ap.add_argument("--real-fraction", type=float, default=0.25, help="fraccion aproximada de muestras reales por epoca")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-minutes", type=float, default=0, help="corta el entrenamiento a este tiempo (0 = sin limite)")
@@ -250,11 +251,13 @@ def main():
     data = Path(a.data_dir)
     print(f"device={dev} arch={a.arch} size={a.size}", flush=True)
 
+    focus = [int(x) for x in a.focus.split(",") if x.strip()]
     Xv, Yv = make_val(a.size, a.val, 999, data / f"val_{a.size}.npz")
 
     if a.pool:
-        pool_path = data / f"pool_{a.size}_{a.pool}_s{a.seed}.npy"
-        generate_pool(pool_path, a.pool, a.size, a.seed + 1, a.workers + 1)
+        tag = "_f" + "-".join(map(str, focus[:6])) + (f"-n{len(focus)}" if len(focus) > 6 else "") if focus else ""
+        pool_path = data / f"pool_{a.size}_{a.pool}_s{a.seed}{tag}.npy"
+        generate_pool(pool_path, a.pool, a.size, a.seed + 1, a.workers + 1, focus)
         ds = PoolDataset(pool_path)
         if a.real:
             real = RealCrops(Path(a.real), a.size)
@@ -265,7 +268,7 @@ def main():
         steps_per_epoch = len(loader)
     else:
         real = RealCrops(Path(a.real), a.size) if a.real else None
-        ds = OnlineDataset(a.size, a.samples_per_epoch, a.seed, real, a.real_fraction)
+        ds = OnlineDataset(a.size, a.samples_per_epoch, a.seed, real, a.real_fraction, focus)
         loader = torch.utils.data.DataLoader(ds, batch_size=a.batch, num_workers=a.workers, persistent_workers=a.workers > 0, prefetch_factor=4 if a.workers else None)
         steps_per_epoch = a.samples_per_epoch // a.batch
 

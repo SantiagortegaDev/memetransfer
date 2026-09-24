@@ -3,7 +3,7 @@
 //  - Cache-first en tiempo de ejecucion para todo lo demas (los memes se
 //    cachean a medida que se usan; Calibrar los baja todos).
 // Subir CACHE_VERSION junto con APP_VERSION (js/main.js) cuando cambian los assets.
-const CACHE_VERSION = "v2.0.0";
+const CACHE_VERSION = "v2.0.1";
 const CACHE_NAME = `memetransfer-${CACHE_VERSION}`;
 
 const CORE = [

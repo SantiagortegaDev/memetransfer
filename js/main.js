@@ -8,7 +8,7 @@ import { Segmenter } from "./segmenter.js";
 import { Receiver } from "./receiver.js";
 import { Calibration, CALIBRATION_SEQUENCE } from "./calibration.js";
 
-export const APP_VERSION = "2.0.0";
+export const APP_VERSION = "2.0.1";
 
 const $ = (id) => document.getElementById(id);
 const state = { classifier: null, classFiles: null, rx: null, cal: null, session: null, debugLog: null };

@@ -39,9 +39,12 @@ CAM_SIZES = [(640, 480), (640, 360), (480, 640), (360, 640), (800, 450)]
 
 
 class Synth:
-    def __init__(self, size: int = 160, p_none: float = 0.12, seed: int = 0, images=None):
+    def __init__(self, size: int = 160, p_none: float = 0.12, seed: int = 0, images=None, focus=None, p_focus: float = 0.3):
         self.size = size
         self.p_none = p_none
+        # clases a sobremuestrear (p. ej. memes recien reemplazados)
+        self.focus = list(focus or [])
+        self.p_focus = p_focus
         self.images = images if images is not None else C.load_class_images()
         # texturas de contenido cacheadas a 2 resoluciones (interior del marco)
         self.small = [cv2.resize(im, (192, 192), interpolation=cv2.INTER_AREA) for im in self.images]
@@ -301,6 +304,8 @@ class Synth:
 
     def sample(self, label: int | None = None):
         """Devuelve (recorte size x size RGB, label)."""
+        if label is None and self.focus and self.chance(self.p_focus):
+            label = int(self.focus[int(self.rng.integers(len(self.focus)))])
         if label is None:
             u = self.rng.random()
             # START/END sobremuestreados: son las anclas de la trama

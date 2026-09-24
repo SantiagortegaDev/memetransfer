@@ -17,7 +17,8 @@ y sin apps nativas.
   las pasadas del loop se combinan votando por posición.
 
 Diseño: [docs/superpowers/specs/2026-09-23-meme-transfer-v2-design.md](docs/superpowers/specs/2026-09-23-meme-transfer-v2-design.md) ·
-Informe del experimento: [docs/REPORT.md](docs/REPORT.md)
+Informe del experimento: [docs/REPORT.md](docs/REPORT.md) ·
+Memes a reemplazar: [docs/MEMES_PROBLEMATICOS.md](docs/MEMES_PROBLEMATICOS.md)
 
 ## Uso
 

@@ -257,7 +257,7 @@ de la trama.
 ## Checklist para la prueba en teléfonos reales
 
 1. Abre <https://santiagortegadev.github.io/memetransfer/> en los dos
-   (Android Chrome + iPhone Safari). Tiene que decir **v2.0.0**; si no,
+   (Android Chrome + iPhone Safari). Tiene que decir **v2.0.1** o más; si no,
    recarga.
 2. **Calibrar primero.** Uno toca «Mostrar secuencia» (con velocidad normal
    en Enviar) y el otro «Medir con cámara» a 20-40 cm. Deja pasar la vuelta

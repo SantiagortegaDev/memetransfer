@@ -1,0 +1,5547 @@
+[
+ {
+  "cls": 256,
+  "file": "control-start.jpg",
+  "n": 150,
+  "acierto": 0.88,
+  "aceptado_ok": 0.8066666666666666,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.7923613786697388,
+  "confusiones": [
+   [
+    258,
+    18
+   ]
+  ],
+  "textura": 4.256364458119505,
+  "parecido_modelo": 0.34951406717300415,
+  "mas_parecido": 25,
+  "parecido_miniatura": 0.1478072702884674,
+  "mas_parecido_miniatura": 82,
+  "motivos": [
+   "se lee poco"
+  ],
+  "riesgo": 0.2805151104273581,
+  "nivel": "reemplazar"
+ },
+ {
+  "cls": 133,
+  "file": "4pn1an.jpg",
+  "n": 150,
+  "acierto": 0.88,
+  "aceptado_ok": 0.8133333333333334,
+  "confusion_peligrosa": 0.006666666666666667,
+  "margen": 0.8063215613365173,
+  "confusiones": [
+   [
+    258,
+    15
+   ],
+   [
+    256,
+    3
+   ]
+  ],
+  "textura": 5.876657677984678,
+  "parecido_modelo": 0.40201282501220703,
+  "mas_parecido": 159,
+  "parecido_miniatura": 0.2827841341495514,
+  "mas_parecido_miniatura": 215,
+  "motivos": [
+   "se lee poco",
+   "se confunde con otro"
+  ],
+  "riesgo": 0.22616711610076606,
+  "nivel": "reemplazar"
+ },
+ {
+  "cls": 122,
+  "file": "43a45p.jpg",
+  "n": 150,
+  "acierto": 0.9333333333333333,
+  "aceptado_ok": 0.8466666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.7741652727127075,
+  "confusiones": [
+   [
+    258,
+    9
+   ],
+   [
+    121,
+    1
+   ]
+  ],
+  "textura": 17.745456343279248,
+  "parecido_modelo": 0.46446484327316284,
+  "mas_parecido": 111,
+  "parecido_miniatura": 0.3756721615791321,
+  "mas_parecido_miniatura": 111,
+  "motivos": [
+   "se lee poco"
+  ],
+  "riesgo": 0.15333333333333332,
+  "nivel": "reemplazar"
+ },
+ {
+  "cls": 20,
+  "file": "1iruch.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.006666666666666667,
+  "margen": 0.8872449994087219,
+  "confusiones": [
+   [
+    80,
+    2
+   ]
+  ],
+  "textura": 22.120614746419626,
+  "parecido_modelo": 0.5361459255218506,
+  "mas_parecido": 80,
+  "parecido_miniatura": 0.946651816368103,
+  "mas_parecido_miniatura": 80,
+  "motivos": [
+   "se confunde con otro",
+   "casi igual a 80"
+  ],
+  "riesgo": 0.11998514970143637,
+  "nivel": "reemplazar"
+ },
+ {
+  "cls": 156,
+  "file": "5mcpl.jpg",
+  "n": 150,
+  "acierto": 0.92,
+  "aceptado_ok": 0.9,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8633100986480713,
+  "confusiones": [
+   [
+    258,
+    12
+   ]
+  ],
+  "textura": 8.557592142437114,
+  "parecido_modelo": 0.41681063175201416,
+  "mas_parecido": 143,
+  "parecido_miniatura": 0.395779013633728,
+  "mas_parecido_miniatura": 147,
+  "motivos": [
+   "se lee poco"
+  ],
+  "riesgo": 0.09999999999999998,
+  "nivel": "reemplazar"
+ },
+ {
+  "cls": 79,
+  "file": "2zj3.jpg",
+  "n": 150,
+  "acierto": 0.9266666666666666,
+  "aceptado_ok": 0.9066666666666666,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8291353583335876,
+  "confusiones": [
+   [
+    258,
+    8
+   ],
+   [
+    256,
+    3
+   ]
+  ],
+  "textura": 6.155221965456743,
+  "parecido_modelo": 0.6153589487075806,
+  "mas_parecido": 154,
+  "parecido_miniatura": 0.3261764943599701,
+  "mas_parecido_miniatura": 231,
+  "motivos": [
+   "se lee poco"
+  ],
+  "riesgo": 0.09333333333333338,
+  "nivel": "reemplazar"
+ },
+ {
+  "cls": 97,
+  "file": "3c3uom.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9266666666666666,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8144257068634033,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 10.820988833686307,
+  "parecido_modelo": 0.46116429567337036,
+  "mas_parecido": 63,
+  "parecido_miniatura": 0.5046178698539734,
+  "mas_parecido_miniatura": 207,
+  "motivos": [],
+  "riesgo": 0.07333333333333336,
+  "nivel": "opcional"
+ },
+ {
+  "cls": 80,
+  "file": "30b1gx.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8626223802566528,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 21.86674422020234,
+  "parecido_modelo": 0.5361459255218506,
+  "mas_parecido": 20,
+  "parecido_miniatura": 0.946651816368103,
+  "mas_parecido_miniatura": 20,
+  "motivos": [
+   "duplicado de 20: alcanza con reemplazar uno de los dos"
+  ],
+  "riesgo": 0.06665181636810302,
+  "nivel": "opcional"
+ },
+ {
+  "cls": 28,
+  "file": "1tkjq9.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.94,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8540815114974976,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 14.998539499980353,
+  "parecido_modelo": 0.5059698820114136,
+  "mas_parecido": 98,
+  "parecido_miniatura": 0.27711033821105957,
+  "mas_parecido_miniatura": 199,
+  "motivos": [],
+  "riesgo": 0.06000000000000005,
+  "nivel": "opcional"
+ },
+ {
+  "cls": 202,
+  "file": "8d8efg.jpg",
+  "n": 150,
+  "acierto": 0.9533333333333334,
+  "aceptado_ok": 0.94,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8841925263404846,
+  "confusiones": [
+   [
+    258,
+    7
+   ]
+  ],
+  "textura": 17.51524319361234,
+  "parecido_modelo": 0.4378402829170227,
+  "mas_parecido": 73,
+  "parecido_miniatura": 0.3592551350593567,
+  "mas_parecido_miniatura": 82,
+  "motivos": [],
+  "riesgo": 0.06000000000000005,
+  "nivel": "opcional"
+ },
+ {
+  "cls": 46,
+  "file": "29bq.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9466666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8351408839225769,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 19.27780908022429,
+  "parecido_modelo": 0.39336538314819336,
+  "mas_parecido": 232,
+  "parecido_miniatura": 0.25879746675491333,
+  "mas_parecido_miniatura": 124,
+  "motivos": [],
+  "riesgo": 0.053333333333333344,
+  "nivel": "opcional"
+ },
+ {
+  "cls": 1,
+  "file": "14nfmz.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8575654625892639,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 15.144945133810554,
+  "parecido_modelo": 0.3914671540260315,
+  "mas_parecido": 140,
+  "parecido_miniatura": 0.6730632781982422,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 31,
+  "file": "1wz1x.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8800587058067322,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 17.92028914232815,
+  "parecido_modelo": 0.375545471906662,
+  "mas_parecido": 176,
+  "parecido_miniatura": 0.34649598598480225,
+  "mas_parecido_miniatura": 233,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 53,
+  "file": "2clttv.jpg",
+  "n": 150,
+  "acierto": 0.9666666666666667,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8667386770248413,
+  "confusiones": [
+   [
+    258,
+    5
+   ]
+  ],
+  "textura": 17.529071877623718,
+  "parecido_modelo": 0.33845794200897217,
+  "mas_parecido": 196,
+  "parecido_miniatura": 0.3751918077468872,
+  "mas_parecido_miniatura": 160,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 125,
+  "file": "44eggm.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8770411610603333,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 7.30611900176327,
+  "parecido_modelo": 0.47435903549194336,
+  "mas_parecido": 71,
+  "parecido_miniatura": 0.34093809127807617,
+  "mas_parecido_miniatura": 180,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 137,
+  "file": "4vrife.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8525818586349487,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 33.53672910782919,
+  "parecido_modelo": 0.5275850296020508,
+  "mas_parecido": 111,
+  "parecido_miniatura": 0.4972643256187439,
+  "mas_parecido_miniatura": 196,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 158,
+  "file": "5pzpm5.jpg",
+  "n": 150,
+  "acierto": 0.96,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8796377182006836,
+  "confusiones": [
+   [
+    258,
+    6
+   ]
+  ],
+  "textura": 20.33510696349202,
+  "parecido_modelo": 0.5347103476524353,
+  "mas_parecido": 26,
+  "parecido_miniatura": 0.5046442151069641,
+  "mas_parecido_miniatura": 207,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 159,
+  "file": "5rk3aq.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.855771541595459,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 21.561393438073377,
+  "parecido_modelo": 0.4695127010345459,
+  "mas_parecido": 56,
+  "parecido_miniatura": 0.33454111218452454,
+  "mas_parecido_miniatura": 86,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 184,
+  "file": "725ys4.jpg",
+  "n": 150,
+  "acierto": 0.96,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8794131875038147,
+  "confusiones": [
+   [
+    258,
+    6
+   ]
+  ],
+  "textura": 25.097119497089004,
+  "parecido_modelo": 0.4083517789840698,
+  "mas_parecido": 8,
+  "parecido_miniatura": 0.5378599166870117,
+  "mas_parecido_miniatura": 47,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 196,
+  "file": "7yrgyf.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8670202493667603,
+  "confusiones": [
+   [
+    258,
+    1
+   ],
+   [
+    50,
+    1
+   ]
+  ],
+  "textura": 20.125549718152218,
+  "parecido_modelo": 0.4158470034599304,
+  "mas_parecido": 86,
+  "parecido_miniatura": 0.6900094747543335,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 210,
+  "file": "92gef0.jpg",
+  "n": 150,
+  "acierto": 0.9666666666666667,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8761093616485596,
+  "confusiones": [
+   [
+    258,
+    5
+   ]
+  ],
+  "textura": 12.969825101046155,
+  "parecido_modelo": 0.48743003606796265,
+  "mas_parecido": 143,
+  "parecido_miniatura": 0.3389541804790497,
+  "mas_parecido_miniatura": 187,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 237,
+  "file": "gk5el.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8762218356132507,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 17.96152345070994,
+  "parecido_modelo": 0.405974417924881,
+  "mas_parecido": 107,
+  "parecido_miniatura": 0.5137584209442139,
+  "mas_parecido_miniatura": 121,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 235,
+  "file": "egt3.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9533333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8677234053611755,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 11.417105728955619,
+  "parecido_modelo": 0.4162716567516327,
+  "mas_parecido": 209,
+  "parecido_miniatura": 0.31737959384918213,
+  "mas_parecido_miniatura": 104,
+  "motivos": [],
+  "riesgo": 0.046666666666666634,
+  "nivel": "bien"
+ },
+ {
+  "cls": 15,
+  "file": "1g8my4.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.837345540523529,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 18.59291020968781,
+  "parecido_modelo": 0.43384939432144165,
+  "mas_parecido": 141,
+  "parecido_miniatura": 0.4022521674633026,
+  "mas_parecido_miniatura": 101,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 5,
+  "file": "1b42wl.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.873001217842102,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 13.280524543340892,
+  "parecido_modelo": 0.3749045729637146,
+  "mas_parecido": 218,
+  "parecido_miniatura": 0.43269985914230347,
+  "mas_parecido_miniatura": 52,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 78,
+  "file": "2z9ixy.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8646692037582397,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 15.586035617825202,
+  "parecido_modelo": 0.4588809013366699,
+  "mas_parecido": 160,
+  "parecido_miniatura": 0.4093843996524811,
+  "mas_parecido_miniatura": 252,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 87,
+  "file": "34vt4i.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8798296451568604,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 17.958411640613996,
+  "parecido_modelo": 0.45878639817237854,
+  "mas_parecido": 81,
+  "parecido_miniatura": 0.6347722411155701,
+  "mas_parecido_miniatura": 167,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 111,
+  "file": "3umnr3.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8382847309112549,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 19.333498279892908,
+  "parecido_modelo": 0.5275850296020508,
+  "mas_parecido": 137,
+  "parecido_miniatura": 0.4318024814128876,
+  "mas_parecido_miniatura": 184,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 116,
+  "file": "3x8soh.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.868558406829834,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 16.70700040871438,
+  "parecido_modelo": 0.43148350715637207,
+  "mas_parecido": 14,
+  "parecido_miniatura": 0.5263826847076416,
+  "mas_parecido_miniatura": 184,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 123,
+  "file": "43hnos.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8613699674606323,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 15.330303920929609,
+  "parecido_modelo": 0.4264117479324341,
+  "mas_parecido": 213,
+  "parecido_miniatura": 0.3164491057395935,
+  "mas_parecido_miniatura": 153,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 151,
+  "file": "5c15oj.jpg",
+  "n": 150,
+  "acierto": 0.9666666666666667,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8923943638801575,
+  "confusiones": [
+   [
+    258,
+    5
+   ]
+  ],
+  "textura": 10.115923866488528,
+  "parecido_modelo": 0.5004174709320068,
+  "mas_parecido": 135,
+  "parecido_miniatura": 0.4138529300689697,
+  "mas_parecido_miniatura": 137,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 164,
+  "file": "628ogy.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8583967685699463,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 23.530603972789798,
+  "parecido_modelo": 0.44200554490089417,
+  "mas_parecido": 69,
+  "parecido_miniatura": 0.49982142448425293,
+  "mas_parecido_miniatura": 172,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 181,
+  "file": "6woq7y.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8736164569854736,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 22.31802056699498,
+  "parecido_modelo": 0.5291014909744263,
+  "mas_parecido": 158,
+  "parecido_miniatura": 0.44847774505615234,
+  "mas_parecido_miniatura": 144,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 242,
+  "file": "jafn4.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8365209698677063,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 21.212229596669655,
+  "parecido_modelo": 0.47287672758102417,
+  "mas_parecido": 90,
+  "parecido_miniatura": 0.5163047313690186,
+  "mas_parecido_miniatura": 204,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 243,
+  "file": "lntct.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.96,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8520557880401611,
+  "confusiones": [],
+  "textura": 19.079680117667696,
+  "parecido_modelo": 0.5306508541107178,
+  "mas_parecido": 203,
+  "parecido_miniatura": 0.5894871950149536,
+  "mas_parecido_miniatura": 37,
+  "motivos": [],
+  "riesgo": 0.040000000000000036,
+  "nivel": "bien"
+ },
+ {
+  "cls": 92,
+  "file": "39a10.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8731607794761658,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 5.764479776721638,
+  "parecido_modelo": 0.4459172785282135,
+  "mas_parecido": 106,
+  "parecido_miniatura": 0.24850958585739136,
+  "mas_parecido_miniatura": 228,
+  "motivos": [],
+  "riesgo": 0.03844267783058473,
+  "nivel": "bien"
+ },
+ {
+  "cls": 50,
+  "file": "2bto9v.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8289903998374939,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 31.120100181568297,
+  "parecido_modelo": 0.523959755897522,
+  "mas_parecido": 230,
+  "parecido_miniatura": 0.657676637172699,
+  "mas_parecido_miniatura": 20,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 56,
+  "file": "2f3izw.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8709396719932556,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 27.69961354551462,
+  "parecido_modelo": 0.4695127010345459,
+  "mas_parecido": 159,
+  "parecido_miniatura": 0.5054188966751099,
+  "mas_parecido_miniatura": 128,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 57,
+  "file": "2fm6x.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8725351691246033,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 17.515562790442104,
+  "parecido_modelo": 0.42548301815986633,
+  "mas_parecido": 251,
+  "parecido_miniatura": 0.7552195191383362,
+  "mas_parecido_miniatura": 219,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 68,
+  "file": "2siu6l.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8379954695701599,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 13.624687333364102,
+  "parecido_modelo": 0.47686392068862915,
+  "mas_parecido": 241,
+  "parecido_miniatura": 0.6386762261390686,
+  "mas_parecido_miniatura": 139,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 83,
+  "file": "32gy5b.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8650395274162292,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 14.079866525538703,
+  "parecido_modelo": 0.43073537945747375,
+  "mas_parecido": 223,
+  "parecido_miniatura": 0.6801093220710754,
+  "mas_parecido_miniatura": 58,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 127,
+  "file": "46hhvr.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8819106817245483,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 21.028617055891903,
+  "parecido_modelo": 0.44255945086479187,
+  "mas_parecido": 81,
+  "parecido_miniatura": 0.34117287397384644,
+  "mas_parecido_miniatura": 89,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 161,
+  "file": "5y8nni.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8741652965545654,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 12.959745081618598,
+  "parecido_modelo": 0.42288127541542053,
+  "mas_parecido": 15,
+  "parecido_miniatura": 0.4084925055503845,
+  "mas_parecido_miniatura": 43,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 208,
+  "file": "8tw3vb.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8585633039474487,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 15.195943949788507,
+  "parecido_modelo": 0.49367305636405945,
+  "mas_parecido": 23,
+  "parecido_miniatura": 0.5846028327941895,
+  "mas_parecido_miniatura": 23,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 230,
+  "file": "bwu6w.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8277438282966614,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 6.811011014787847,
+  "parecido_modelo": 0.523959755897522,
+  "mas_parecido": 50,
+  "parecido_miniatura": 0.41430801153182983,
+  "mas_parecido_miniatura": 75,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 231,
+  "file": "cdl6.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8891122937202454,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 10.628443231026564,
+  "parecido_modelo": 0.5126537680625916,
+  "mas_parecido": 79,
+  "parecido_miniatura": 0.344997376203537,
+  "mas_parecido_miniatura": 229,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 241,
+  "file": "j4o.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9666666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8531845808029175,
+  "confusiones": [
+   [
+    92,
+    1
+   ],
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 7.7328073155272055,
+  "parecido_modelo": 0.4823213219642639,
+  "mas_parecido": 79,
+  "parecido_miniatura": 0.4580790400505066,
+  "mas_parecido_miniatura": 209,
+  "motivos": [],
+  "riesgo": 0.033333333333333326,
+  "nivel": "bien"
+ },
+ {
+  "cls": 12,
+  "file": "1c81c1.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8639665842056274,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 12.79197123202696,
+  "parecido_modelo": 0.38083910942077637,
+  "mas_parecido": 152,
+  "parecido_miniatura": 0.28765442967414856,
+  "mas_parecido_miniatura": 193,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 10,
+  "file": "1bim.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8807840943336487,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 18.62788231395534,
+  "parecido_modelo": 0.4525713622570038,
+  "mas_parecido": 180,
+  "parecido_miniatura": 0.5401555299758911,
+  "mas_parecido_miniatura": 33,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 0,
+  "file": "145qvv.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8236888647079468,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 20.445611486707147,
+  "parecido_modelo": 0.45826664566993713,
+  "mas_parecido": 198,
+  "parecido_miniatura": 0.6389243602752686,
+  "mas_parecido_miniatura": 2,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 19,
+  "file": "1ihzfe.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.871631383895874,
+  "confusiones": [],
+  "textura": 10.278171098763572,
+  "parecido_modelo": 0.4820244312286377,
+  "mas_parecido": 174,
+  "parecido_miniatura": 0.2998676300048828,
+  "mas_parecido_miniatura": 141,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 35,
+  "file": "21ajtl.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8487997055053711,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 25.866842521979923,
+  "parecido_modelo": 0.4640572667121887,
+  "mas_parecido": 61,
+  "parecido_miniatura": 0.49066293239593506,
+  "mas_parecido_miniatura": 81,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 43,
+  "file": "26br.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8660668730735779,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 26.958693982340733,
+  "parecido_modelo": 0.44142255187034607,
+  "mas_parecido": 245,
+  "parecido_miniatura": 0.6959106922149658,
+  "mas_parecido_miniatura": 17,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 59,
+  "file": "2jd0vg.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.856781542301178,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 31.854799069506235,
+  "parecido_modelo": 0.482796311378479,
+  "mas_parecido": 14,
+  "parecido_miniatura": 0.41311517357826233,
+  "mas_parecido_miniatura": 77,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 60,
+  "file": "2ji8hx.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8764426708221436,
+  "confusiones": [],
+  "textura": 15.164083301733244,
+  "parecido_modelo": 0.41605091094970703,
+  "mas_parecido": 2,
+  "parecido_miniatura": 0.5510176420211792,
+  "mas_parecido_miniatura": 0,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 82,
+  "file": "31umw7.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8855022192001343,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 29.86939697291813,
+  "parecido_modelo": 0.37449002265930176,
+  "mas_parecido": 63,
+  "parecido_miniatura": 0.49996423721313477,
+  "mas_parecido_miniatura": 186,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 85,
+  "file": "33sd3d.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8468567132949829,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 15.485870158847176,
+  "parecido_modelo": 0.40404659509658813,
+  "mas_parecido": 183,
+  "parecido_miniatura": 0.4823731780052185,
+  "mas_parecido_miniatura": 252,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 104,
+  "file": "3ogfsq.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8889856934547424,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 25.947576983550686,
+  "parecido_modelo": 0.4393980801105499,
+  "mas_parecido": 127,
+  "parecido_miniatura": 0.5080162286758423,
+  "mas_parecido_miniatura": 184,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 107,
+  "file": "3rsxfo.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8946130275726318,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 21.09702620122182,
+  "parecido_modelo": 0.4600493311882019,
+  "mas_parecido": 100,
+  "parecido_miniatura": 0.37136924266815186,
+  "mas_parecido_miniatura": 87,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 115,
+  "file": "3wxq2e.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8551693558692932,
+  "confusiones": [],
+  "textura": 22.85143093220873,
+  "parecido_modelo": 0.4498904347419739,
+  "mas_parecido": 143,
+  "parecido_miniatura": 0.38797372579574585,
+  "mas_parecido_miniatura": 149,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 119,
+  "file": "40i2xy.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9197617769241333,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 17.124276778678464,
+  "parecido_modelo": 0.41708457469940186,
+  "mas_parecido": 136,
+  "parecido_miniatura": 0.4778742492198944,
+  "mas_parecido_miniatura": 204,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 121,
+  "file": "434i5j.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.864309549331665,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 12.914655006957409,
+  "parecido_modelo": 0.48966941237449646,
+  "mas_parecido": 95,
+  "parecido_miniatura": 0.5137584209442139,
+  "mas_parecido_miniatura": 237,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 132,
+  "file": "4m26bw.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8604646325111389,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.83110088402519,
+  "parecido_modelo": 0.40406256914138794,
+  "mas_parecido": 100,
+  "parecido_miniatura": 0.4075687527656555,
+  "mas_parecido_miniatura": 254,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 139,
+  "file": "4z5z7k.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8685989379882812,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 14.18320306388015,
+  "parecido_modelo": 0.4411621689796448,
+  "mas_parecido": 16,
+  "parecido_miniatura": 0.6386762261390686,
+  "mas_parecido_miniatura": 68,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 140,
+  "file": "50pihi.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.888031005859375,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 25.783916078387474,
+  "parecido_modelo": 0.5067089200019836,
+  "mas_parecido": 195,
+  "parecido_miniatura": 0.5960144996643066,
+  "mas_parecido_miniatura": 52,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 144,
+  "file": "553lym.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8903028964996338,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 29.603634417419958,
+  "parecido_modelo": 0.4648183584213257,
+  "mas_parecido": 130,
+  "parecido_miniatura": 0.44847774505615234,
+  "mas_parecido_miniatura": 181,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 147,
+  "file": "57rbka.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8965564966201782,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 28.016781903622533,
+  "parecido_modelo": 0.46899324655532837,
+  "mas_parecido": 208,
+  "parecido_miniatura": 0.4542388319969177,
+  "mas_parecido_miniatura": 58,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 148,
+  "file": "59c1hh.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.852094292640686,
+  "confusiones": [],
+  "textura": 24.477077705893915,
+  "parecido_modelo": 0.484470009803772,
+  "mas_parecido": 111,
+  "parecido_miniatura": 0.755539059638977,
+  "mas_parecido_miniatura": 58,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 149,
+  "file": "59htr4.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8525581955909729,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 21.078573574206672,
+  "parecido_modelo": 0.41832759976387024,
+  "mas_parecido": 112,
+  "parecido_miniatura": 0.6904845237731934,
+  "mas_parecido_miniatura": 23,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 162,
+  "file": "60b6bx.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8750645518302917,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 10.992474799575335,
+  "parecido_modelo": 0.4058457612991333,
+  "mas_parecido": 43,
+  "parecido_miniatura": 0.3700781464576721,
+  "mas_parecido_miniatura": 124,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 163,
+  "file": "60fx.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8919079899787903,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 22.257673408512762,
+  "parecido_modelo": 0.42564111948013306,
+  "mas_parecido": 28,
+  "parecido_miniatura": 0.5236088037490845,
+  "mas_parecido_miniatura": 252,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 168,
+  "file": "66o1m8.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8677449226379395,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 16.655134667883676,
+  "parecido_modelo": 0.4565393626689911,
+  "mas_parecido": 24,
+  "parecido_miniatura": 0.5016774535179138,
+  "mas_parecido_miniatura": 13,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 170,
+  "file": "6bwfds.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8798714280128479,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 19.139445325808648,
+  "parecido_modelo": 0.4489380121231079,
+  "mas_parecido": 251,
+  "parecido_miniatura": 0.28953224420547485,
+  "mas_parecido_miniatura": 122,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 172,
+  "file": "6dxklb.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8346725702285767,
+  "confusiones": [],
+  "textura": 25.977700209443764,
+  "parecido_modelo": 0.4787846505641937,
+  "mas_parecido": 249,
+  "parecido_miniatura": 0.6896139979362488,
+  "mas_parecido_miniatura": 249,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 174,
+  "file": "6hl94u.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8696414232254028,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 21.760988400717935,
+  "parecido_modelo": 0.5130101442337036,
+  "mas_parecido": 50,
+  "parecido_miniatura": 0.5303791165351868,
+  "mas_parecido_miniatura": 130,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 175,
+  "file": "6mk4.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8832011818885803,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 28.27438860653903,
+  "parecido_modelo": 0.5333947539329529,
+  "mas_parecido": 215,
+  "parecido_miniatura": 0.5137835741043091,
+  "mas_parecido_miniatura": 140,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 204,
+  "file": "8izcah.jpg",
+  "n": 150,
+  "acierto": 0.9733333333333334,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8548853397369385,
+  "confusiones": [
+   [
+    258,
+    4
+   ]
+  ],
+  "textura": 16.451431777693973,
+  "parecido_modelo": 0.6086990237236023,
+  "mas_parecido": 183,
+  "parecido_miniatura": 0.5992395281791687,
+  "mas_parecido_miniatura": 227,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 236,
+  "file": "emccr.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8799434304237366,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 20.78385678473558,
+  "parecido_modelo": 0.4458441734313965,
+  "mas_parecido": 71,
+  "parecido_miniatura": 0.5151406526565552,
+  "mas_parecido_miniatura": 48,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 238,
+  "file": "gx29i.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8788626790046692,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 10.505643659300866,
+  "parecido_modelo": 0.4596993327140808,
+  "mas_parecido": 40,
+  "parecido_miniatura": 0.26766738295555115,
+  "mas_parecido_miniatura": 156,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 250,
+  "file": "wczz.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8539260625839233,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 15.823697676286704,
+  "parecido_modelo": 0.45434990525245667,
+  "mas_parecido": 185,
+  "parecido_miniatura": 0.6761093139648438,
+  "mas_parecido_miniatura": 219,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 254,
+  "file": "z55dp.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9733333333333334,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8680875897407532,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 27.528592615931267,
+  "parecido_modelo": 0.4093059301376343,
+  "mas_parecido": 240,
+  "parecido_miniatura": 0.7261364459991455,
+  "mas_parecido_miniatura": 240,
+  "motivos": [],
+  "riesgo": 0.026666666666666616,
+  "nivel": "bien"
+ },
+ {
+  "cls": 13,
+  "file": "1e7ql7.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9094423055648804,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 8.384831460718246,
+  "parecido_modelo": 0.46834254264831543,
+  "mas_parecido": 183,
+  "parecido_miniatura": 0.6348701119422913,
+  "mas_parecido_miniatura": 23,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 9,
+  "file": "1bhw.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8557429909706116,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 18.55923985060731,
+  "parecido_modelo": 0.45406877994537354,
+  "mas_parecido": 42,
+  "parecido_miniatura": 0.38326704502105713,
+  "mas_parecido_miniatura": 75,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 2,
+  "file": "14wa6i.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8917909860610962,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 21.2003029554182,
+  "parecido_modelo": 0.41605091094970703,
+  "mas_parecido": 60,
+  "parecido_miniatura": 0.6389243602752686,
+  "mas_parecido_miniatura": 0,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 16,
+  "file": "1h7in3.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8890340924263,
+  "confusiones": [],
+  "textura": 12.693387904122659,
+  "parecido_modelo": 0.4756786823272705,
+  "mas_parecido": 207,
+  "parecido_miniatura": 0.44545817375183105,
+  "mas_parecido_miniatura": 226,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 25,
+  "file": "1nhqil.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8379053473472595,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 10.572520295893254,
+  "parecido_modelo": 0.4341893196105957,
+  "mas_parecido": 242,
+  "parecido_miniatura": 0.3735656440258026,
+  "mas_parecido_miniatura": 184,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 38,
+  "file": "23ls.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8751702308654785,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 17.22632502786411,
+  "parecido_modelo": 0.44304531812667847,
+  "mas_parecido": 24,
+  "parecido_miniatura": 0.6036325693130493,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 41,
+  "file": "261o3j.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8795663714408875,
+  "confusiones": [
+   [
+    116,
+    1
+   ]
+  ],
+  "textura": 13.343005168543582,
+  "parecido_modelo": 0.5125484466552734,
+  "mas_parecido": 252,
+  "parecido_miniatura": 0.5117074251174927,
+  "mas_parecido_miniatura": 190,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 42,
+  "file": "26am.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.88997483253479,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 17.188110151350703,
+  "parecido_modelo": 0.45406877994537354,
+  "mas_parecido": 9,
+  "parecido_miniatura": 0.49842509627342224,
+  "mas_parecido_miniatura": 252,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 45,
+  "file": "28j0te.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8841602802276611,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 15.525979129506435,
+  "parecido_modelo": 0.41945791244506836,
+  "mas_parecido": 34,
+  "parecido_miniatura": 0.4953939914703369,
+  "mas_parecido_miniatura": 182,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 54,
+  "file": "2eb198.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8952061533927917,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 20.326471416027974,
+  "parecido_modelo": 0.46390002965927124,
+  "mas_parecido": 208,
+  "parecido_miniatura": 0.4567015767097473,
+  "mas_parecido_miniatura": 250,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 62,
+  "file": "2kbn1e.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8907332420349121,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 20.957836905472966,
+  "parecido_modelo": 0.5015320181846619,
+  "mas_parecido": 6,
+  "parecido_miniatura": 0.7704646587371826,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 63,
+  "file": "2lcj8l.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.884560227394104,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 15.481482363185975,
+  "parecido_modelo": 0.46116429567337036,
+  "mas_parecido": 97,
+  "parecido_miniatura": 0.37212032079696655,
+  "mas_parecido_miniatura": 91,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 64,
+  "file": "2oo7h0.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8710548281669617,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 22.703894759679645,
+  "parecido_modelo": 0.351681649684906,
+  "mas_parecido": 150,
+  "parecido_miniatura": 0.44247937202453613,
+  "mas_parecido_miniatura": 158,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 72,
+  "file": "2tzo2k.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8918588757514954,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 12.986331392406694,
+  "parecido_modelo": 0.400141179561615,
+  "mas_parecido": 160,
+  "parecido_miniatura": 0.4375544786453247,
+  "mas_parecido_miniatura": 82,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 74,
+  "file": "2xscjb.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8786804676055908,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 21.054779800928937,
+  "parecido_modelo": 0.4046700596809387,
+  "mas_parecido": 24,
+  "parecido_miniatura": 0.3624710142612457,
+  "mas_parecido_miniatura": 22,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 76,
+  "file": "2yn2xy.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8664326667785645,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 17.704629959966837,
+  "parecido_modelo": 0.45947784185409546,
+  "mas_parecido": 50,
+  "parecido_miniatura": 0.5853878259658813,
+  "mas_parecido_miniatura": 86,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 84,
+  "file": "33jrni.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8757765889167786,
+  "confusiones": [],
+  "textura": 9.99035593431262,
+  "parecido_modelo": 0.3868500292301178,
+  "mas_parecido": 204,
+  "parecido_miniatura": 0.2905510365962982,
+  "mas_parecido_miniatura": 33,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 93,
+  "file": "39sjn7.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8994797468185425,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 13.68741176355546,
+  "parecido_modelo": 0.4606783390045166,
+  "mas_parecido": 158,
+  "parecido_miniatura": 0.45846110582351685,
+  "mas_parecido_miniatura": 65,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 91,
+  "file": "38iqvl.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8880188465118408,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 15.270515889804301,
+  "parecido_modelo": 0.4446903467178345,
+  "mas_parecido": 234,
+  "parecido_miniatura": 0.6099876165390015,
+  "mas_parecido_miniatura": 75,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 98,
+  "file": "3eqjd8.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8890992999076843,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 15.3001707435534,
+  "parecido_modelo": 0.5059698820114136,
+  "mas_parecido": 28,
+  "parecido_miniatura": 0.2531278431415558,
+  "mas_parecido_miniatura": 199,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 100,
+  "file": "3lmzyx.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8666936755180359,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 26.694792117281974,
+  "parecido_modelo": 0.4600493311882019,
+  "mas_parecido": 107,
+  "parecido_miniatura": 0.3953271806240082,
+  "mas_parecido_miniatura": 217,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 114,
+  "file": "3w94cq.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8888919949531555,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 17.09235680507199,
+  "parecido_modelo": 0.4221402406692505,
+  "mas_parecido": 44,
+  "parecido_miniatura": 0.43214428424835205,
+  "mas_parecido_miniatura": 6,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 118,
+  "file": "3y41j1.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8846495151519775,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 22.24441800716702,
+  "parecido_modelo": 0.45695894956588745,
+  "mas_parecido": 160,
+  "parecido_miniatura": 0.28868502378463745,
+  "mas_parecido_miniatura": 207,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 129,
+  "file": "4acd7j.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8738077878952026,
+  "confusiones": [
+   [
+    156,
+    1
+   ]
+  ],
+  "textura": 15.624129249275402,
+  "parecido_modelo": 0.4197838306427002,
+  "mas_parecido": 179,
+  "parecido_miniatura": 0.5230017900466919,
+  "mas_parecido_miniatura": 196,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 130,
+  "file": "4emb6h.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9087522625923157,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 16.8772472191246,
+  "parecido_modelo": 0.4648183584213257,
+  "mas_parecido": 144,
+  "parecido_miniatura": 0.5342745780944824,
+  "mas_parecido_miniatura": 254,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 131,
+  "file": "4fxe6m.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8444473147392273,
+  "confusiones": [],
+  "textura": 13.316891129458352,
+  "parecido_modelo": 0.4210076332092285,
+  "mas_parecido": 240,
+  "parecido_miniatura": 0.4303913116455078,
+  "mas_parecido_miniatura": 194,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 138,
+  "file": "4xgqu.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8616427183151245,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 19.85602885833951,
+  "parecido_modelo": 0.4440498948097229,
+  "mas_parecido": 246,
+  "parecido_miniatura": 0.4186302125453949,
+  "mas_parecido_miniatura": 37,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 141,
+  "file": "51rn3y.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8634731769561768,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 15.295930160573846,
+  "parecido_modelo": 0.43894171714782715,
+  "mas_parecido": 66,
+  "parecido_miniatura": 0.5483752489089966,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 146,
+  "file": "56snk0.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8871715068817139,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 16.59888031418835,
+  "parecido_modelo": 0.40917402505874634,
+  "mas_parecido": 9,
+  "parecido_miniatura": 0.25588566064834595,
+  "mas_parecido_miniatura": 196,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 166,
+  "file": "651gbi.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8890663385391235,
+  "confusiones": [],
+  "textura": 15.700248743461083,
+  "parecido_modelo": 0.4578966796398163,
+  "mas_parecido": 183,
+  "parecido_miniatura": 0.4300556182861328,
+  "mas_parecido_miniatura": 194,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 169,
+  "file": "6a9d61.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8657377362251282,
+  "confusiones": [],
+  "textura": 14.593727856018834,
+  "parecido_modelo": 0.5204470157623291,
+  "mas_parecido": 134,
+  "parecido_miniatura": 0.33836066722869873,
+  "mas_parecido_miniatura": 57,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 178,
+  "file": "6pmy.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.890556812286377,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 27.4777081786212,
+  "parecido_modelo": 0.4808874726295471,
+  "mas_parecido": 225,
+  "parecido_miniatura": 0.7024036645889282,
+  "mas_parecido_miniatura": 7,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 188,
+  "file": "7cbs4p.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8772385120391846,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 16.149447804712686,
+  "parecido_modelo": 0.5253139734268188,
+  "mas_parecido": 134,
+  "parecido_miniatura": 0.49879544973373413,
+  "mas_parecido_miniatura": 252,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 190,
+  "file": "7hyh5e.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8697022199630737,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 20.26201663694425,
+  "parecido_modelo": 0.4648628234863281,
+  "mas_parecido": 188,
+  "parecido_miniatura": 0.7313657999038696,
+  "mas_parecido_miniatura": 240,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 191,
+  "file": "7jpkga.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8879785537719727,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 16.852496988544864,
+  "parecido_modelo": 0.4301973581314087,
+  "mas_parecido": 239,
+  "parecido_miniatura": 0.5869116187095642,
+  "mas_parecido_miniatura": 178,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 192,
+  "file": "7r1vp6.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8817564249038696,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 14.512234800312662,
+  "parecido_modelo": 0.4392625689506531,
+  "mas_parecido": 206,
+  "parecido_miniatura": 0.25263914465904236,
+  "mas_parecido_miniatura": 23,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 193,
+  "file": "7s6kek.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8683618903160095,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 19.609055068771227,
+  "parecido_modelo": 0.42730626463890076,
+  "mas_parecido": 185,
+  "parecido_miniatura": 0.3183627128601074,
+  "mas_parecido_miniatura": 174,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 198,
+  "file": "836msm.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8545961976051331,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 22.269934819561538,
+  "parecido_modelo": 0.45826664566993713,
+  "mas_parecido": 0,
+  "parecido_miniatura": 0.44710537791252136,
+  "mas_parecido_miniatura": 252,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 201,
+  "file": "89148o.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.860547661781311,
+  "confusiones": [],
+  "textura": 17.777073919065963,
+  "parecido_modelo": 0.45619818568229675,
+  "mas_parecido": 81,
+  "parecido_miniatura": 0.3275243937969208,
+  "mas_parecido_miniatura": 219,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 205,
+  "file": "8k0sa.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8733422160148621,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 25.548519955440472,
+  "parecido_modelo": 0.44126662611961365,
+  "mas_parecido": 113,
+  "parecido_miniatura": 0.2740156948566437,
+  "mas_parecido_miniatura": 90,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 207,
+  "file": "8o8kdh.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9066219329833984,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.196241189637473,
+  "parecido_modelo": 0.4756786823272705,
+  "mas_parecido": 16,
+  "parecido_miniatura": 0.6139404773712158,
+  "mas_parecido_miniatura": 171,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 209,
+  "file": "8u2b.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8684728145599365,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 27.41912533341885,
+  "parecido_modelo": 0.4718758761882782,
+  "mas_parecido": 51,
+  "parecido_miniatura": 0.46073707938194275,
+  "mas_parecido_miniatura": 203,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 211,
+  "file": "98qr33.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8779855370521545,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 19.60304650578915,
+  "parecido_modelo": 0.466381698846817,
+  "mas_parecido": 61,
+  "parecido_miniatura": 0.4761247932910919,
+  "mas_parecido_miniatura": 56,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 222,
+  "file": "al6zsb.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9038752317428589,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 21.848912700668567,
+  "parecido_modelo": 0.42425620555877686,
+  "mas_parecido": 42,
+  "parecido_miniatura": 0.48547789454460144,
+  "mas_parecido_miniatura": 48,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 215,
+  "file": "9ejgym.jpg",
+  "n": 150,
+  "acierto": 0.98,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8725489377975464,
+  "confusiones": [
+   [
+    258,
+    3
+   ]
+  ],
+  "textura": 30.339993035770224,
+  "parecido_modelo": 0.5333947539329529,
+  "mas_parecido": 175,
+  "parecido_miniatura": 0.7951120138168335,
+  "mas_parecido_miniatura": 224,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 227,
+  "file": "atevl.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8573646545410156,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 19.928568132059844,
+  "parecido_modelo": 0.4599243700504303,
+  "mas_parecido": 61,
+  "parecido_miniatura": 0.5992395281791687,
+  "mas_parecido_miniatura": 204,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 229,
+  "file": "ba7o0.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8734769225120544,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 12.56003336234967,
+  "parecido_modelo": 0.4882286787033081,
+  "mas_parecido": 6,
+  "parecido_miniatura": 0.6413893103599548,
+  "mas_parecido_miniatura": 178,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 240,
+  "file": "hynx2.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8617616891860962,
+  "confusiones": [],
+  "textura": 16.078745898001575,
+  "parecido_modelo": 0.47103577852249146,
+  "mas_parecido": 209,
+  "parecido_miniatura": 0.7313657999038696,
+  "mas_parecido_miniatura": 190,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 244,
+  "file": "ls4pf.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8773950934410095,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 23.090835844413046,
+  "parecido_modelo": 0.39349499344825745,
+  "mas_parecido": 150,
+  "parecido_miniatura": 0.34286513924598694,
+  "mas_parecido_miniatura": 230,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 245,
+  "file": "nx89n.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8595458269119263,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 27.302355571414022,
+  "parecido_modelo": 0.49312686920166016,
+  "mas_parecido": 94,
+  "parecido_miniatura": 0.32176780700683594,
+  "mas_parecido_miniatura": 75,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 246,
+  "file": "o63vh.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8931512236595154,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 24.04981412016067,
+  "parecido_modelo": 0.4440498948097229,
+  "mas_parecido": 138,
+  "parecido_miniatura": 0.4363362491130829,
+  "mas_parecido_miniatura": 71,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 252,
+  "file": "yp6kp.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8902333378791809,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 13.766604917365326,
+  "parecido_modelo": 0.5125484466552734,
+  "mas_parecido": 41,
+  "parecido_miniatura": 0.5995941758155823,
+  "mas_parecido_miniatura": 48,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 255,
+  "file": "z8qna.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.98,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8624133467674255,
+  "confusiones": [],
+  "textura": 22.195072718861685,
+  "parecido_modelo": 0.41980841755867004,
+  "mas_parecido": 198,
+  "parecido_miniatura": 0.5206102132797241,
+  "mas_parecido_miniatura": 172,
+  "motivos": [],
+  "riesgo": 0.020000000000000018,
+  "nivel": "bien"
+ },
+ {
+  "cls": 14,
+  "file": "1fz8l0.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.861248791217804,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 21.639031857387305,
+  "parecido_modelo": 0.5070044994354248,
+  "mas_parecido": 3,
+  "parecido_miniatura": 0.3357100486755371,
+  "mas_parecido_miniatura": 81,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 4,
+  "file": "19vcz0.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8809338212013245,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 21.269310308427126,
+  "parecido_modelo": 0.2637586295604706,
+  "mas_parecido": 163,
+  "parecido_miniatura": 0.4768502712249756,
+  "mas_parecido_miniatura": 62,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 3,
+  "file": "151cjr.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.870116651058197,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 13.317705377780813,
+  "parecido_modelo": 0.5070044994354248,
+  "mas_parecido": 14,
+  "parecido_miniatura": 0.3439645767211914,
+  "mas_parecido_miniatura": 55,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 17,
+  "file": "1hj6i2.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8873031139373779,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 21.024286697414787,
+  "parecido_modelo": 0.39764755964279175,
+  "mas_parecido": 118,
+  "parecido_miniatura": 0.6959106922149658,
+  "mas_parecido_miniatura": 43,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 27,
+  "file": "1otk96.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9004754424095154,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 19.914466544082927,
+  "parecido_modelo": 0.4397035837173462,
+  "mas_parecido": 62,
+  "parecido_miniatura": 0.47840970754623413,
+  "mas_parecido_miniatura": 182,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 29,
+  "file": "1tl71a.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8583965301513672,
+  "confusiones": [],
+  "textura": 16.584829357607532,
+  "parecido_modelo": 0.4032740592956543,
+  "mas_parecido": 147,
+  "parecido_miniatura": 0.3348069489002228,
+  "mas_parecido_miniatura": 244,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 30,
+  "file": "1ur9b0.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8487616777420044,
+  "confusiones": [],
+  "textura": 21.29484054418114,
+  "parecido_modelo": 0.38675764203071594,
+  "mas_parecido": 109,
+  "parecido_miniatura": 0.3326037526130676,
+  "mas_parecido_miniatura": 57,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 32,
+  "file": "1x6f.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8635275363922119,
+  "confusiones": [],
+  "textura": 40.60150466056231,
+  "parecido_modelo": 0.4104962944984436,
+  "mas_parecido": 52,
+  "parecido_miniatura": 0.5169345140457153,
+  "mas_parecido_miniatura": 58,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 33,
+  "file": "1y0w2b.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8842299580574036,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 17.962174129611384,
+  "parecido_modelo": 0.4011598825454712,
+  "mas_parecido": 238,
+  "parecido_miniatura": 0.5795257687568665,
+  "mas_parecido_miniatura": 207,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 40,
+  "file": "25w3.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8932174444198608,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 9.12737538319549,
+  "parecido_modelo": 0.45975419878959656,
+  "mas_parecido": 203,
+  "parecido_miniatura": 0.3697769045829773,
+  "mas_parecido_miniatura": 82,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 47,
+  "file": "29nahn.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8763962388038635,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 28.22494121750317,
+  "parecido_modelo": 0.36163389682769775,
+  "mas_parecido": 57,
+  "parecido_miniatura": 0.5378599166870117,
+  "mas_parecido_miniatura": 184,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 48,
+  "file": "29s5ao.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8566324710845947,
+  "confusiones": [],
+  "textura": 17.54507935801636,
+  "parecido_modelo": 0.4673602879047394,
+  "mas_parecido": 242,
+  "parecido_miniatura": 0.5995941758155823,
+  "mas_parecido_miniatura": 252,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 58,
+  "file": "2gnnjh.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9109224677085876,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 23.42374336434729,
+  "parecido_modelo": 0.4582129120826721,
+  "mas_parecido": 220,
+  "parecido_miniatura": 0.7838227152824402,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 65,
+  "file": "2qst02.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8906644582748413,
+  "confusiones": [],
+  "textura": 12.839781534299787,
+  "parecido_modelo": 0.47357574105262756,
+  "mas_parecido": 66,
+  "parecido_miniatura": 0.572535514831543,
+  "mas_parecido_miniatura": 62,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 66,
+  "file": "2reqtg.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8863855004310608,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.952102629750588,
+  "parecido_modelo": 0.49793025851249695,
+  "mas_parecido": 160,
+  "parecido_miniatura": 0.4146408140659332,
+  "mas_parecido_miniatura": 34,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 73,
+  "file": "2wi9sx.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9004224538803101,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.495198624570502,
+  "parecido_modelo": 0.4378402829170227,
+  "mas_parecido": 202,
+  "parecido_miniatura": 0.34981703758239746,
+  "mas_parecido_miniatura": 93,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 86,
+  "file": "345v97.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8746860027313232,
+  "confusiones": [],
+  "textura": 33.859757310661465,
+  "parecido_modelo": 0.4158470034599304,
+  "mas_parecido": 196,
+  "parecido_miniatura": 0.6097536683082581,
+  "mas_parecido_miniatura": 214,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 94,
+  "file": "39t1o.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8795426487922668,
+  "confusiones": [],
+  "textura": 16.24165599678289,
+  "parecido_modelo": 0.49312686920166016,
+  "mas_parecido": 245,
+  "parecido_miniatura": 0.3101183772087097,
+  "mas_parecido_miniatura": 7,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 96,
+  "file": "3bdd27.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8932995796203613,
+  "confusiones": [],
+  "textura": 8.835661639861401,
+  "parecido_modelo": 0.47962498664855957,
+  "mas_parecido": 155,
+  "parecido_miniatura": 0.2850479483604431,
+  "mas_parecido_miniatura": 78,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 99,
+  "file": "3gdsh1.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8800016045570374,
+  "confusiones": [],
+  "textura": 25.852565586142624,
+  "parecido_modelo": 0.3956146240234375,
+  "mas_parecido": 245,
+  "parecido_miniatura": 0.45585542917251587,
+  "mas_parecido_miniatura": 182,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 101,
+  "file": "3m5mp.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8855219483375549,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 17.06175332545533,
+  "parecido_modelo": 0.4166933596134186,
+  "mas_parecido": 188,
+  "parecido_miniatura": 0.4022521674633026,
+  "mas_parecido_miniatura": 15,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 108,
+  "file": "3si4.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8797502517700195,
+  "confusiones": [],
+  "textura": 21.092072378787165,
+  "parecido_modelo": 0.42045706510543823,
+  "mas_parecido": 58,
+  "parecido_miniatura": 0.36355581879615784,
+  "mas_parecido_miniatura": 140,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 110,
+  "file": "3uegvk.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8868367671966553,
+  "confusiones": [],
+  "textura": 13.931326076018237,
+  "parecido_modelo": 0.5212990045547485,
+  "mas_parecido": 158,
+  "parecido_miniatura": 0.2651621401309967,
+  "mas_parecido_miniatura": 148,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 113,
+  "file": "3vtsmc.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8760695457458496,
+  "confusiones": [
+   [
+    17,
+    1
+   ]
+  ],
+  "textura": 6.315280353214817,
+  "parecido_modelo": 0.44126662611961365,
+  "mas_parecido": 205,
+  "parecido_miniatura": 0.45126745104789734,
+  "mas_parecido_miniatura": 141,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 134,
+  "file": "4t0m5.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8760949373245239,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 14.603951781131908,
+  "parecido_modelo": 0.5253139734268188,
+  "mas_parecido": 188,
+  "parecido_miniatura": 0.2744567096233368,
+  "mas_parecido_miniatura": 76,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 143,
+  "file": "54hjww.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.887420654296875,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 14.079873418283821,
+  "parecido_modelo": 0.48743003606796265,
+  "mas_parecido": 210,
+  "parecido_miniatura": 0.32230815291404724,
+  "mas_parecido_miniatura": 17,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 155,
+  "file": "5l1ue4.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8704807758331299,
+  "confusiones": [],
+  "textura": 23.88092779356372,
+  "parecido_modelo": 0.47962498664855957,
+  "mas_parecido": 96,
+  "parecido_miniatura": 0.5395796895027161,
+  "mas_parecido_miniatura": 37,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 160,
+  "file": "5v6gwj.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.898809552192688,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 12.99907099431876,
+  "parecido_modelo": 0.49793025851249695,
+  "mas_parecido": 66,
+  "parecido_miniatura": 0.6495166420936584,
+  "mas_parecido_miniatura": 247,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 167,
+  "file": "65w66.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8987991809844971,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 15.587104114260395,
+  "parecido_modelo": 0.48376965522766113,
+  "mas_parecido": 248,
+  "parecido_miniatura": 0.6467017531394958,
+  "mas_parecido_miniatura": 124,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 173,
+  "file": "6hjau6.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8779729008674622,
+  "confusiones": [],
+  "textura": 23.004159301523018,
+  "parecido_modelo": 0.38508352637290955,
+  "mas_parecido": 36,
+  "parecido_miniatura": 0.30972418189048767,
+  "mas_parecido_miniatura": 127,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 180,
+  "file": "6uvqen.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8964618444442749,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 19.626223870542486,
+  "parecido_modelo": 0.4525713622570038,
+  "mas_parecido": 10,
+  "parecido_miniatura": 0.5331398844718933,
+  "mas_parecido_miniatura": 183,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 182,
+  "file": "6z9kbk.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9089996814727783,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 18.483879326847713,
+  "parecido_modelo": 0.4174211025238037,
+  "mas_parecido": 48,
+  "parecido_miniatura": 0.5163583159446716,
+  "mas_parecido_miniatura": 207,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 183,
+  "file": "6zm5.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8983007669448853,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 18.617541320676878,
+  "parecido_modelo": 0.6086990237236023,
+  "mas_parecido": 204,
+  "parecido_miniatura": 0.5331398844718933,
+  "mas_parecido_miniatura": 180,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 187,
+  "file": "76py56.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8744471073150635,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 21.167694578604063,
+  "parecido_modelo": 0.39955276250839233,
+  "mas_parecido": 48,
+  "parecido_miniatura": 0.45179539918899536,
+  "mas_parecido_miniatura": 182,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 189,
+  "file": "7gbpun.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8875113725662231,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 26.130345506795333,
+  "parecido_modelo": 0.43335244059562683,
+  "mas_parecido": 208,
+  "parecido_miniatura": 0.6782561540603638,
+  "mas_parecido_miniatura": 254,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 199,
+  "file": "86qvej.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8704308271408081,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 20.703524112428884,
+  "parecido_modelo": 0.45848000049591064,
+  "mas_parecido": 210,
+  "parecido_miniatura": 0.5181937217712402,
+  "mas_parecido_miniatura": 255,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 223,
+  "file": "am2i.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8605795502662659,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 26.42429856291445,
+  "parecido_modelo": 0.4565144181251526,
+  "mas_parecido": 51,
+  "parecido_miniatura": 0.28107261657714844,
+  "mas_parecido_miniatura": 184,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 213,
+  "file": "9dmnbl.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8837900757789612,
+  "confusiones": [],
+  "textura": 18.715940941781405,
+  "parecido_modelo": 0.4643895626068115,
+  "mas_parecido": 50,
+  "parecido_miniatura": 0.31223157048225403,
+  "mas_parecido_miniatura": 102,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 216,
+  "file": "9qgb7.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8899585604667664,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 8.682317094799602,
+  "parecido_modelo": 0.4704160690307617,
+  "mas_parecido": 7,
+  "parecido_miniatura": 0.3836783766746521,
+  "mas_parecido_miniatura": 48,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 218,
+  "file": "9vct.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8518832921981812,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 22.558393541667318,
+  "parecido_modelo": 0.39438727498054504,
+  "mas_parecido": 72,
+  "parecido_miniatura": 0.49322932958602905,
+  "mas_parecido_miniatura": 58,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 219,
+  "file": "a08h5x.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8489625453948975,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 14.472348013379277,
+  "parecido_modelo": 0.4537177085876465,
+  "mas_parecido": 160,
+  "parecido_miniatura": 0.7552195191383362,
+  "mas_parecido_miniatura": 57,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 225,
+  "file": "asdvzx.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.878557562828064,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 24.50757394793824,
+  "parecido_modelo": 0.4808874726295471,
+  "mas_parecido": 178,
+  "parecido_miniatura": 0.4214373826980591,
+  "mas_parecido_miniatura": 126,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 226,
+  "file": "at7pw.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8845397233963013,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 23.021710935506306,
+  "parecido_modelo": 0.43371114134788513,
+  "mas_parecido": 183,
+  "parecido_miniatura": 0.5495569109916687,
+  "mas_parecido_miniatura": 57,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 239,
+  "file": "hrhu.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8920831084251404,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 17.523058485445073,
+  "parecido_modelo": 0.4630732238292694,
+  "mas_parecido": 94,
+  "parecido_miniatura": 0.4438926577568054,
+  "mas_parecido_miniatura": 75,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 248,
+  "file": "qkbjv.jpg",
+  "n": 150,
+  "acierto": 0.9866666666666667,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8699319362640381,
+  "confusiones": [
+   [
+    258,
+    2
+   ]
+  ],
+  "textura": 14.15165474538566,
+  "parecido_modelo": 0.48376965522766113,
+  "mas_parecido": 167,
+  "parecido_miniatura": 0.3713464140892029,
+  "mas_parecido_miniatura": 250,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 249,
+  "file": "vqo9n.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8736954927444458,
+  "confusiones": [],
+  "textura": 20.35981655860133,
+  "parecido_modelo": 0.4787846505641937,
+  "mas_parecido": 172,
+  "parecido_miniatura": 0.6896139979362488,
+  "mas_parecido_miniatura": 172,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 251,
+  "file": "wxica.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8823164701461792,
+  "confusiones": [],
+  "textura": 16.36509813100711,
+  "parecido_modelo": 0.4489380121231079,
+  "mas_parecido": 170,
+  "parecido_miniatura": 0.27213943004608154,
+  "mas_parecido_miniatura": 140,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 257,
+  "file": "control-end.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9866666666666667,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8592527508735657,
+  "confusiones": [],
+  "textura": 12.10916542571626,
+  "parecido_modelo": 0.453799307346344,
+  "mas_parecido": 159,
+  "parecido_miniatura": 0.14560472965240479,
+  "mas_parecido_miniatura": 67,
+  "motivos": [],
+  "riesgo": 0.013333333333333308,
+  "nivel": "bien"
+ },
+ {
+  "cls": 8,
+  "file": "1bhu.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8813382387161255,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 22.364973987411304,
+  "parecido_modelo": 0.5236351490020752,
+  "mas_parecido": 206,
+  "parecido_miniatura": 0.2536947727203369,
+  "mas_parecido_miniatura": 24,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 11,
+  "file": "1c1uej.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8790624141693115,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 24.524430435123882,
+  "parecido_modelo": 0.4360772967338562,
+  "mas_parecido": 239,
+  "parecido_miniatura": 0.4029834270477295,
+  "mas_parecido_miniatura": 77,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 6,
+  "file": "1bgw.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8731238842010498,
+  "confusiones": [],
+  "textura": 17.380977323209947,
+  "parecido_modelo": 0.5039489269256592,
+  "mas_parecido": 185,
+  "parecido_miniatura": 0.6664661169052124,
+  "mas_parecido_miniatura": 178,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 7,
+  "file": "1bh3.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8881655931472778,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 31.216952320338354,
+  "parecido_modelo": 0.4704160690307617,
+  "mas_parecido": 216,
+  "parecido_miniatura": 0.7024036645889282,
+  "mas_parecido_miniatura": 178,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 23,
+  "file": "1lj6ra.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.881391167640686,
+  "confusiones": [],
+  "textura": 27.390476099847874,
+  "parecido_modelo": 0.508668839931488,
+  "mas_parecido": 252,
+  "parecido_miniatura": 0.6904845237731934,
+  "mas_parecido_miniatura": 149,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 34,
+  "file": "1yxkcp.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8784851431846619,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 20.651172726092547,
+  "parecido_modelo": 0.4370551109313965,
+  "mas_parecido": 143,
+  "parecido_miniatura": 0.43994051218032837,
+  "mas_parecido_miniatura": 247,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 51,
+  "file": "2c47.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8884783983230591,
+  "confusiones": [],
+  "textura": 35.46648638196066,
+  "parecido_modelo": 0.5175814032554626,
+  "mas_parecido": 110,
+  "parecido_miniatura": 0.30623000860214233,
+  "mas_parecido_miniatura": 236,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 52,
+  "file": "2c8be.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8955400586128235,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 27.895445200723362,
+  "parecido_modelo": 0.434611976146698,
+  "mas_parecido": 215,
+  "parecido_miniatura": 0.5960144996643066,
+  "mas_parecido_miniatura": 140,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 70,
+  "file": "2t8r9a.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9173147678375244,
+  "confusiones": [],
+  "textura": 19.651078732059048,
+  "parecido_modelo": 0.4798465669155121,
+  "mas_parecido": 135,
+  "parecido_miniatura": 0.37962454557418823,
+  "mas_parecido_miniatura": 43,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 71,
+  "file": "2tuvr5.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8882354497909546,
+  "confusiones": [],
+  "textura": 20.342643062673414,
+  "parecido_modelo": 0.5046448707580566,
+  "mas_parecido": 181,
+  "parecido_miniatura": 0.4363362491130829,
+  "mas_parecido_miniatura": 246,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 75,
+  "file": "2ybua0.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8982645869255066,
+  "confusiones": [],
+  "textura": 18.80914396446665,
+  "parecido_modelo": 0.3974369168281555,
+  "mas_parecido": 212,
+  "parecido_miniatura": 0.8418838977813721,
+  "mas_parecido_miniatura": 20,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 77,
+  "file": "2ynjel.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.825030505657196,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 21.81746015019719,
+  "parecido_modelo": 0.430658757686615,
+  "mas_parecido": 167,
+  "parecido_miniatura": 0.5306512713432312,
+  "mas_parecido_miniatura": 62,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 89,
+  "file": "372syy.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9137893915176392,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 22.21515504275277,
+  "parecido_modelo": 0.3902183473110199,
+  "mas_parecido": 73,
+  "parecido_miniatura": 0.5311808586120605,
+  "mas_parecido_miniatura": 60,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 90,
+  "file": "377wbk.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8795942068099976,
+  "confusiones": [],
+  "textura": 14.830831627201148,
+  "parecido_modelo": 0.47287672758102417,
+  "mas_parecido": 242,
+  "parecido_miniatura": 0.327017217874527,
+  "mas_parecido_miniatura": 162,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 102,
+  "file": "3mkotw.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8780940771102905,
+  "confusiones": [],
+  "textura": 21.244290896031462,
+  "parecido_modelo": 0.4050050973892212,
+  "mas_parecido": 105,
+  "parecido_miniatura": 0.40695640444755554,
+  "mas_parecido_miniatura": 112,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 103,
+  "file": "3nx72a.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9012598395347595,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 25.165259050604934,
+  "parecido_modelo": 0.4310455918312073,
+  "mas_parecido": 39,
+  "parecido_miniatura": 0.5523337721824646,
+  "mas_parecido_miniatura": 124,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 105,
+  "file": "3omt6q.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8931962847709656,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.19896644255082,
+  "parecido_modelo": 0.4366224408149719,
+  "mas_parecido": 197,
+  "parecido_miniatura": 0.29474347829818726,
+  "mas_parecido_miniatura": 186,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 106,
+  "file": "3ous.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8431680202484131,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 17.89403095170923,
+  "parecido_modelo": 0.4578876793384552,
+  "mas_parecido": 68,
+  "parecido_miniatura": 0.2365589439868927,
+  "mas_parecido_miniatura": 144,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 117,
+  "file": "3xog.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8664632439613342,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.60688254518461,
+  "parecido_modelo": 0.48616477847099304,
+  "mas_parecido": 183,
+  "parecido_miniatura": 0.3708058297634125,
+  "mas_parecido_miniatura": 250,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 126,
+  "file": "46e43q.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8420650362968445,
+  "confusiones": [],
+  "textura": 27.424306614047833,
+  "parecido_modelo": 0.4268328845500946,
+  "mas_parecido": 179,
+  "parecido_miniatura": 0.4214373826980591,
+  "mas_parecido_miniatura": 225,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 128,
+  "file": "49gdf9.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.888092041015625,
+  "confusiones": [],
+  "textura": 14.868465675558546,
+  "parecido_modelo": 0.6181309223175049,
+  "mas_parecido": 112,
+  "parecido_miniatura": 0.64621502161026,
+  "mas_parecido_miniatura": 112,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 135,
+  "file": "4tzybx.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8858089447021484,
+  "confusiones": [],
+  "textura": 10.1737827614591,
+  "parecido_modelo": 0.5210019946098328,
+  "mas_parecido": 243,
+  "parecido_miniatura": 0.4059239327907562,
+  "mas_parecido_miniatura": 145,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 136,
+  "file": "4uaklb.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8930995464324951,
+  "confusiones": [],
+  "textura": 15.200342972618813,
+  "parecido_modelo": 0.4317539930343628,
+  "mas_parecido": 49,
+  "parecido_miniatura": 0.41677361726760864,
+  "mas_parecido_miniatura": 42,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 142,
+  "file": "54d9lj.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8732433915138245,
+  "confusiones": [],
+  "textura": 21.746592911295167,
+  "parecido_modelo": 0.41737648844718933,
+  "mas_parecido": 66,
+  "parecido_miniatura": 0.4769223630428314,
+  "mas_parecido_miniatura": 22,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 152,
+  "file": "5c7lwq.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8726711869239807,
+  "confusiones": [],
+  "textura": 13.486298257968851,
+  "parecido_modelo": 0.40559956431388855,
+  "mas_parecido": 10,
+  "parecido_miniatura": 0.28647512197494507,
+  "mas_parecido_miniatura": 224,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 154,
+  "file": "5fx7tf.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8312638998031616,
+  "confusiones": [],
+  "textura": 15.360084162036305,
+  "parecido_modelo": 0.6153589487075806,
+  "mas_parecido": 79,
+  "parecido_miniatura": 0.3992859423160553,
+  "mas_parecido_miniatura": 148,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 157,
+  "file": "5o32tt.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8924482464790344,
+  "confusiones": [],
+  "textura": 12.173931629472898,
+  "parecido_modelo": 0.47023338079452515,
+  "mas_parecido": 240,
+  "parecido_miniatura": 0.5283727049827576,
+  "mas_parecido_miniatura": 219,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 171,
+  "file": "6cqrj.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.870922863483429,
+  "confusiones": [],
+  "textura": 31.181131930287833,
+  "parecido_modelo": 0.5016506314277649,
+  "mas_parecido": 233,
+  "parecido_miniatura": 0.6139404773712158,
+  "mas_parecido_miniatura": 207,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 176,
+  "file": "6mkg.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8843575119972229,
+  "confusiones": [],
+  "textura": 15.496857925138237,
+  "parecido_modelo": 0.42306190729141235,
+  "mas_parecido": 100,
+  "parecido_miniatura": 0.4061879515647888,
+  "mas_parecido_miniatura": 57,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 177,
+  "file": "6obs1u.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8956701159477234,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 24.60016452127442,
+  "parecido_modelo": 0.39479634165763855,
+  "mas_parecido": 39,
+  "parecido_miniatura": 0.6078847646713257,
+  "mas_parecido_miniatura": 254,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 179,
+  "file": "6ss84a.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.895972728729248,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.65525024791957,
+  "parecido_modelo": 0.4984833598136902,
+  "mas_parecido": 252,
+  "parecido_miniatura": 0.4398684501647949,
+  "mas_parecido_miniatura": 42,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 186,
+  "file": "74y0mx.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9040531516075134,
+  "confusiones": [],
+  "textura": 19.408572610398902,
+  "parecido_modelo": 0.4417635202407837,
+  "mas_parecido": 58,
+  "parecido_miniatura": 0.49996423721313477,
+  "mas_parecido_miniatura": 82,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 194,
+  "file": "7ubikj.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8998196125030518,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 22.739117155929897,
+  "parecido_modelo": 0.43894749879837036,
+  "mas_parecido": 172,
+  "parecido_miniatura": 0.631561815738678,
+  "mas_parecido_miniatura": 203,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 197,
+  "file": "80gesa.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.883159875869751,
+  "confusiones": [],
+  "textura": 18.182666582918532,
+  "parecido_modelo": 0.4366224408149719,
+  "mas_parecido": 105,
+  "parecido_miniatura": 0.6658470630645752,
+  "mas_parecido_miniatura": 219,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 203,
+  "file": "8gmiw7.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8622499704360962,
+  "confusiones": [],
+  "textura": 22.267755175237877,
+  "parecido_modelo": 0.5306508541107178,
+  "mas_parecido": 243,
+  "parecido_miniatura": 0.631561815738678,
+  "mas_parecido_miniatura": 194,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 206,
+  "file": "8lxz.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8958287835121155,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 18.510877101474108,
+  "parecido_modelo": 0.5236351490020752,
+  "mas_parecido": 8,
+  "parecido_miniatura": 0.39987948536872864,
+  "mas_parecido_miniatura": 183,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 220,
+  "file": "a3vk92.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.886357843875885,
+  "confusiones": [],
+  "textura": 21.744184733097168,
+  "parecido_modelo": 0.45886915922164917,
+  "mas_parecido": 216,
+  "parecido_miniatura": 0.4355870187282562,
+  "mas_parecido_miniatura": 224,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 221,
+  "file": "ad31ut.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8819670081138611,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 16.48816075301433,
+  "parecido_modelo": 0.41634446382522583,
+  "mas_parecido": 212,
+  "parecido_miniatura": 0.4953257441520691,
+  "mas_parecido_miniatura": 13,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 212,
+  "file": "9au02y.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8943747878074646,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 12.381910781154039,
+  "parecido_modelo": 0.4206797182559967,
+  "mas_parecido": 9,
+  "parecido_miniatura": 0.33028656244277954,
+  "mas_parecido_miniatura": 234,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 214,
+  "file": "9ehk.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8862866163253784,
+  "confusiones": [],
+  "textura": 17.987977837479278,
+  "parecido_modelo": 0.4426530599594116,
+  "mas_parecido": 252,
+  "parecido_miniatura": 0.6097536683082581,
+  "mas_parecido_miniatura": 86,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 224,
+  "file": "apirkq.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8924546241760254,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 29.81144059069467,
+  "parecido_modelo": 0.4233332872390747,
+  "mas_parecido": 213,
+  "parecido_miniatura": 0.7951120138168335,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 228,
+  "file": "au5da.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8806415796279907,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 9.106616605042081,
+  "parecido_modelo": 0.3900672197341919,
+  "mas_parecido": 171,
+  "parecido_miniatura": 0.5857763290405273,
+  "mas_parecido_miniatura": 171,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 232,
+  "file": "cglt.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8434994220733643,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 21.311144427833625,
+  "parecido_modelo": 0.4819486141204834,
+  "mas_parecido": 154,
+  "parecido_miniatura": 0.2764459550380707,
+  "mas_parecido_miniatura": 184,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 233,
+  "file": "cq63t.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8899649977684021,
+  "confusiones": [],
+  "textura": 17.412819404289774,
+  "parecido_modelo": 0.5016506314277649,
+  "mas_parecido": 171,
+  "parecido_miniatura": 0.40172114968299866,
+  "mas_parecido_miniatura": 69,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 234,
+  "file": "dnn.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8912708759307861,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 19.013355004792885,
+  "parecido_modelo": 0.4446903467178345,
+  "mas_parecido": 91,
+  "parecido_miniatura": 0.33602383732795715,
+  "mas_parecido_miniatura": 185,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 247,
+  "file": "odluv.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8927144408226013,
+  "confusiones": [],
+  "textura": 15.823266720764341,
+  "parecido_modelo": 0.40121638774871826,
+  "mas_parecido": 236,
+  "parecido_miniatura": 0.6620162725448608,
+  "mas_parecido_miniatura": 75,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 253,
+  "file": "z2nqj.jpg",
+  "n": 150,
+  "acierto": 0.9933333333333333,
+  "aceptado_ok": 0.9933333333333333,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8945563435554504,
+  "confusiones": [
+   [
+    258,
+    1
+   ]
+  ],
+  "textura": 15.0658766437086,
+  "parecido_modelo": 0.3861836791038513,
+  "mas_parecido": 0,
+  "parecido_miniatura": 0.38562050461769104,
+  "mas_parecido_miniatura": 155,
+  "motivos": [],
+  "riesgo": 0.00666666666666671,
+  "nivel": "bien"
+ },
+ {
+  "cls": 18,
+  "file": "1i40lv.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8657470941543579,
+  "confusiones": [],
+  "textura": 16.009956025003543,
+  "parecido_modelo": 0.4301828444004059,
+  "mas_parecido": 68,
+  "parecido_miniatura": 0.5595367550849915,
+  "mas_parecido_miniatura": 243,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 24,
+  "file": "1mydq3.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8986765742301941,
+  "confusiones": [],
+  "textura": 23.35111501641711,
+  "parecido_modelo": 0.4565393626689911,
+  "mas_parecido": 168,
+  "parecido_miniatura": 0.4617006480693817,
+  "mas_parecido_miniatura": 23,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 26,
+  "file": "1op9wy.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8901185989379883,
+  "confusiones": [],
+  "textura": 23.343865425158242,
+  "parecido_modelo": 0.5347103476524353,
+  "mas_parecido": 158,
+  "parecido_miniatura": 0.3874000906944275,
+  "mas_parecido_miniatura": 55,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 21,
+  "file": "1itoun.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8884533643722534,
+  "confusiones": [],
+  "textura": 13.795342842652934,
+  "parecido_modelo": 0.34949928522109985,
+  "mas_parecido": 102,
+  "parecido_miniatura": 0.3521880507469177,
+  "mas_parecido_miniatura": 0,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 22,
+  "file": "1jwhww.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.893817126750946,
+  "confusiones": [],
+  "textura": 26.677550783844637,
+  "parecido_modelo": 0.4531093239784241,
+  "mas_parecido": 215,
+  "parecido_miniatura": 0.6984317898750305,
+  "mas_parecido_miniatura": 124,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 36,
+  "file": "22bdq6.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8851873874664307,
+  "confusiones": [],
+  "textura": 26.079717984755806,
+  "parecido_modelo": 0.3873428404331207,
+  "mas_parecido": 183,
+  "parecido_miniatura": 0.5483118891716003,
+  "mas_parecido_miniatura": 23,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 37,
+  "file": "23ahfi.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8839166164398193,
+  "confusiones": [],
+  "textura": 24.813028873532478,
+  "parecido_modelo": 0.40810421109199524,
+  "mas_parecido": 208,
+  "parecido_miniatura": 0.6373687982559204,
+  "mas_parecido_miniatura": 20,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 39,
+  "file": "24y43o.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8933508396148682,
+  "confusiones": [],
+  "textura": 19.75403262450867,
+  "parecido_modelo": 0.4310455918312073,
+  "mas_parecido": 103,
+  "parecido_miniatura": 0.3810955286026001,
+  "mas_parecido_miniatura": 181,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 44,
+  "file": "26jxvz.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9066025614738464,
+  "confusiones": [],
+  "textura": 30.054925034201933,
+  "parecido_modelo": 0.43700024485588074,
+  "mas_parecido": 35,
+  "parecido_miniatura": 0.3388870358467102,
+  "mas_parecido_miniatura": 61,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 49,
+  "file": "2bbctk.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8664311766624451,
+  "confusiones": [],
+  "textura": 19.787023568169623,
+  "parecido_modelo": 0.4564724862575531,
+  "mas_parecido": 245,
+  "parecido_miniatura": 0.32431483268737793,
+  "mas_parecido_miniatura": 186,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 55,
+  "file": "2eeunw.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8709478974342346,
+  "confusiones": [],
+  "textura": 32.55034456359696,
+  "parecido_modelo": 0.43487051129341125,
+  "mas_parecido": 245,
+  "parecido_miniatura": 0.3874000906944275,
+  "mas_parecido_miniatura": 26,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 61,
+  "file": "2k0qad.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8793578147888184,
+  "confusiones": [],
+  "textura": 10.987717409360414,
+  "parecido_modelo": 0.4940851330757141,
+  "mas_parecido": 41,
+  "parecido_miniatura": 0.377999871969223,
+  "mas_parecido_miniatura": 137,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 69,
+  "file": "2t5g.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8952944874763489,
+  "confusiones": [],
+  "textura": 24.74195424915341,
+  "parecido_modelo": 0.4467293918132782,
+  "mas_parecido": 195,
+  "parecido_miniatura": 0.4292026162147522,
+  "mas_parecido_miniatura": 207,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 67,
+  "file": "2rfd59.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8462207317352295,
+  "confusiones": [],
+  "textura": 10.398641073758055,
+  "parecido_modelo": 0.4709533154964447,
+  "mas_parecido": 143,
+  "parecido_miniatura": 0.412557452917099,
+  "mas_parecido_miniatura": 157,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 81,
+  "file": "3132hg.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8881038427352905,
+  "confusiones": [],
+  "textura": 23.492093201793253,
+  "parecido_modelo": 0.48962587118148804,
+  "mas_parecido": 66,
+  "parecido_miniatura": 0.49066293239593506,
+  "mas_parecido_miniatura": 35,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 95,
+  "file": "3a5eiw.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.885878324508667,
+  "confusiones": [],
+  "textura": 12.246217605535387,
+  "parecido_modelo": 0.48966941237449646,
+  "mas_parecido": 121,
+  "parecido_miniatura": 0.2342212200164795,
+  "mas_parecido_miniatura": 44,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 88,
+  "file": "35a1ly.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8886696100234985,
+  "confusiones": [],
+  "textura": 14.236181404585102,
+  "parecido_modelo": 0.39400291442871094,
+  "mas_parecido": 150,
+  "parecido_miniatura": 0.41869866847991943,
+  "mas_parecido_miniatura": 33,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 109,
+  "file": "3txag4.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8982070088386536,
+  "confusiones": [],
+  "textura": 28.976965109695882,
+  "parecido_modelo": 0.4165574908256531,
+  "mas_parecido": 159,
+  "parecido_miniatura": 0.4526175260543823,
+  "mas_parecido_miniatura": 13,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 112,
+  "file": "3vfrmx.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8953425884246826,
+  "confusiones": [],
+  "textura": 20.96271758526753,
+  "parecido_modelo": 0.6181309223175049,
+  "mas_parecido": 128,
+  "parecido_miniatura": 0.64621502161026,
+  "mas_parecido_miniatura": 128,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 120,
+  "file": "40iks.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8777732253074646,
+  "confusiones": [],
+  "textura": 17.172740142412657,
+  "parecido_modelo": 0.3377249538898468,
+  "mas_parecido": 50,
+  "parecido_miniatura": 0.36897042393684387,
+  "mas_parecido_miniatura": 200,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 124,
+  "file": "43plhr.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8822383880615234,
+  "confusiones": [],
+  "textura": 28.063646575187597,
+  "parecido_modelo": 0.39452114701271057,
+  "mas_parecido": 107,
+  "parecido_miniatura": 0.6984317898750305,
+  "mas_parecido_miniatura": 22,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 145,
+  "file": "558cgx.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9002482295036316,
+  "confusiones": [],
+  "textura": 26.141736842884125,
+  "parecido_modelo": 0.4532027840614319,
+  "mas_parecido": 245,
+  "parecido_miniatura": 0.4545266926288605,
+  "mas_parecido_miniatura": 217,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 150,
+  "file": "59qi.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.88870769739151,
+  "confusiones": [],
+  "textura": 18.963743243911875,
+  "parecido_modelo": 0.42547786235809326,
+  "mas_parecido": 48,
+  "parecido_miniatura": 0.4865543246269226,
+  "mas_parecido_miniatura": 33,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 153,
+  "file": "5efyw6.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8919830322265625,
+  "confusiones": [],
+  "textura": 12.164085061566249,
+  "parecido_modelo": 0.4765647053718567,
+  "mas_parecido": 225,
+  "parecido_miniatura": 0.4290633797645569,
+  "mas_parecido_miniatura": 48,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 165,
+  "file": "64sz4u.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.893456220626831,
+  "confusiones": [],
+  "textura": 14.30901646545031,
+  "parecido_modelo": 0.4935797452926636,
+  "mas_parecido": 134,
+  "parecido_miniatura": 0.45247983932495117,
+  "mas_parecido_miniatura": 1,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 185,
+  "file": "73sbv.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9003065824508667,
+  "confusiones": [],
+  "textura": 28.73844504186742,
+  "parecido_modelo": 0.5039489269256592,
+  "mas_parecido": 6,
+  "parecido_miniatura": 0.5513091683387756,
+  "mas_parecido_miniatura": 17,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 195,
+  "file": "7xsmkl.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.8814439177513123,
+  "confusiones": [],
+  "textura": 11.324801327912745,
+  "parecido_modelo": 0.5067089200019836,
+  "mas_parecido": 140,
+  "parecido_miniatura": 0.5348271727561951,
+  "mas_parecido_miniatura": 196,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 200,
+  "file": "86z6ix.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.9134008884429932,
+  "confusiones": [],
+  "textura": 14.386265071711001,
+  "parecido_modelo": 0.3785656690597534,
+  "mas_parecido": 222,
+  "parecido_miniatura": 0.4563373327255249,
+  "mas_parecido_miniatura": 1,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ },
+ {
+  "cls": 217,
+  "file": "9sw43.jpg",
+  "n": 150,
+  "acierto": 1.0,
+  "aceptado_ok": 1.0,
+  "confusion_peligrosa": 0.0,
+  "margen": 0.896193265914917,
+  "confusiones": [],
+  "textura": 16.840396109868657,
+  "parecido_modelo": 0.4329345226287842,
+  "mas_parecido": 71,
+  "parecido_miniatura": 0.5118318796157837,
+  "mas_parecido_miniatura": 215,
+  "motivos": [],
+  "riesgo": 0.0,
+  "nivel": "bien"
+ }
+]

@@ -4,8 +4,10 @@
   --surface-2: #26262d;
   --text: #f2f2f5;
   --muted: #a0a0ab;
-  --accent: #ff00aa;
-  --accent-text: #ffffff;
+  /* Acento blanco. El unico magenta de la app es el marco del emisor
+     (js/layout.js FRAME_COLOR): el receptor lo busca por ese color. */
+  --accent: #ffffff;
+  --accent-text: #111114;
   --ok: #3ddc84;
   --warn: #ffb020;
   --err: #ff5d6c;
@@ -265,6 +267,7 @@ button:disabled {
 
 .result a {
   color: var(--accent);
+  text-decoration: underline;
   word-break: break-all;
 }
 
@@ -355,4 +358,11 @@ button:disabled {
   background: #222;
   color: #aaa;
   min-height: 36px;
+}
+
+button:focus-visible,
+.button:focus-visible,
+.tab:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 2px;
 }
