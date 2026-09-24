@@ -197,7 +197,11 @@ function startVision({ source, file, video, overlay, statusEl, onObs, fps = 15 }
         statusEl.textContent = `Analizando video: ${Math.round((100 * t) / dur)}%`;
       }
       statusEl.textContent = ctl.signal.aborted ? "Video detenido." : "Video analizado.";
-      URL.revokeObjectURL(video.src);
+      // soltar el video antes de revocar la URL: si no, el elemento la vuelve a pedir
+      const url = video.src;
+      video.removeAttribute("src");
+      video.load();
+      URL.revokeObjectURL(url);
     }
   })().finally(() => stopCamera(stream));
   return {
@@ -312,7 +316,7 @@ function showResult(res) {
     p.append(a);
     links.append(p);
   }
-  $("rx-result-meta").textContent = `${res.payload.length} bytes · ${res.corrected} símbolos corregidos por Reed-Solomon`;
+  $("rx-result-meta").textContent = `${res.payload.length} bytes · ${res.corrected} símbolos recuperados por Reed-Solomon (mal leídos o faltantes)`;
   $("rx-result").classList.remove("hidden");
   if (state.rx?.log) state.rx.log.result = { text: res.text, corrected: res.corrected, n: res.n };
   state.lastResult = res;

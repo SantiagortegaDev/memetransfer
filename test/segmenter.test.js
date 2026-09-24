@@ -93,3 +93,16 @@ test("slots are emitted one slot late; flush emits the pending one", () => {
   seg.flush();
   assert.equal(slots.length, 4);
 });
+
+test("flush called re-entrantly from onSlot does not emit the pending slot twice", () => {
+  const slots = [];
+  const seg = new Segmenter({
+    onSlot: (s) => {
+      slots.push(s);
+      seg.flush();
+    },
+  });
+  simulateFrames([START, 1, 2, END], { pUncertain: 0, pWrong: 0, pNone: 0, fpsJitter: 0 }).forEach((f) => seg.push(f));
+  seg.flush();
+  assert.deepEqual(slots.map((s) => s.cls), [START, 1, 2, END]);
+});

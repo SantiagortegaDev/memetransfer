@@ -1,9 +1,13 @@
 """Exporta un checkpoint a ONNX para el navegador.
 
   1. ONNX fp32 (opset 17), entrada "input" [1,3,S,S] RGB en [0,1], salida "logits" [1,259]
-  2. Cuantizacion int8 estatica (QDQ, por canal) calibrada con muestras sinteticas
-  3. Evalua fp32 e int8 con onnxruntime sobre el set de validacion y elige:
-     int8 si pierde <= --max-drop puntos de precision, si no fp32
+  2. Variantes mas chicas:
+     - int8 estatica (QDQ, por canal) calibrada con muestras sinteticas. Con
+       MobileNetV3 (hardswish + SE) suele colapsar; queda por si otro modelo la tolera.
+     - "fp16w": pesos guardados en fp16 + Cast a fp32 (ORT lo pliega al
+       cargar): mitad de tamano, mismo calculo en fp32.
+  3. Evalua todas con onnxruntime sobre el set de validacion y elige la mas
+     chica que pierda <= --max-drop puntos de precision (si no, fp32)
   4. Escribe model/memes.onnx + model/labels.json (clases, archivos, tamano, metricas)
 
 Uso:
@@ -22,6 +26,7 @@ import numpy as np
 import onnx
 import onnxruntime as ort
 import torch
+from onnx import TensorProto, helper, numpy_helper
 from onnxruntime.quantization import CalibrationDataReader, QuantFormat, QuantType, quantize_static
 from onnxruntime.quantization.shape_inference import quant_pre_process
 
@@ -75,6 +80,25 @@ def onnx_eval(path: Path, X: np.ndarray, Y: np.ndarray) -> dict:
     }
 
 
+def fp16_weights(src: Path, dst: Path):
+    """Guarda los pesos en fp16 y agrega un Cast a fp32 delante de cada uno."""
+    m = onnx.load(str(src))
+    g = m.graph
+    new, casts = [], []
+    for init in list(g.initializer):
+        arr = numpy_helper.to_array(init)
+        if arr.dtype == np.float32 and arr.size > 16:
+            h = numpy_helper.from_array(arr.astype(np.float16), init.name + "_fp16")
+            new.append(h)
+            casts.append(helper.make_node("Cast", [h.name], [init.name], to=TensorProto.FLOAT, name=init.name + "_cast"))
+            g.initializer.remove(init)
+    g.initializer.extend(new)
+    for c in reversed(casts):
+        g.node.insert(0, c)
+    onnx.checker.check_model(m)
+    onnx.save(m, str(dst))
+
+
 class Reader(CalibrationDataReader):
     def __init__(self, X: np.ndarray, name: str):
         self.X, self.name, self.i = X, name, 0
@@ -95,7 +119,7 @@ def main():
     ap.add_argument("--val", type=int, default=4000)
     ap.add_argument("--calib", type=int, default=400)
     ap.add_argument("--max-drop", type=float, default=0.005)
-    ap.add_argument("--format", choices=["auto", "int8", "fp32"], default="auto")
+    ap.add_argument("--format", choices=["auto", "int8", "fp16w", "fp32"], default="auto")
     a = ap.parse_args()
 
     ck = torch.load(a.checkpoint, map_location="cpu")
@@ -123,29 +147,39 @@ def main():
 
     results = {"fp32": onnx_eval(fp32, Xv, Yv)}
     print("fp32", json.dumps(results["fp32"]))
-    chosen = fp32
-    fmt = "fp32"
+    files = {"fp32": fp32}
     if a.format in ("auto", "int8"):
         pre = work / "memes_pre.onnx"
         quant_pre_process(str(fp32), str(pre))
         # calibracion con muestras distintas de la validacion
         Xc, _ = make_val(size, a.calib, 4242, Path(a.data_dir) / f"calib_{size}.npz")
-        int8 = work / "memes_int8.onnx"
+        files["int8"] = work / "memes_int8.onnx"
         quantize_static(
             str(pre),
-            str(int8),
+            str(files["int8"]),
             Reader(Xc.numpy(), "input"),
             quant_format=QuantFormat.QDQ,
             per_channel=True,
             weight_type=QuantType.QInt8,
             activation_type=QuantType.QUInt8,
         )
-        results["int8"] = onnx_eval(int8, Xv, Yv)
-        print("int8", json.dumps(results["int8"]))
-        drop = results["fp32"]["precision_accepted"] - results["int8"]["precision_accepted"]
-        drop_acc = results["fp32"]["acc"] - results["int8"]["acc"]
-        if a.format == "int8" or (drop <= a.max_drop and drop_acc <= 2 * a.max_drop):
-            chosen, fmt = int8, "int8"
+    if a.format in ("auto", "fp16w"):
+        files["fp16w"] = work / "memes_fp16w.onnx"
+        fp16_weights(fp32, files["fp16w"])
+    for name in ("int8", "fp16w"):
+        if name in files:
+            results[name] = onnx_eval(files[name], Xv, Yv)
+            print(name, json.dumps(results[name]))
+
+    def ok(name):
+        r, b = results[name], results["fp32"]
+        return b["precision_accepted"] - r["precision_accepted"] <= a.max_drop and b["acc"] - r["acc"] <= 2 * a.max_drop
+
+    if a.format == "auto":
+        fmt = next((n for n in ("int8", "fp16w") if n in results and ok(n)), "fp32")
+    else:
+        fmt = a.format
+    chosen = files[fmt]
     target = out / "memes.onnx"
     target.write_bytes(chosen.read_bytes())
 

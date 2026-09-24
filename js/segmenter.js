@@ -112,8 +112,9 @@ export class Segmenter {
     this.lastFrameT = frame.t;
 
     if (frame.gap) {
-      if (this.frames.length) this.#close(this.frames);
-      this.frames = [];
+      const fr = this.frames;
+      this.frames = []; // antes de cerrar: el callback puede reentrar (flush)
+      if (fr.length) this.#close(fr);
       return;
     }
     this.frames.push(frame);
@@ -122,10 +123,12 @@ export class Segmenter {
 
   /** Cierra el slot en curso y emite lo pendiente (fin del video, se detuvo la camara...). */
   flush() {
-    if (this.frames.length) this.#close(this.frames);
+    const fr = this.frames;
     this.frames = [];
-    if (this.pending) this.#finalize(this.pending);
-    this.pending = null;
+    if (fr.length) this.#close(fr);
+    const p = this.pending;
+    this.pending = null; // antes de emitir: el callback puede volver a llamar a flush()
+    if (p) this.#finalize(p);
   }
 
   #maybeSplit() {
@@ -145,8 +148,8 @@ export class Segmenter {
     if (s.cls === null || s.cls === c) return;
     const winnerFrames = before.filter((f) => f.cls === s.cls).length;
     if (winnerFrames < SPLIT_RUN) return;
-    this.#close(before);
     this.frames = fr.slice(cut);
+    this.#close(before);
   }
 
   #makeSlot(frames) {
@@ -172,8 +175,8 @@ export class Segmenter {
       this.pending = this.#makeSlot([...p.rawFrames, ...frames]) ?? p;
       return;
     }
+    this.pending = slot; // antes de emitir el anterior: el callback puede reentrar (flush)
     if (p) this.#finalize(p);
-    this.pending = slot;
   }
 
   #finalize(slot) {

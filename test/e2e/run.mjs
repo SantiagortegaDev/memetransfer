@@ -138,6 +138,7 @@ await check("video-file", async () => {
   watchConsole(page, errors);
   await page.goto(base);
   await page.click("#tab-receive");
+  await page.click(".debug summary");
   await page.check("#chk-debug");
   await page.setInputFiles("#video-file", video.webm);
   await page.waitForSelector("#rx-result:not(.hidden)", { timeout: 300000 });
@@ -176,6 +177,33 @@ await check("camera", async () => {
   if (errors.length) throw new Error(errors.join("\n"));
   return perfText;
 });
+
+// ---------------------------------------------------------------- 4. calibracion con video (opcional, ~5 min)
+if (process.env.E2E_CALIBRATION || ONLY === "calibration") {
+  await check("calibration", async () => {
+    const cal = join(OUT, "calibration.webm");
+    if (!existsSync(cal)) {
+      execFileSync(PY, [join(ROOT, "training/make_video.py"), "--calibration", "--speed", "rapido", "--passes", "1.05", "--fps", "15", "--seed", "21", "--webm", cal, "--truth", join(OUT, "calibration.json")], {
+        cwd: join(ROOT, "training"),
+        stdio: ["ignore", "inherit", "inherit"],
+      });
+    }
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+    const errors = [];
+    watchConsole(page, errors);
+    await page.goto(base);
+    await page.click("#tab-calibrate");
+    await page.setInputFiles("#cal-video-file", cal);
+    await page.waitForFunction(() => /Video analizado/.test(document.getElementById("cal-model-status").textContent), null, { timeout: 900000 });
+    const s = await page.evaluate(() => window.__memetransfer.cal.cal.summary());
+    await page.screenshot({ path: join(OUT, "calibration.png"), fullPage: true });
+    await browser.close();
+    if (errors.length) throw new Error(errors.join("\n"));
+    if (s.classesSeen < 250 || s.precisionAccepted < 0.98) throw new Error(JSON.stringify(s));
+    return JSON.stringify(s);
+  });
+}
 
 server.close();
 const failed = results.filter((r) => !r.ok);
