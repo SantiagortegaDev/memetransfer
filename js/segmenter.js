@@ -25,7 +25,7 @@
 //     siguiente arranca a menos de MERGE_PERIODS periodos con la misma clase
 //     (o alguno es borrado), se unen.
 
-import { NONE } from "./protocol.js";
+import { NONE, START, END } from "./protocol.js";
 
 const SPLIT_RUN = 3;
 const MIN_FRAMES_ERASURE = 2;
@@ -33,6 +33,7 @@ const STATS_WINDOW = 21;
 const MIN_STATS = 5;
 const BREAK_PERIODS = 6;
 const MERGE_PERIODS = 0.55;
+const MIN_CONTROL_FRAMES = 2;
 
 function median(values) {
   if (!values.length) return 0;
@@ -59,8 +60,13 @@ function summarize(frames) {
       cls = c;
     }
   }
-  const share = total > 0 ? best / total : 0;
+  let share = total > 0 ? best / total : 0;
   const winnerFrames = frames.filter((f) => f.cls === cls).length;
+  // START/END cortan o cierran pasadas: un solo frame no alcanza para declararlos
+  if ((cls === START || cls === END) && winnerFrames < MIN_CONTROL_FRAMES) {
+    cls = null;
+    share = 0;
+  }
   const reliability = cls === null ? 0 : share * (1 - 0.5 ** winnerFrames);
   return { cls, share, reliability, accepted, votes: Object.fromEntries(votes) };
 }

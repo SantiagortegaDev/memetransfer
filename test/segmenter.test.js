@@ -106,3 +106,10 @@ test("flush called re-entrantly from onSlot does not emit the pending slot twice
   seg.flush();
   assert.deepEqual(slots.map((s) => s.cls), [START, 1, 2, END]);
 });
+
+test("a single frame accepted as START inside a gap does not create a START slot", () => {
+  const frames = simulateFrames(SEQ, { pUncertain: 0, pWrong: 0, pNone: 0, fpsJitter: 0, fps: 30 });
+  const g = frames.findIndex((f) => f.gap && f.t > 5 * 650 + 520);
+  frames[g] = { ...frames[g], gap: false, cls: START, p: 0.8 };
+  assert.deepEqual(segment(frames).map((s) => s.cls), SEQ);
+});
