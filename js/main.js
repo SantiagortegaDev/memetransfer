@@ -300,7 +300,7 @@ function renderSlots(rx) {
   const passes = rx.passes.length;
   const erased = syms.filter((s) => s === null).length;
   $("rx-status").textContent = pass
-    ? `${pass.hasStart ? "Pasada en curso" : "Enganchado a mitad de pasada"} · ${syms.length}/${n || "?"} memes · ${erased} dudosos · ${passes} pasadas guardadas`
+    ? `${pass.hasStart ? "Pasada en curso" : "Enganchado a mitad de pasada"} · ${syms.length}/${n || "?"} memes · ${erased} dudosos · ${passes} ${passes === 1 ? "pasada guardada" : "pasadas guardadas"}`
     : "Esperando el meme de INICIO…";
 }
 
@@ -328,6 +328,7 @@ function showResult(res) {
 function stopReceive() {
   state.session?.stop();
   state.session = null;
+  rxOverlay.getContext("2d").clearRect(0, 0, rxOverlay.width, rxOverlay.height);
   state.rx?.seg.flush();
   $("btn-camera").textContent = "Activar cámara";
 }
@@ -447,6 +448,8 @@ function startCalibration(source, file) {
 }
 
 function stopCalibration() {
+  const ov = $("cal-overlay");
+  ov.getContext("2d").clearRect(0, 0, ov.width, ov.height);
   state.calSession?.stop();
   state.calSession = null;
   state.cal?.seg.flush();
