@@ -20,7 +20,7 @@ export const CENTER_CROP_FRACTION = 0.8;
 
 export const GAP_GRID = 16;
 // Gap seguro (sin preguntar al modelo) y gap cuando el modelo dice NONE.
-export const GAP_RESIDUAL_MAX = 3.0;
+export const GAP_RESIDUAL_MAX = 2.0;
 export const GAP_RESIDUAL_NONE_MAX = 10.0;
 
 // Aceptacion de la clase de un frame.

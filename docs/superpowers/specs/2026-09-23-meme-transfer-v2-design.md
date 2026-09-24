@@ -64,7 +64,7 @@ genéricos, marcadores tipo QR y receptor nativo Android.
    (S = 160 en el modelo de CPU, lo define `labels.json`). Si no se encuentra
    el marco, se usa un recorte central del 80%.
 7. **Gap:** textura residual del recorte, calculada como el desvío de la
-   luminancia en una grilla de 16×16 después de restarle un plano. Si es < 3,
+   luminancia en una grilla de 16×16 después de restarle un plano. Si es < 2,
    es gap seguro (no se llama al modelo); si es < 10 y el modelo dice NONE
    con p ≥ 0.5, también es gap.
 
@@ -99,8 +99,12 @@ Cada muestra se arma así:
 1. **Contenido.**
    - Positivas: el meme dentro del marco. Un 8% se mezcla con gris
      (α 0.7-0.95), como en una transición que todavía se reconoce.
-   - NONE (12%): gap gris, pantalla negra o blanca, mezcla de dos memes
-     (α 0.3-0.7), meme+gris (α 0.1-0.45), o nada de pantalla.
+   - NONE (12%): gap gris, pantalla negra, mezcla de dos memes
+     (α 0.3-0.7), meme+gris (α 0.1-0.45), o nada de pantalla. No hay una
+     NONE de "pantalla blanca" porque se confundía con START, que es casi
+     blanco.
+   - START y END se sobremuestrean (5% y 3%) porque son las anclas de la
+     trama.
 2. **Pantalla.** El cuadrado va sobre una pantalla negra con bisel de color
    aleatorio. Con probabilidad 0.45 se agrega una rejilla de subpíxeles RGB
    que produce moiré real al remuestrear. Brillo y gamma del panel aleatorios.
@@ -158,8 +162,9 @@ Cada muestra se arma así:
   - Cola: END sin START, que es lo que pasa cuando el receptor se engancha a
     mitad.
 - **Decodificación**, que se intenta después de cada slot:
-  1. Largos candidatos: los de las pasadas completas y el que indica el LEN
-     leído.
+  1. Largos candidatos: los de las pasadas completas, los de las pasadas
+     END…END (por si el START no se reconoce nunca: L o L−1) y el que indica
+     el LEN leído.
   2. Votos por posición. Las pasadas con el largo justo se alinean directo;
      las que tienen hasta 4 slots de más o de menos se alinean con
      programación dinámica contra el consenso.

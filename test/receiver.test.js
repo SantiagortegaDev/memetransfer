@@ -177,3 +177,17 @@ test("random garbage never produces a (false) decode", () => {
     assert.equal(rx.pushSlot({ cls, reliability: rand() }), null);
   }
 });
+
+test("START never recognized (read as erasure or vanished): END-to-END passes still give the length", () => {
+  const text = "sin START";
+  const tx = buildTransmission(encodeText(text));
+  const body = tx.slice(1); // codeword + END
+  for (const startAs of ["erasure", "vanished"]) {
+    const rx = new Receiver();
+    const pass = startAs === "erasure" ? [null, ...body] : body;
+    let res = feedSlots(rx, pass); // la primera pasada: sin END previo, no sirve para el largo
+    assert.equal(res, null);
+    res = feedSlots(rx, pass) ?? feedSlots(rx, pass);
+    assert.equal(res?.text, text, startAs);
+  }
+});

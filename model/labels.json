@@ -1,6 +1,6 @@
 {
  "model": "memes.onnx",
- "format": "fp32",
+ "format": "fp16w",
  "arch": "mobilenet_v3_small",
  "input_size": 160,
  "input": "RGB [0,1] NCHW float32; normalizacion ImageNet dentro del grafo",
@@ -529,38 +529,48 @@
   "p": 0.6,
   "margin": 0.3
  },
- "trained_epochs": 1,
- "exported": "2026-09-24T03:17:54+00:00",
+ "trained_epochs": 10,
+ "exported": "2026-09-24T04:28:02+00:00",
  "synthetic_val": {
-  "acc": 0.9035,
-  "acc_meme": 0.9134253450439147,
-  "acc_none": 0.8645320197044335,
-  "precision_accepted": 0.9703342095381149,
-  "false_accept_rate": 0.01975,
-  "accept_rate_meme": 0.8114805520702635,
-  "latency_ms_1thread": 1.4011065165201824,
-  "size_kb": 6977
+  "acc": 0.97125,
+  "acc_meme": 0.9909033877038896,
+  "acc_none": 0.8940886699507389,
+  "precision_accepted": 0.9780770435327278,
+  "false_accept_rate": 0.0175,
+  "accept_rate_meme": 0.9796110414052698,
+  "latency_ms_1thread": 1.5060583750406902,
+  "size_kb": 3516
  },
  "synthetic_val_all": {
   "fp32": {
-   "acc": 0.9035,
-   "acc_meme": 0.9134253450439147,
-   "acc_none": 0.8645320197044335,
-   "precision_accepted": 0.9703342095381149,
-   "false_accept_rate": 0.01975,
-   "accept_rate_meme": 0.8114805520702635,
-   "latency_ms_1thread": 1.4011065165201824,
+   "acc": 0.971,
+   "acc_meme": 0.9905897114178168,
+   "acc_none": 0.8940886699507389,
+   "precision_accepted": 0.9780839073262367,
+   "false_accept_rate": 0.0175,
+   "accept_rate_meme": 0.9799247176913425,
+   "latency_ms_1thread": 1.4258146286010742,
    "size_kb": 6977
   },
   "int8": {
-   "acc": 0.199,
-   "acc_meme": 0.02132998745294856,
-   "acc_none": 0.896551724137931,
-   "precision_accepted": 0.11428571428571428,
-   "false_accept_rate": 0.02325,
-   "accept_rate_meme": 0.028858218318695106,
-   "latency_ms_1thread": 1.646582285563151,
+   "acc": 0.25075,
+   "acc_meme": 0.06932245922208281,
+   "acc_none": 0.9630541871921182,
+   "precision_accepted": 0.8571428571428571,
+   "false_accept_rate": 0.00025,
+   "accept_rate_meme": 0.0018820577164366374,
+   "latency_ms_1thread": 1.8412669499715169,
    "size_kb": 2094
+  },
+  "fp16w": {
+   "acc": 0.97125,
+   "acc_meme": 0.9909033877038896,
+   "acc_none": 0.8940886699507389,
+   "precision_accepted": 0.9780770435327278,
+   "false_accept_rate": 0.0175,
+   "accept_rate_meme": 0.9796110414052698,
+   "latency_ms_1thread": 1.5060583750406902,
+   "size_kb": 3516
   }
  }
 }

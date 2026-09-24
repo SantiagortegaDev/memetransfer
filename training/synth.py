@@ -65,13 +65,12 @@ class Synth:
                 gray = np.full_like(img, C.GAP_GRAY)
                 img = cv2.addWeighted(img, a, gray, 1 - a, 0)
             return img, label
-        kind = r.choice(["gap", "blend2", "blendgray", "black", "noscreen", "white"], p=[0.3, 0.25, 0.15, 0.08, 0.17, 0.05])
+        # (sin "pantalla blanca": se confundia con START, que es casi blanco)
+        kind = r.choice(["gap", "blend2", "blendgray", "black", "noscreen"], p=[0.33, 0.25, 0.16, 0.08, 0.18])
         if kind == "gap":
             return None, C.NONE
         if kind == "black":
             return np.zeros((64, 64, 3), np.uint8), C.NONE
-        if kind == "white":
-            return np.full((64, 64, 3), 255, np.uint8), C.NONE
         if kind == "noscreen":
             return "noscreen", C.NONE
         i, j = r.choice(len(self.small), 2, replace=False)
@@ -303,7 +302,16 @@ class Synth:
     def sample(self, label: int | None = None):
         """Devuelve (recorte size x size RGB, label)."""
         if label is None:
-            label = C.NONE if self.chance(self.p_none) else int(self.rng.integers(258))
+            u = self.rng.random()
+            # START/END sobremuestreados: son las anclas de la trama
+            if u < self.p_none:
+                label = C.NONE
+            elif u < self.p_none + 0.05:
+                label = C.START
+            elif u < self.p_none + 0.08:
+                label = C.END
+            else:
+                label = int(self.rng.integers(256))
         for _ in range(4):
             img, true_corners, lab = self.camera_image(label)
             q = C.locate_frame(img)

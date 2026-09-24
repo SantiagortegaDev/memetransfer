@@ -42,7 +42,7 @@ CENTER_CROP_FRACTION = 0.8  # recorte de respaldo si no se encuentra el marco
 
 # --- Gap (js/locator.js) -------------------------------------------------------
 GAP_GRID = 16
-GAP_RESIDUAL_MAX = 3.0  # gap seguro, sin preguntar al modelo
+GAP_RESIDUAL_MAX = 2.0  # gap seguro, sin preguntar al modelo
 GAP_RESIDUAL_NONE_MAX = 10.0  # gap si ademas el modelo dice NONE
 
 

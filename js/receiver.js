@@ -5,11 +5,12 @@
 // Una pasada puede ser:
 //   completa  START ... END            (alineada por ambos extremos)
 //   cabeza    START ... (sin END)      (alineada desde el inicio)
-//   cola      ... END   (sin START)    (alineada desde el final; pasa al engancharse a mitad)
+//   cola      ... END   (sin START)    (alineada desde el final; pasa al engancharse a mitad,
+//                                       o si el START no se reconocio)
 //
 // Decodificacion (se intenta tras cada slot):
-//  1. Largos candidatos n: largos de pasadas completas + el que indica el
-//     byte LEN leido en la posicion 0.
+//  1. Largos candidatos n: largos de pasadas completas, de pasadas END..END
+//     (por si el START no se reconoce nunca) y el que indica el byte LEN.
 //  2. Votos por posicion: pasadas con el largo justo van directo; las que
 //     tienen slots de mas o de menos se alinean contra el consenso con
 //     programacion dinamica (tipo Needleman-Wunsch).
@@ -31,8 +32,8 @@ import {
 const MAX_PASSES = 12;
 const MAX_PASS_LEN = 262;
 
-function newPass(hasStart) {
-  return { symbols: [], rel: [], hasStart, hasEnd: false, broken: false };
+function newPass(hasStart, afterEnd = false) {
+  return { symbols: [], rel: [], hasStart, hasEnd: false, afterEnd, broken: false };
 }
 
 /**
@@ -131,7 +132,8 @@ export class Receiver {
         this.current.hasEnd = true;
         this.#finish();
       }
-      this.current = newPass(false);
+      // lo que viene es una pasada entera aunque no se lea su START
+      this.current = newPass(false, true);
     } else {
       if (!this.current) this.current = newPass(false);
       this.current.symbols.push(cls);
@@ -173,6 +175,11 @@ export class Receiver {
         const L = p.symbols.length;
         add(L, 2);
         for (const d of [-2, -1, 1, 2]) add(L + d, 0.5 / Math.abs(d));
+      } else if (p.afterEnd && p.hasEnd) {
+        // END ... END sin START legible: el START quedo como un slot dudoso (L-1) o desaparecio (L)
+        const L = p.symbols.length;
+        add(L - 1, p.symbols[0] === null ? 1.5 : 1);
+        add(L, 1);
       }
       if (p.hasStart && p.symbols.length && p.symbols[0] !== null && p.symbols[0] <= MAX_PAYLOAD) {
         add(codewordLength(p.symbols[0]), 1 + p.rel[0]);
