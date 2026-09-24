@@ -1,159 +1,294 @@
-import { rgbaToGrayscale } from "./grayscale.js";
-import { findCornerMarkers, readMarkerBits, readControlMarker } from "./marker.js";
-import { SymbolStream } from "./matcher.js";
-import { createAssemblyState, advanceAssembly } from "./frame-assembler.js";
+// Receptor (logica pura, sin DOM): junta los slots del segmentador en
+// "pasadas" del loop del emisor, vota por posicion entre pasadas y
+// decodifica el codeword con Reed-Solomon.
+//
+// Una pasada puede ser:
+//   completa  START ... END            (alineada por ambos extremos)
+//   cabeza    START ... (sin END)      (alineada desde el inicio)
+//   cola      ... END   (sin START)    (alineada desde el final; pasa al engancharse a mitad)
+//
+// Decodificacion (se intenta tras cada slot):
+//  1. Largos candidatos n: largos de pasadas completas + el que indica el
+//     byte LEN leido en la posicion 0.
+//  2. Votos por posicion: pasadas con el largo justo van directo; las que
+//     tienen slots de mas o de menos se alinean contra el consenso con
+//     programacion dinamica (tipo Needleman-Wunsch).
+//  3. GMD: se prueba RS marcando como borrados los simbolos menos
+//     confiables (0, 2, 4, ...), hasta agotar la paridad. El CRC-16 decide.
+//  4. Ultimo recurso: una sola pasada con un slot de menos/de mas se prueba
+//     insertando un borrado / quitando un simbolo en cada posicion.
 
-export const TICK_MS = 120;
-export const STABLE_TICKS_REQUIRED = 3;
+import {
+  START,
+  END,
+  MAX_PAYLOAD,
+  codewordLength,
+  payloadLengthForCodeword,
+  decodeCodeword,
+  decodeText,
+} from "./protocol.js";
 
-// Tiempo maximo SIN un simbolo nuevo confirmado antes de cancelar (no el
-// tiempo total del mensaje). Se reinicia con cada byte/marcador recibido.
-export const PER_SYMBOL_TIMEOUT_MS = 5000;
+const MAX_PASSES = 12;
+const MAX_PASS_LEN = 262;
 
-// Resolucion de trabajo a la que se reduce cada frame de camara antes de
-// buscar el marcador (ver js/marker.js). No hace falta que preserve el
-// aspecto original: la homografia no le pide nada a la escala, solo a que
-// las 4 esquinas encontradas sean consistentes entre si.
-export const WORKING_SIZE = 240;
+function newPass(hasStart) {
+  return { symbols: [], rel: [], hasStart, hasEnd: false, broken: false };
+}
 
 /**
- * Orquesta la recepcion: reduce cada frame de camara a una resolucion de
- * trabajo, busca el marcador (4 esquinas), y si lo encuentra intenta leerlo
- * primero como byte de datos y, si eso falla, como marcador de control
- * (inicio/fin de transmision) - ambos usan exactamente el mismo mecanismo
- * de esquinas+firma, solo cambia que firma se exige.
+ * Alinea una pasada contra el consenso (programacion dinamica global).
+ * @returns {Map<number, number>} indice en la pasada -> posicion en el codeword
  */
+export function alignToConsensus(pass, consensus) {
+  const a = pass.symbols;
+  const b = consensus;
+  const n = a.length;
+  const m = b.length;
+  const GAP = -2;
+  const score = (x, y) => (x === null || y === null ? 0 : x === y ? 2 : -1);
+  const W = m + 1;
+  const dp = new Float64Array((n + 1) * W);
+  const bt = new Uint8Array((n + 1) * W); // 0 diag, 1 arriba (gap en b), 2 izquierda (gap en a)
+  for (let i = 1; i <= n; i++) {
+    dp[i * W] = i * GAP;
+    bt[i * W] = 1;
+  }
+  for (let j = 1; j <= m; j++) {
+    dp[j] = j * GAP;
+    bt[j] = 2;
+  }
+  for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= m; j++) {
+      const d = dp[(i - 1) * W + j - 1] + score(a[i - 1], b[j - 1]);
+      const u = dp[(i - 1) * W + j] + GAP;
+      const l = dp[i * W + j - 1] + GAP;
+      let best = d;
+      let dir = 0;
+      if (u > best) {
+        best = u;
+        dir = 1;
+      }
+      if (l > best) {
+        best = l;
+        dir = 2;
+      }
+      dp[i * W + j] = best;
+      bt[i * W + j] = dir;
+    }
+  }
+  const map = new Map();
+  let i = n;
+  let j = m;
+  while (i > 0 || j > 0) {
+    const dir = bt[i * W + j];
+    if (i > 0 && j > 0 && dir === 0) {
+      map.set(i - 1, j - 1);
+      i--;
+      j--;
+    } else if (i > 0 && (j === 0 || dir === 1)) i--;
+    else j--;
+  }
+  return map;
+}
+
 export class Receiver {
-  constructor({ videoEl, tickMs = TICK_MS, onProgress, onError, onSuccess, onDebug }) {
-    this.videoEl = videoEl;
-    this.tickMs = tickMs;
-    this.onProgress = onProgress;
-    this.onError = onError;
-    this.onSuccess = onSuccess;
-    this.onDebug = onDebug;
+  constructor() {
+    this.reset();
+  }
 
-    this.symbolStream = new SymbolStream({ stableTicksRequired: STABLE_TICKS_REQUIRED });
-    this.assemblyState = createAssemblyState();
+  reset() {
+    this.passes = [];
+    this.current = null;
+    this.result = null;
+    this.attempts = 0;
+  }
 
-    this.canvas = document.createElement("canvas");
-    this.canvas.width = WORKING_SIZE;
-    this.canvas.height = WORKING_SIZE;
-    this.ctx = this.canvas.getContext("2d", { willReadFrequently: true });
+  /** Pasada en curso (para la UI). */
+  get currentPass() {
+    return this.current;
+  }
 
-    this.intervalId = null;
-    this.timeoutId = null;
-    this.rvfcId = null;
-    this.usingRvfc = false;
-    this.lastTickAt = 0;
+  /** Largo de codeword mas probable, o 0 si todavia no se sabe. */
+  get expectedLength() {
+    return this.#candidateLengths()[0] ?? 0;
   }
 
   /**
-   * Arranca el loop de muestreo. Si el navegador soporta
-   * requestVideoFrameCallback (Chrome/Android, Safari 16.4+) se usa para
-   * garantizar que cada analisis parte de un frame de camara real y recien
-   * compuesto. El analisis en si sigue corriendo como maximo cada `tickMs`
-   * (se throttlea dentro del callback). Si no hay soporte (o videoEl es un
-   * canvas, como en los tests), cae a setInterval.
+   * Procesa un slot del segmentador.
+   * @returns {object|null} resultado decodificado (solo la primera vez que se logra)
    */
-  start() {
-    this.symbolStream.reset();
-    this.assemblyState = createAssemblyState();
-    this.lastTickAt = 0;
-
-    if (typeof this.videoEl.requestVideoFrameCallback === "function") {
-      this.usingRvfc = true;
-      const loop = (now) => {
-        if (now - this.lastTickAt >= this.tickMs) {
-          this.lastTickAt = now;
-          this._tick();
-        }
-        this.rvfcId = this.videoEl.requestVideoFrameCallback(loop);
-      };
-      this.rvfcId = this.videoEl.requestVideoFrameCallback(loop);
+  pushSlot(slot) {
+    if (slot.break) {
+      this.#finish();
+      return null;
+    }
+    const cls = slot.cls;
+    if (cls === START) {
+      this.#finish();
+      this.current = newPass(true);
+    } else if (cls === END) {
+      if (this.current) {
+        this.current.hasEnd = true;
+        this.#finish();
+      }
+      this.current = newPass(false);
     } else {
-      this.usingRvfc = false;
-      this.intervalId = setInterval(() => this._tick(), this.tickMs);
+      if (!this.current) this.current = newPass(false);
+      this.current.symbols.push(cls);
+      this.current.rel.push(cls === null ? 0 : Math.max(0.05, slot.reliability ?? 0.5));
+      if (this.current.symbols.length > MAX_PASS_LEN) this.current = newPass(false);
     }
+    if (this.result) return null;
+    const res = this.tryDecode();
+    if (res) {
+      this.result = res;
+      return res;
+    }
+    return null;
   }
 
-  stop() {
-    if (this.usingRvfc && this.rvfcId !== null) {
-      this.videoEl.cancelVideoFrameCallback?.(this.rvfcId);
-      this.rvfcId = null;
-    }
-    if (this.intervalId !== null) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
-    this._clearTimeout();
+  #finish() {
+    const p = this.current;
+    this.current = null;
+    if (!p || !p.symbols.length) return;
+    if (!p.hasStart && !p.hasEnd) return; // sin ancla no sirve para alinear
+    this.passes.push(p);
+    if (this.passes.length > MAX_PASSES) this.passes.shift();
   }
 
-  _clearTimeout() {
-    if (this.timeoutId !== null) {
-      clearTimeout(this.timeoutId);
-      this.timeoutId = null;
-    }
+  #anchoredPasses() {
+    const list = [...this.passes];
+    if (this.current?.hasStart && this.current.symbols.length) list.push(this.current);
+    return list;
   }
 
-  _armTimeout() {
-    this._clearTimeout();
-    this.timeoutId = setTimeout(() => {
-      this.stop();
-      this.symbolStream.reset();
-      this.assemblyState = createAssemblyState();
-      this.onError?.("timeout");
-    }, PER_SYMBOL_TIMEOUT_MS);
-  }
-
-  _tick() {
-    const vw = this.videoEl.videoWidth || this.videoEl.width;
-    const vh = this.videoEl.videoHeight || this.videoEl.height;
-    this.ctx.drawImage(this.videoEl, 0, 0, vw, vh, 0, 0, WORKING_SIZE, WORKING_SIZE);
-    const { data } = this.ctx.getImageData(0, 0, WORKING_SIZE, WORKING_SIZE);
-    const gray = rgbaToGrayscale(data);
-
-    const corners = findCornerMarkers(gray, WORKING_SIZE, WORKING_SIZE);
-    let decodedByte = null;
-    let controlMarker = null;
-    if (corners) {
-      decodedByte = readMarkerBits(gray, WORKING_SIZE, WORKING_SIZE, corners);
-      if (decodedByte === null) {
-        controlMarker = readControlMarker(gray, WORKING_SIZE, WORKING_SIZE, corners);
+  #candidateLengths() {
+    const support = new Map();
+    const add = (n, w) => {
+      if (payloadLengthForCodeword(n) < 0) return;
+      support.set(n, (support.get(n) ?? 0) + w);
+    };
+    for (const p of this.#anchoredPasses()) {
+      if (p.hasStart && p.hasEnd) {
+        const L = p.symbols.length;
+        add(L, 2);
+        for (const d of [-2, -1, 1, 2]) add(L + d, 0.5 / Math.abs(d));
+      }
+      if (p.hasStart && p.symbols.length && p.symbols[0] !== null && p.symbols[0] <= MAX_PAYLOAD) {
+        add(codewordLength(p.symbols[0]), 1 + p.rel[0]);
       }
     }
+    return [...support.entries()].sort((a, b) => b[1] - a[1]).map(([n]) => n);
+  }
 
-    const observedValue = decodedByte !== null ? decodedByte : controlMarker;
-    // "UNREADABLE": se encontraron esquinas (algo con la forma de un
-    // marcador) pero ni los datos ni la firma de control coincidieron - util
-    // para diagnosticar en el log de debug, distinto de "no hay nada".
-    const category = decodedByte !== null ? "MARKER" : controlMarker ? controlMarker : corners ? "UNREADABLE" : null;
+  #votes(n) {
+    const votes = Array.from({ length: n }, () => new Map());
+    const cast = (pos, sym, w) => {
+      if (sym === null || pos < 0 || pos >= n) return;
+      votes[pos].set(sym, (votes[pos].get(sym) ?? 0) + w);
+    };
+    const passes = this.#anchoredPasses();
+    const misaligned = [];
+    for (const p of passes) {
+      const L = p.symbols.length;
+      if (p.hasStart && p.hasEnd) {
+        if (L === n) p.symbols.forEach((s, i) => cast(i, s, p.rel[i]));
+        else if (Math.abs(L - n) <= 4) misaligned.push(p);
+      } else if (p.hasStart) {
+        if (L <= n + 2) p.symbols.forEach((s, i) => cast(i, s, p.rel[i]));
+      } else if (p.hasEnd) {
+        if (L <= n + 2) p.symbols.forEach((s, i) => cast(n - L + i, s, p.rel[i]));
+      }
+    }
+    if (misaligned.length) {
+      const consensus = votes.map((v) => best(v).sym);
+      if (consensus.some((s) => s !== null)) {
+        for (const p of misaligned) {
+          for (const [i, pos] of alignToConsensus(p, consensus)) cast(pos, p.symbols[i], 0.7 * p.rel[i]);
+        }
+      }
+    }
+    return votes;
+  }
 
-    this.onDebug?.({
-      category,
-      decodedByte,
-      cornersFound: !!corners,
-      matched: observedValue !== null,
-      canvas: this.canvas,
+  /** Intenta decodificar con todo lo acumulado. */
+  tryDecode() {
+    for (const n of this.#candidateLengths().slice(0, 4)) {
+      const res = this.#decodeFromVotes(n) ?? this.#decodeShifted(n);
+      if (res) return res;
+    }
+    return null;
+  }
+
+  #decodeFromVotes(n) {
+    const votes = this.#votes(n);
+    const nsym = n - (payloadLengthForCodeword(n) + 3);
+    const word = [];
+    const scored = [];
+    let empty = 0;
+    votes.forEach((v, pos) => {
+      const b = best(v);
+      word.push(b.sym);
+      if (b.sym === null) empty++;
+      else scored.push({ pos, margin: b.margin });
     });
-
-    const event = this.symbolStream.tick(observedValue);
-    if (!event) return;
-
-    const { state, done } = advanceAssembly(this.assemblyState, event);
-    this.assemblyState = state;
-
-    if (state.receiving) {
-      this._armTimeout();
-      this.onProgress?.(state.buffer.length, null);
+    if (empty > nsym) return null;
+    scored.sort((a, b) => a.margin - b.margin);
+    for (let extra = 0; empty + extra <= nsym; extra += 2) {
+      const erase = scored.slice(0, extra).map((s) => s.pos);
+      const res = this.#attempt(word, erase);
+      if (res) return res;
+      if (extra >= scored.length) break;
     }
+    return null;
+  }
 
-    if (done) {
-      this.stop();
-      if (done.ok) {
-        this.onSuccess?.(done.text);
-      } else {
-        this.onError?.(done.error);
+  #decodeShifted(n) {
+    for (const p of this.#anchoredPasses().reverse()) {
+      if (!(p.hasStart && p.hasEnd)) continue;
+      const L = p.symbols.length;
+      if (L === n - 1) {
+        for (let i = 0; i <= L; i++) {
+          const res = this.#attempt([...p.symbols.slice(0, i), null, ...p.symbols.slice(i)], []);
+          if (res) return res;
+        }
+      } else if (L === n + 1) {
+        for (let i = 0; i < L; i++) {
+          const res = this.#attempt([...p.symbols.slice(0, i), ...p.symbols.slice(i + 1)], []);
+          if (res) return res;
+        }
       }
     }
+    return null;
   }
+
+  #attempt(word, erase) {
+    this.attempts++;
+    try {
+      const { payload, corrected } = decodeCodeword(word, erase);
+      return {
+        payload,
+        text: decodeText(payload),
+        corrected: corrected.length,
+        passes: this.passes.length + (this.current?.hasStart ? 1 : 0),
+        n: word.length,
+      };
+    } catch {
+      return null;
+    }
+  }
+}
+
+function best(map) {
+  let sym = null;
+  let w1 = 0;
+  let w2 = 0;
+  for (const [s, w] of map) {
+    if (w > w1) {
+      w2 = w1;
+      w1 = w;
+      sym = s;
+    } else if (w > w2) w2 = w;
+  }
+  return { sym, margin: w1 - w2 };
 }
