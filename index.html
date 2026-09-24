@@ -2,90 +2,139 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111114" />
+  <meta name="description" content="Manda texto o URLs de un teléfono a otro mostrando una secuencia de memes a la cámara." />
   <title>Meme Transfer</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="app-header">
-    <h1>Meme Transfer <span id="app-version" class="app-version">v11</span></h1>
-    <p class="subtitle">Mandá texto o URLs entre dispositivos mostrando memes a la cámara.</p>
+    <h1>Meme Transfer <span id="app-version" class="app-version"></span></h1>
+    <p class="subtitle">Cada meme vale un byte. Un teléfono los muestra, el otro los lee con la cámara.</p>
   </header>
 
-  <section id="loading-screen" class="panel">
-    <p>Cargando diccionario de memes…</p>
-    <progress id="loading-progress" max="258" value="0"></progress>
-    <p id="loading-count">0 / 258</p>
-  </section>
+  <nav class="tabs" role="tablist">
+    <button id="tab-send" class="tab active" role="tab" aria-selected="true" data-panel="panel-send" type="button">Enviar</button>
+    <button id="tab-receive" class="tab" role="tab" aria-selected="false" data-panel="panel-receive" type="button">Recibir</button>
+    <button id="tab-calibrate" class="tab" role="tab" aria-selected="false" data-panel="panel-calibrate" type="button">Calibrar</button>
+  </nav>
 
-  <div id="app" class="app hidden">
-    <nav class="mode-tabs">
-      <button id="tab-send" class="mode-tab active" type="button">Enviar</button>
-      <button id="tab-receive" class="mode-tab" type="button">Recibir</button>
-    </nav>
+  <main>
+    <!-- ================= ENVIAR ================= -->
+    <section id="panel-send" class="panel" role="tabpanel">
+      <label for="message-input" class="field-label">Mensaje (texto o URL)</label>
+      <textarea id="message-input" rows="4" placeholder="Escribe acá…" autocomplete="off"></textarea>
+      <p class="meta"><span id="byte-count">0</span>/<span id="byte-max">188</span> bytes · <span id="symbol-count">0</span> memes por pasada · <span id="pass-time">0 s</span> por pasada</p>
 
-    <section id="panel-send" class="panel">
-      <p class="hint">Activá primero la cámara en "Recibir" del otro dispositivo — el receptor queda escuchando todo el tiempo, así que podés enviar cuando quieras.</p>
-      <label for="message-input">Mensaje (texto o URL)</label>
-      <textarea id="message-input" maxlength="100" rows="3" placeholder="Escribí acá..."></textarea>
-      <p><span id="char-count">0</span>/100 caracteres</p>
-      <button id="btn-send" type="button">Enviar</button>
+      <label for="speed-select" class="field-label">Velocidad</label>
+      <select id="speed-select">
+        <option value="lento">Lenta (0,7 s por meme)</option>
+        <option value="normal" selected>Normal (0,5 s por meme)</option>
+        <option value="rapido">Rápida (0,32 s por meme)</option>
+      </select>
 
-      <div id="send-error" class="error hidden"></div>
-
-      <div id="send-stage" class="hidden">
-        <div id="meme-screen" class="meme-screen"></div>
-        <progress id="send-progress" max="1" value="0"></progress>
-        <p id="send-status"></p>
-        <button id="btn-resend" class="hidden" type="button">Reenviar</button>
-      </div>
+      <button id="btn-transmit" class="primary" type="button" disabled>Transmitir</button>
+      <p id="send-error" class="error hidden" role="alert"></p>
+      <p class="hint">La transmisión se repite en loop hasta que tocas «Detener»: el receptor puede engancharse a mitad y junta votos de varias pasadas. Sube el brillo al máximo.</p>
     </section>
 
-    <section id="panel-receive" class="panel hidden">
-      <div class="camera-controls">
-        <button id="btn-camera-toggle" type="button">Activar cámara</button>
-        <button id="btn-camera-switch" class="hidden" type="button">Cambiar cámara</button>
+    <!-- ================= RECIBIR ================= -->
+    <section id="panel-receive" class="panel hidden" role="tabpanel">
+      <div class="row">
+        <button id="btn-camera" class="primary" type="button">Activar cámara</button>
+        <label class="button secondary" for="video-file">Cargar video</label>
+        <input id="video-file" type="file" accept="video/*" class="visually-hidden" />
       </div>
-      <label class="debug-toggle">
-        <input id="chk-debug-mode" type="checkbox" />
-        Modo debug (guardar log detallado de cada frame)
-      </label>
-      <div class="camera-frame">
-        <video id="camera-preview" playsinline muted></video>
-        <div class="camera-guide" aria-hidden="true"></div>
-      </div>
-      <p class="hint">Apuntá al meme completo (con su marco negro y las esquinas blancas) — no hace falta que quede perfecto, el sistema busca las esquinas solo. Podés activar la cámara antes de que el emisor toque "Enviar" — queda escuchando todo el tiempo.</p>
+      <p id="rx-model-status" class="meta"></p>
 
-      <div id="debug-panel" class="debug-panel hidden">
-        <canvas id="debug-thumb" width="40" height="40"></canvas>
-        <div class="debug-info">
-          <p id="debug-category">—</p>
-          <p id="debug-detail"></p>
+      <div class="viewer" id="rx-viewer">
+        <video id="rx-video" playsinline muted></video>
+        <canvas id="rx-overlay"></canvas>
+        <div id="rx-hint" class="viewer-hint">Apunta al marco magenta del otro teléfono (a 20-40 cm).</div>
+      </div>
+
+      <div class="now">
+        <canvas id="rx-crop" width="64" height="64" aria-label="Recorte que ve el modelo"></canvas>
+        <div>
+          <div id="rx-label" class="now-label">—</div>
+          <div id="rx-conf" class="meta"></div>
         </div>
       </div>
 
-      <div id="debug-log-panel" class="debug-log-panel hidden">
-        <div class="debug-log-controls">
-          <span id="debug-log-count">0 líneas</span>
-          <button id="btn-log-copy" type="button">Copiar log</button>
-          <button id="btn-log-download" type="button">Descargar log</button>
-          <button id="btn-log-clear" type="button">Limpiar</button>
+      <div id="rx-slots" class="slots" aria-label="Memes leídos en la pasada actual"></div>
+      <p id="rx-status" class="meta" aria-live="polite"></p>
+
+      <div id="rx-result" class="result hidden" aria-live="polite">
+        <p class="field-label">Mensaje recibido</p>
+        <p id="rx-text" class="result-text"></p>
+        <div id="rx-links"></div>
+        <p id="rx-result-meta" class="meta"></p>
+        <div class="row">
+          <button id="btn-copy" class="primary" type="button">Copiar</button>
+          <button id="btn-rx-reset" class="secondary" type="button">Recibir otro</button>
         </div>
-        <textarea id="debug-log" readonly rows="10" placeholder="El log de cada frame analizado va a aparecer acá..."></textarea>
       </div>
 
-      <progress id="receive-progress" max="1" value="0" class="hidden"></progress>
-      <p id="receive-status"></p>
+      <details class="debug">
+        <summary>Depuración</summary>
+        <label class="check"><input id="chk-debug" type="checkbox" /> Guardar log de cada frame</label>
+        <label class="field-label" for="video-fps">Frames por segundo al analizar un video</label>
+        <select id="video-fps">
+          <option value="10">10</option>
+          <option value="15" selected>15</option>
+          <option value="30">30</option>
+        </select>
+        <p id="rx-perf" class="meta"></p>
+        <div class="row">
+          <button id="btn-log-export" class="secondary" type="button">Exportar log (JSON)</button>
+        </div>
+      </details>
+    </section>
 
-      <div id="receive-result" class="result hidden">
-        <p id="receive-text"></p>
-        <button id="btn-copy" type="button">Copiar</button>
+    <!-- ================= CALIBRAR ================= -->
+    <section id="panel-calibrate" class="panel hidden" role="tabpanel">
+      <p class="hint">En un teléfono toca «Mostrar secuencia»: recorre los 258 memes en orden. En el otro toca «Medir» y apunta la cámara: vas a ver la precisión por meme y cuáles fallan.</p>
+      <div class="row">
+        <button id="btn-cal-show" class="secondary" type="button">Mostrar secuencia</button>
+        <button id="btn-cal-measure" class="primary" type="button">Medir con cámara</button>
+        <label class="button secondary" for="cal-video-file">Medir video</label>
+        <input id="cal-video-file" type="file" accept="video/*" class="visually-hidden" />
       </div>
-      <div id="receive-error" class="error hidden">
-        <p id="receive-error-text"></p>
-        <button id="btn-retry" type="button">Reintentar</button>
+      <p id="cal-model-status" class="meta"></p>
+      <div class="viewer small hidden" id="cal-viewer">
+        <video id="cal-video" playsinline muted></video>
+        <canvas id="cal-overlay"></canvas>
+      </div>
+      <table class="stats" id="cal-summary">
+        <tbody>
+          <tr><th>Slots medidos</th><td id="cal-slots">0</td></tr>
+          <tr><th>Memes vistos</th><td id="cal-seen">0 / 258</td></tr>
+          <tr><th>Slots correctos</th><td id="cal-slot-acc">—</td></tr>
+          <tr><th>Precisión (frames aceptados)</th><td id="cal-precision">—</td></tr>
+          <tr><th>Aceptaciones falsas</th><td id="cal-false">—</td></tr>
+          <tr><th>Frames aceptados</th><td id="cal-accept">—</td></tr>
+        </tbody>
+      </table>
+      <p class="field-label">Memes problemáticos</p>
+      <ol id="cal-problems" class="problems"><li class="meta">Todavía nada.</li></ol>
+      <div class="row">
+        <button id="btn-cal-stop" class="secondary" type="button">Detener</button>
+        <button id="btn-cal-export" class="secondary" type="button">Exportar (JSON)</button>
       </div>
     </section>
+  </main>
+
+  <!-- Pantalla completa del emisor -->
+  <div id="stage" class="stage hidden">
+    <canvas id="stage-canvas"></canvas>
+    <div class="stage-bar">
+      <span id="stage-info"></span>
+      <button id="btn-stop" type="button">Detener</button>
+    </div>
   </div>
 
   <script type="module" src="js/main.js"></script>

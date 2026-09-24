@@ -69,10 +69,12 @@ export class Segmenter {
   /**
    * @param {{onSlot: (slot: object) => void, timing?: boolean}} options
    *   timing=false desactiva las correcciones por tiempos (defensas 2 y 3).
+   *   keepFrames=true agrega a cada slot sus frames en `obs` (calibracion, log).
    */
-  constructor({ onSlot, timing = true } = {}) {
+  constructor({ onSlot, timing = true, keepFrames = false } = {}) {
     this.onSlot = onSlot;
     this.timing = timing;
+    this.keepFrames = keepFrames;
     this.reset();
   }
 
@@ -175,6 +177,7 @@ export class Segmenter {
   }
 
   #finalize(slot) {
+    if (this.keepFrames) slot.obs = slot.rawFrames;
     delete slot.rawFrames;
     if (this.timing && this.lastSlot) {
       const P = this.period;

@@ -116,15 +116,42 @@ class PoolDataset(torch.utils.data.Dataset):
         return torch.from_numpy(np.array(self.X[i])), int(self.Y[i])
 
 
+class RealCrops(torch.utils.data.Dataset):
+    """Recortes reales etiquetados (eval_video.py --export-crops): DIR/<clase>/*.jpg"""
+
+    def __init__(self, root: Path, size: int, repeat: int = 1):
+        import cv2
+
+        self.items = []
+        for d in sorted(Path(root).iterdir()):
+            if d.is_dir() and d.name.isdigit():
+                for f in sorted(d.glob("*.jpg")):
+                    img = cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB)
+                    self.items.append((cv2.resize(img, (size, size), interpolation=cv2.INTER_AREA), int(d.name)))
+        self.repeat = repeat
+        self.rng = np.random.default_rng()
+        print(f"recortes reales: {len(self.items)} de {root} (x{repeat})")
+
+    def __len__(self):
+        return len(self.items) * self.repeat
+
+    def __getitem__(self, i):
+        img, y = self.items[i % len(self.items)]
+        return torch.from_numpy(np.ascontiguousarray(np.rot90(img, int(self.rng.integers(4))))), y
+
+
 class OnlineDataset(torch.utils.data.IterableDataset):
-    def __init__(self, size: int, n: int, seed: int):
-        self.size, self.n, self.seed = size, n, seed
+    def __init__(self, size: int, n: int, seed: int, real: RealCrops | None = None, p_real: float = 0.0):
+        self.size, self.n, self.seed, self.real, self.p_real = size, n, seed, real, p_real
 
     def __iter__(self):
         info = torch.utils.data.get_worker_info()
         wid, nw = (info.id, info.num_workers) if info else (0, 1)
         s = Synth(size=self.size, seed=self.seed * 7919 + wid + int(time.time() * 1000) % 100000)
         for _ in range(self.n // nw):
+            if self.real is not None and len(self.real.items) and s.rng.random() < self.p_real:
+                yield self.real[int(s.rng.integers(len(self.real.items)))]
+                continue
             x, y = s.sample()
             yield torch.from_numpy(x), y
 
@@ -209,6 +236,8 @@ def main():
     ap.add_argument("--data-dir", default=str(C.ROOT / "training" / "data"))
     ap.add_argument("--out", default=str(C.ROOT / "training" / "runs" / "latest"))
     ap.add_argument("--init", help="checkpoint para continuar (fine-tuning)")
+    ap.add_argument("--real", help="carpeta con recortes reales etiquetados (eval_video.py --export-crops)")
+    ap.add_argument("--real-fraction", type=float, default=0.25, help="fraccion aproximada de muestras reales por epoca")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-minutes", type=float, default=0, help="corta el entrenamiento a este tiempo (0 = sin limite)")
     a = ap.parse_args()
@@ -227,10 +256,16 @@ def main():
         pool_path = data / f"pool_{a.size}_{a.pool}_s{a.seed}.npy"
         generate_pool(pool_path, a.pool, a.size, a.seed + 1, a.workers + 1)
         ds = PoolDataset(pool_path)
+        if a.real:
+            real = RealCrops(Path(a.real), a.size)
+            if len(real.items):
+                real.repeat = max(1, int(a.real_fraction * len(ds) / max(1, len(real.items))))
+                ds = torch.utils.data.ConcatDataset([ds, real])
         loader = torch.utils.data.DataLoader(ds, batch_size=a.batch, shuffle=True, num_workers=0, drop_last=True)
         steps_per_epoch = len(loader)
     else:
-        ds = OnlineDataset(a.size, a.samples_per_epoch, a.seed)
+        real = RealCrops(Path(a.real), a.size) if a.real else None
+        ds = OnlineDataset(a.size, a.samples_per_epoch, a.seed, real, a.real_fraction)
         loader = torch.utils.data.DataLoader(ds, batch_size=a.batch, num_workers=a.workers, persistent_workers=a.workers > 0, prefetch_factor=4 if a.workers else None)
         steps_per_epoch = a.samples_per_epoch // a.batch
 

@@ -1,24 +1,62 @@
-/** Lista las camaras de video disponibles (requiere haber pedido permiso al menos una vez para tener labels). */
-export async function listVideoInputs() {
-  const devices = await navigator.mediaDevices.enumerateDevices();
-  return devices.filter((d) => d.kind === "videoinput");
-}
+// Camara trasera a 1280x720 (o lo mas parecido que ofrezca el telefono),
+// con enfoque continuo si el navegador lo permite.
 
 /**
- * Arranca la camara en el elemento <video> dado.
  * @param {HTMLVideoElement} videoEl
- * @param {{deviceId?: string, facingMode?: string}} options
  * @returns {Promise<MediaStream>}
  */
-export async function startCamera(videoEl, { deviceId, facingMode = "environment" } = {}) {
-  const video = deviceId ? { deviceId: { exact: deviceId } } : { facingMode };
-  const stream = await navigator.mediaDevices.getUserMedia({ video, audio: false });
+export async function startCamera(videoEl) {
+  if (!navigator.mediaDevices?.getUserMedia) {
+    throw new Error("Este navegador no da acceso a la cámara (¿la página está en https?).");
+  }
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: false,
+    video: {
+      facingMode: { ideal: "environment" },
+      width: { ideal: 1280 },
+      height: { ideal: 720 },
+      frameRate: { ideal: 30 },
+    },
+  });
+  const [track] = stream.getVideoTracks();
+  try {
+    const caps = track.getCapabilities?.() ?? {};
+    if (caps.focusMode?.includes("continuous")) await track.applyConstraints({ advanced: [{ focusMode: "continuous" }] });
+  } catch {
+    // no todos los navegadores lo soportan; no es grave
+  }
   videoEl.srcObject = stream;
   await videoEl.play();
   return stream;
 }
 
-/** Corta todos los tracks del stream (apaga la camara). */
 export function stopCamera(stream) {
-  stream?.getTracks().forEach((track) => track.stop());
+  stream?.getTracks().forEach((t) => t.stop());
+}
+
+/** Espera el proximo frame del video (requestVideoFrameCallback si existe). */
+export function nextVideoFrame(video) {
+  return new Promise((resolve) => {
+    if (video.requestVideoFrameCallback) video.requestVideoFrameCallback((now, meta) => resolve(now));
+    else requestAnimationFrame((now) => resolve(now));
+  });
+}
+
+/** Posiciona un video en el tiempo t (segundos) y espera a que el frame este listo. */
+export function seekVideo(video, t) {
+  return new Promise((resolve, reject) => {
+    const done = () => {
+      video.removeEventListener("seeked", done);
+      video.removeEventListener("error", fail);
+      resolve();
+    };
+    const fail = () => {
+      video.removeEventListener("seeked", done);
+      video.removeEventListener("error", fail);
+      reject(video.error ?? new Error("error al posicionar el video"));
+    };
+    video.addEventListener("seeked", done);
+    video.addEventListener("error", fail);
+    video.currentTime = t;
+  });
 }

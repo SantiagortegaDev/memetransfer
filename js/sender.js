@@ -1,70 +1,108 @@
-export const FRAME_MS = 700; // cuanto se muestra cada meme
-export const GAP_MS = 150; // pausa gris corta entre memes
-// Duracion del flash blanco (inicio) y negro (fin). Mas largo que el resto
-// de los tiempos a proposito: un cambio brusco de brillo dispara el
-// auto-exposure/autofocus de una camara real, que tarda un rato en
-// estabilizarse; un flash mas largo aumenta las chances de que los frames
-// que confirman el marcador (los ultimos de la ventana estable) ya esten
-// bien expuestos.
-export const MARKER_MS = 900;
+// Emisor: dibuja cada simbolo como un meme dentro de un marco magenta liso
+// (sin datos: solo sirve para que el receptor lo ubique y recorte), con un
+// gap gris entre simbolos, y repite la secuencia en loop hasta que se detiene.
+//
+// La temporizacion se engancha a requestAnimationFrame con el reloj real
+// (performance.now), asi no acumula deriva como una cadena de setTimeout.
 
-function sleep(ms, signal) {
-  return new Promise((resolve, reject) => {
-    if (signal?.aborted) return reject(new DOMException("Aborted", "AbortError"));
-    const id = setTimeout(resolve, ms);
-    signal?.addEventListener(
-      "abort",
-      () => {
-        clearTimeout(id);
-        reject(new DOMException("Aborted", "AbortError"));
-      },
-      { once: true }
-    );
-  });
+import { FRAME_COLOR, BORDER, OUTER_FRACTION, GAP_GRAY } from "./layout.js";
+
+export const SPEEDS = {
+  lento: { symbolMs: 700, gapMs: 200 },
+  normal: { symbolMs: 500, gapMs: 150 },
+  rapido: { symbolMs: 320, gapMs: 110 },
+};
+
+/** Geometria del cuadrado exterior del marco dentro de un canvas w x h. */
+export function frameGeometry(w, h) {
+  const side = Math.round(OUTER_FRACTION * Math.min(w, h));
+  const b = Math.round(side * BORDER);
+  const x = Math.round((w - side) / 2);
+  const y = Math.round((h - side) / 2);
+  return { x, y, side, border: b, inner: side - 2 * b };
 }
 
 /**
- * Reproduce una trama de bytes como secuencia de memes en pantalla,
- * encerrada entre el marcador de inicio y el de fin (las mismas imagenes
- * con esquinas+firma que un byte de datos, solo que con la firma de
- * control) para que el receptor los detecte con el mismo mecanismo robusto,
- * sin depender de un flash de brillo de pantalla completa.
- * @param {object} params
- * @param {HTMLImageElement} params.startImage
- * @param {HTMLImageElement} params.endImage
- * @param {{index:number, image:HTMLImageElement}[]} params.dictionary
- * @param {Uint8Array} params.frame
- * @param {() => void} params.showBlank pausa gris entre memes
- * @param {(image: HTMLImageElement) => void} params.showMeme
- * @param {(shown: number, total: number) => void} [params.onProgress]
- * @param {AbortSignal} [params.signal]
+ * Dibuja un simbolo en el canvas.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {CanvasImageSource|null} image meme a mostrar, o null para el gap gris
  */
-export async function playFrame({
-  startImage,
-  endImage,
-  dictionary,
-  frame,
-  showBlank,
-  showMeme,
-  onProgress,
-  signal,
-}) {
-  showMeme(startImage);
-  await sleep(MARKER_MS, signal);
-  showBlank();
-  await sleep(GAP_MS, signal);
-
-  for (let i = 0; i < frame.length; i++) {
-    const byte = frame[i];
-    const entry = dictionary[byte];
-    showMeme(entry.image);
-    await sleep(FRAME_MS, signal);
-    showBlank();
-    onProgress?.(i + 1, frame.length);
-    await sleep(GAP_MS, signal);
+export function drawSymbol(ctx, image) {
+  const { width: w, height: h } = ctx.canvas;
+  const g = frameGeometry(w, h);
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = FRAME_COLOR;
+  ctx.fillRect(g.x, g.y, g.side, g.side);
+  const ix = g.x + g.border;
+  const iy = g.y + g.border;
+  if (image) {
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    // estirado a proposito: el modelo se entrena con el meme deformado al cuadrado
+    ctx.drawImage(image, ix, iy, g.inner, g.inner);
+  } else {
+    ctx.fillStyle = `rgb(${GAP_GRAY},${GAP_GRAY},${GAP_GRAY})`;
+    ctx.fillRect(ix, iy, g.inner, g.inner);
   }
+}
 
-  showMeme(endImage);
-  await sleep(MARKER_MS, signal);
-  showBlank();
+/**
+ * Reproduce la secuencia en loop.
+ * @param {object} o
+ * @param {HTMLCanvasElement} o.canvas
+ * @param {number[]} o.symbols clases a mostrar (0-257)
+ * @param {(cls: number) => CanvasImageSource} o.imageFor
+ * @param {number} o.symbolMs
+ * @param {number} o.gapMs
+ * @param {boolean} [o.loop=true]
+ * @param {(info: {index: number, pass: number, symbol: number|null}) => void} [o.onSymbol]
+ * @param {AbortSignal} [o.signal]
+ * @returns {Promise<void>} se resuelve al detener (o al terminar si loop=false)
+ */
+export function play({ canvas, symbols, imageFor, symbolMs, gapMs, loop = true, onSymbol, signal }) {
+  const ctx = canvas.getContext("2d");
+  const period = symbolMs + gapMs;
+  const total = symbols.length * period;
+  return new Promise((resolve) => {
+    let start = null;
+    let lastKey = null;
+    const frame = (now) => {
+      if (signal?.aborted) return resolve();
+      if (start === null) start = now;
+      const elapsed = now - start;
+      if (!loop && elapsed >= total) {
+        drawSymbol(ctx, null);
+        return resolve();
+      }
+      const pass = Math.floor(elapsed / total);
+      const inPass = elapsed - pass * total;
+      const index = Math.min(symbols.length - 1, Math.floor(inPass / period));
+      const isGap = inPass - index * period >= symbolMs;
+      const key = `${pass}:${index}:${isGap}`;
+      if (key !== lastKey) {
+        lastKey = key;
+        const sym = isGap ? null : symbols[index];
+        drawSymbol(ctx, sym === null ? null : imageFor(sym));
+        onSymbol?.({ index, pass, symbol: sym });
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  });
+}
+
+/** Carga las imagenes de las clases pedidas. files[cls] = nombre de archivo. */
+export async function loadImages(files, classes, baseUrl = new URL("../memes/", import.meta.url).href) {
+  const out = new Map();
+  await Promise.all(
+    [...new Set(classes)].map(async (cls) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = new URL(files[cls], baseUrl).href;
+      await img.decode();
+      out.set(cls, img);
+    })
+  );
+  return out;
 }

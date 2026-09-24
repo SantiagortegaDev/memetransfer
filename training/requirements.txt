@@ -1,0 +1,9 @@
+# Entrenamiento / export / evaluacion (Python 3.10+)
+torch>=2.3
+torchvision>=0.18
+numpy
+opencv-python-headless
+onnx
+onnxruntime
+onnxscript
+reedsolo  # solo make_video.py (videos de prueba)

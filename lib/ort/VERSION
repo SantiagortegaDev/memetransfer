@@ -1,0 +1,1 @@
+onnxruntime-web 1.30.0 (npm, licencia MIT), solo backend WASM: ort.wasm.min.mjs + ort-wasm-simd-threaded.{mjs,wasm}
