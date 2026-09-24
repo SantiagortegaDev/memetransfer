@@ -69,7 +69,12 @@ test/              node:test + e2e con Playwright
 python3 -m http.server 8080        # y abre http://localhost:8080
 npm test                           # tests unitarios (Node 20+, sin dependencias)
 npm install && npm run e2e         # navegador headless con video sintético (necesita Python, ver abajo)
+npm run e2e:pwa                    # service worker: precache y decodificación sin conexión
+npm run bench                      # mensajes de 10/50/150 caracteres, luz buena y media (videos sintéticos)
 ```
+
+Los scripts de navegador generan los videos con `training/make_video.py`;
+usa `PYTHON=/ruta/al/python` si las dependencias de `training/` están en un venv.
 
 ### Entrenar el clasificador
 
