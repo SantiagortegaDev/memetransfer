@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .claude/scheduled_tasks.lock
+training/data/
+training/runs/
+node_modules/
+test-results/

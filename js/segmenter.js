@@ -20,6 +20,10 @@
 //     duplica; si no, se inserta un borrado.
 //  3. Un hueco de mas de BREAK_PERIODS periodos se reporta como corte
 //     (slot con break=true) para que el receptor no alinee a ciegas.
+//  4. Un frame suelto marcado como gap a mitad de un meme parte el slot en
+//     dos; por eso cada slot se emite con un slot de retraso y, si el
+//     siguiente arranca a menos de MERGE_PERIODS periodos con la misma clase
+//     (o alguno es borrado), se unen.
 
 import { NONE } from "./protocol.js";
 
@@ -28,6 +32,7 @@ const MIN_FRAMES_ERASURE = 2;
 const STATS_WINDOW = 21;
 const MIN_STATS = 5;
 const BREAK_PERIODS = 6;
+const MERGE_PERIODS = 0.55;
 
 function median(values) {
   if (!values.length) return 0;
@@ -78,6 +83,7 @@ export class Segmenter {
     this.periods = [];
     this.durations = [];
     this.lastSlot = null;
+    this.pending = null;
     this.emitted = 0;
   }
 
@@ -112,10 +118,12 @@ export class Segmenter {
     this.#maybeSplit();
   }
 
-  /** Cierra el slot en curso (fin del video, se detuvo la camara...). */
+  /** Cierra el slot en curso y emite lo pendiente (fin del video, se detuvo la camara...). */
   flush() {
     if (this.frames.length) this.#close(this.frames);
     this.frames = [];
+    if (this.pending) this.#finalize(this.pending);
+    this.pending = null;
   }
 
   #maybeSplit() {
@@ -139,19 +147,35 @@ export class Segmenter {
     this.frames = fr.slice(cut);
   }
 
-  #close(frames) {
+  #makeSlot(frames) {
     const s = summarize(frames);
-    if (s.cls === null && frames.length < MIN_FRAMES_ERASURE) return; // ruido suelto dentro de un gap
-    const dt = this.frameDt;
-    const slot = {
+    if (s.cls === null && frames.length < MIN_FRAMES_ERASURE) return null; // ruido suelto dentro de un gap
+    return {
       ...s,
       frames: frames.length,
       tStart: frames[0].t,
-      tEnd: frames[frames.length - 1].t + dt,
+      tEnd: frames[frames.length - 1].t + this.frameDt,
       synthetic: false,
       break: false,
+      rawFrames: frames,
     };
+  }
 
+  #close(frames) {
+    const slot = this.#makeSlot(frames);
+    if (!slot) return;
+    const P = this.period;
+    const p = this.pending;
+    if (p && P > 0 && slot.tStart - p.tStart < MERGE_PERIODS * P && (p.cls === slot.cls || p.cls === null || slot.cls === null)) {
+      this.pending = this.#makeSlot([...p.rawFrames, ...frames]) ?? p;
+      return;
+    }
+    if (p) this.#finalize(p);
+    this.pending = slot;
+  }
+
+  #finalize(slot) {
+    delete slot.rawFrames;
     if (this.timing && this.lastSlot) {
       const P = this.period;
       const delta = slot.tStart - this.lastSlot.tStart;

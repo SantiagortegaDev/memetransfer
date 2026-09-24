@@ -75,3 +75,21 @@ test("isolated noise frame inside a gap does not create a slot", () => {
   frames.splice(g + 1, 0, { t: frames[g].t + 1, gap: false, cls: NONE, p: 0.9 });
   assert.equal(segment(frames).length, SEQ.length);
 });
+
+test("a spurious gap frame in the middle of a meme does not split the slot (merge-back)", () => {
+  const frames = simulateFrames(SEQ, { pUncertain: 0, pWrong: 0, pNone: 0, fpsJitter: 0.2, seed: 8 });
+  // un frame en mitad del simbolo 8 (80) se marca como gap
+  const i = frames.findIndex((f) => !f.gap && f.t > 8 * 650 + 200);
+  frames[i] = { ...frames[i], gap: true, cls: null };
+  assert.deepEqual(segment(frames).map((s) => s.cls), SEQ);
+});
+
+test("slots are emitted one slot late; flush emits the pending one", () => {
+  const slots = [];
+  const seg = new Segmenter({ onSlot: (s) => slots.push(s) });
+  const frames = simulateFrames([START, 1, 2, END], { pUncertain: 0, pWrong: 0, pNone: 0, fpsJitter: 0 });
+  frames.forEach((f) => seg.push(f));
+  assert.equal(slots.length, 3);
+  seg.flush();
+  assert.equal(slots.length, 4);
+});
