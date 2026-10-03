@@ -149,8 +149,21 @@ await check("video-file", async () => {
     return { frames: l.frames.length, slots: l.slots.length, inferMs: l.frames.filter((f) => f.inferMs).reduce((s, f, _, a) => s + f.inferMs / a.length, 0) };
   });
   await page.screenshot({ path: join(OUT, "receiver-video.png"), fullPage: true });
+  // historial: el mensaje queda guardado y sobrevive a recargar la pagina
+  await page.reload();
+  await page.click("#tab-receive");
+  const saved = await page.textContent("#rx-history-list .history-text");
+  // compartir: sin Web Share (Chromium de escritorio) abre WhatsApp con el texto
+  const shareUrl = await page.evaluate(() => {
+    let url = null;
+    window.open = (u) => (url = u);
+    document.querySelector('#rx-history-list button[data-action="share"]').click();
+    return url;
+  });
   await browser.close();
   if (got !== TEXT) throw new Error(`texto distinto: ${JSON.stringify(got)}`);
+  if (saved !== TEXT) throw new Error(`historial: ${JSON.stringify(saved)}`);
+  if (shareUrl !== `https://wa.me/?text=${encodeURIComponent(TEXT)}`) throw new Error(`compartir: ${shareUrl}`);
   if (errors.length) throw new Error(errors.join("\n"));
   return `${meta} · ${log.frames} frames, ${log.slots} slots, modelo ${log.inferMs.toFixed(1)} ms/frame`;
 });

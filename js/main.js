@@ -7,8 +7,9 @@ import { FrameReader } from "./frame-reader.js";
 import { Segmenter } from "./segmenter.js";
 import { Receiver } from "./receiver.js";
 import { Calibration, CALIBRATION_SEQUENCE } from "./calibration.js";
+import { History, shareText } from "./history.js";
 
-export const APP_VERSION = "2.0.1";
+export const APP_VERSION = "2.0.2";
 
 const $ = (id) => document.getElementById(id);
 const state = { classifier: null, classFiles: null, rx: null, cal: null, session: null, debugLog: null };
@@ -304,20 +305,40 @@ function renderSlots(rx) {
     : "Esperando el meme de INICIO…";
 }
 
+const URL_RE = /https?:\/\/[^\s<>"']+/g;
+
+function linkTo(url) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.textContent = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  return a;
+}
+
+/** Texto con las URLs convertidas en links (sin innerHTML: el texto viene de afuera). */
+function linkified(text) {
+  const frag = document.createDocumentFragment();
+  let last = 0;
+  for (const m of text.matchAll(URL_RE)) {
+    frag.append(text.slice(last, m.index), linkTo(m[0]));
+    last = m.index + m[0].length;
+  }
+  frag.append(text.slice(last));
+  return frag;
+}
+
 function showResult(res) {
   $("rx-text").textContent = res.text;
   const links = $("rx-links");
   links.replaceChildren();
-  for (const m of res.text.matchAll(/https?:\/\/[^\s<>"']+/g)) {
-    const a = document.createElement("a");
-    a.href = m[0];
-    a.textContent = m[0];
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
+  for (const m of res.text.matchAll(URL_RE)) {
     const p = document.createElement("p");
-    p.append(a);
+    p.append(linkTo(m[0]));
     links.append(p);
   }
+  received.add(res.text);
+  renderHistory();
   $("rx-result-meta").textContent = `${res.payload.length} bytes · ${res.corrected} símbolos recuperados por Reed-Solomon (mal leídos o faltantes)`;
   $("rx-result").classList.remove("hidden");
   if (state.rx?.log) state.rx.log.result = { text: res.text, corrected: res.corrected, n: res.n };
@@ -390,15 +411,90 @@ $("video-file").addEventListener("change", (e) => {
   if (file) startReceive("video", file);
   e.target.value = "";
 });
-$("btn-copy").addEventListener("click", async () => {
+/** Copia al portapapeles y muestra el resultado en el mismo boton por un momento. */
+async function copyWithFeedback(button, text) {
+  const label = button.textContent;
   try {
-    await navigator.clipboard.writeText($("rx-text").textContent);
-    $("btn-copy").textContent = "¡Copiado!";
-    setTimeout(() => ($("btn-copy").textContent = "Copiar"), 1500);
+    await navigator.clipboard.writeText(text);
+    button.textContent = "¡Copiado!";
   } catch {
-    $("btn-copy").textContent = "No se pudo copiar";
+    button.textContent = "No se pudo copiar";
+  }
+  setTimeout(() => (button.textContent = label), 1500);
+}
+
+$("btn-copy").addEventListener("click", (e) => copyWithFeedback(e.currentTarget, $("rx-text").textContent));
+$("btn-share").addEventListener("click", () => shareText($("rx-text").textContent));
+
+// ------------------------------------------------------------------ historial
+
+let storage = null;
+try {
+  storage = window.localStorage;
+} catch {
+  // almacenamiento bloqueado: sin historial
+}
+const received = new History(storage);
+
+function formatDate(ms) {
+  return new Date(ms).toLocaleString("es", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+}
+
+function renderHistory() {
+  const items = received.list();
+  $("rx-history").classList.toggle("hidden", items.length === 0);
+  $("rx-history-list").replaceChildren(
+    ...items.map((item) => {
+      const li = document.createElement("li");
+      li.className = "history-item";
+      li.dataset.id = item.id;
+      const text = document.createElement("p");
+      text.className = "history-text";
+      text.append(linkified(item.text));
+      const when = document.createElement("p");
+      when.className = "meta";
+      when.textContent = formatDate(item.at);
+      const row = document.createElement("div");
+      row.className = "row";
+      for (const [action, label] of [
+        ["copy", "Copiar"],
+        ["share", "Compartir"],
+        ["delete", "Borrar"],
+      ]) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "secondary";
+        b.dataset.action = action;
+        b.textContent = label;
+        row.append(b);
+      }
+      li.append(text, when, row);
+      return li;
+    })
+  );
+}
+
+$("rx-history-list").addEventListener("click", (e) => {
+  const button = e.target.closest("button[data-action]");
+  if (!button) return;
+  const id = button.closest(".history-item").dataset.id;
+  const item = received.list().find((i) => i.id === id);
+  if (!item) return;
+  if (button.dataset.action === "copy") copyWithFeedback(button, item.text);
+  else if (button.dataset.action === "share") shareText(item.text);
+  else if (button.dataset.action === "delete") {
+    received.remove(id);
+    renderHistory();
   }
 });
+
+$("btn-history-clear").addEventListener("click", () => {
+  if (!confirm("¿Borrar todos los mensajes recibidos de este teléfono?")) return;
+  received.clear();
+  renderHistory();
+});
+
+renderHistory();
 $("btn-rx-reset").addEventListener("click", () => startReceive("camera"));
 $("btn-log-export").addEventListener("click", () => {
   if (!state.debugLog) return alert("Activa «Guardar log de cada frame» antes de recibir.");

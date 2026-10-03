@@ -75,9 +75,18 @@
         <p id="rx-result-meta" class="meta"></p>
         <div class="row">
           <button id="btn-copy" class="primary" type="button">Copiar</button>
+          <button id="btn-share" class="secondary" type="button">Compartir</button>
           <button id="btn-rx-reset" class="secondary" type="button">Recibir otro</button>
         </div>
       </div>
+
+      <section id="rx-history" class="history hidden" aria-labelledby="rx-history-title">
+        <div class="history-head">
+          <h2 id="rx-history-title">Recibidos</h2>
+          <button id="btn-history-clear" class="link-button" type="button">Borrar todo</button>
+        </div>
+        <ul id="rx-history-list" class="history-list"></ul>
+      </section>
 
       <details class="debug">
         <summary>Depuración</summary>
